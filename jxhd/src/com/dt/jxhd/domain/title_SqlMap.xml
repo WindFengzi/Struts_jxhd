@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="title" >
+  <resultMap id="abatorgenerated_titleResult" class="com.dt.jxhd.domain.title" >
+    <result column="title_id" property="titleId" jdbcType="INTEGER" />
+    <result column="title_name" property="titleName" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="abatorgenerated_selectByPrimaryKey" resultMap="abatorgenerated_titleResult" parameterClass="com.dt.jxhd.domain.title" >
+    select title_id, title_name
+    from title
+    where title_id = #titleId:INTEGER#
+  </select>
+  <select id="abatorgenerated_selectByExample" resultMap="abatorgenerated_titleResult" parameterClass="com.dt.jxhd.domain.title" >
+    select title_id, title_name
+    from title
+  </select>
+  <delete id="abatorgenerated_deleteByPrimaryKey" parameterClass="com.dt.jxhd.domain.title" >
+    delete from title
+    where title_id = #titleId:INTEGER#
+  </delete>
+  <delete id="abatorgenerated_deleteByExample" parameterClass="com.dt.jxhd.domain.title" >
+    delete from title
+  </delete>
+  <insert id="abatorgenerated_insert" parameterClass="com.dt.jxhd.domain.title" >
+    insert into title (title_id, title_name)
+    values (#titleId:INTEGER#, #titleName:VARCHAR#)
+  </insert>
+  <update id="abatorgenerated_updateByPrimaryKey" parameterClass="com.dt.jxhd.domain.title" >
+    update title
+    set title_name = #titleName:VARCHAR#
+    where title_id = #titleId:INTEGER#
+  </update>
+  <update id="abatorgenerated_updateByPrimaryKeySelective" parameterClass="com.dt.jxhd.domain.title" >
+    update title
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="titleName" >
+        title_name = #titleName:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where title_id = #titleId:INTEGER#
+  </update>
+  <select id="abatorgenerated_countByExample" parameterClass="com.dt.jxhd.domain.title" resultClass="java.lang.Integer" >
+    select count(*) from title
+    <include refid="title.abatorgenerated_Example_Where_Clause" />
+  </select>
+  <update id="abatorgenerated_updateByExampleSelective" >
+    update title
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="record.titleId" >
+        title_id = #record.titleId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="record.titleName" >
+        title_name = #record.titleName:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    <isParameterPresent >
+      <include refid="title.abatorgenerated_Example_Where_Clause" />
+    </isParameterPresent>
+  </update>
+</sqlMap>

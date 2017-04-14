@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="evaluation_item">
+  <resultMap class="com.dt.jxhd.domain.evaluation_item" id="abatorgenerated_evaluation_itemResult">
+    <result column="item_id" jdbcType="INTEGER" property="itemId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="grade_id" jdbcType="VARCHAR" property="gradeId" />
+  </resultMap>
+  <select id="evaluation_selectById" parameterClass="com.dt.jxhd.domain.evaluation_item" resultMap="abatorgenerated_evaluation_itemResult">
+    select item_id, grade_id, content
+    from evaluation_item
+    where item_id = #itemId:INTEGER#
+  </select>
+  <select id="evaluations" parameterClass="com.dt.jxhd.domain.evaluation_item" resultMap="abatorgenerated_evaluation_itemResult">
+    SELECT TOP $pageSize$ *  
+    from evaluation_item WHERE (item_id NOT IN (SELECT TOP $topNum$ item_id FROM evaluation_item WHERE 1=1   
+    <isNotEmpty prepend="and" property="content">
+         content like '%$content$%'
+      </isNotEmpty>
+      ORDER BY item_id desc))    
+      <isNotEmpty prepend="and" property="content">
+         content like '%$content$%'
+      </isNotEmpty>
+       order by item_id desc
+  </select>
+  <delete id="deleteEvaluation" parameterClass="com.dt.jxhd.domain.evaluation_item">
+    delete from evaluation_item  where item_id = #itemId:INTEGER#
+  </delete>
+  <insert id="evaluation_insert" parameterClass="com.dt.jxhd.domain.evaluation_item">
+    insert into evaluation_item (grade_id, content)
+    values (#gradeId:INTEGER#, #content:VARCHAR#)
+  </insert>
+  <select id="getItemCountnum" parameterClass="com.dt.jxhd.domain.evaluation_item" resultClass="java.lang.Integer">
+    select count(*) from evaluation_item WHERE 1=1   
+    <isNotEmpty prepend="and" property="content">
+         content like '%$content$%'
+      </isNotEmpty>
+  </select>
+  <update id="evaluation_update">
+    update evaluation_item
+    <dynamic prepend="set">
+      <isNotNull prepend="," property="gradeId">
+        grade_id = #gradeId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="content">
+        content = #content:VARCHAR#
+      </isNotNull>
+    </dynamic>
+     where id = #comment_id:INTEGER#
+  </update>
+</sqlMap>

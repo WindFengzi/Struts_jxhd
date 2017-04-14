@@ -1,0 +1,106 @@
+*{ margin:0; padding:0; list-style:none; border:none; }
+
+
+.chromestyle{
+width:80%;
+font-weight:400;
+color:#FFFFFF;
+}
+
+.chromestyle:after{ /*Add margin between menu and rest of content in Firefox*/
+content: "."; 
+display: block; 
+height: 0; 
+clear: both; 
+visibility: hidden;
+}
+
+.chromestyle ul{
+/* border: 1px solid #BBB;*/
+width: 100%;
+/* background: url(chromebg.gif) center center repeat-x; THEME CHANGE HERE*/
+padding: 0px 3;
+margin: 0;
+line-height:27px;
+text-align: left; /*set value to "left", "center", or "right"*/
+
+}
+
+.chromestyle ul li{ display:inline;
+
+}
+
+.chromestyle ul li a:link,a:visited{
+color:#FFFFFF;
+padding:7px 4px;
+margin: 0;
+text-decoration: none;
+font-weight:400;
+
+/*border-right: 1px dotted #fff;*/
+}
+
+
+.chromestyle ul li a:hover{
+background: url(nav_over022.jpg) center bottom no-repeat ;/*THEME CHANGE HERE*/
+text-decoration:none; 
+}
+.current{
+background: url(nav_down022.jpg) center bottom no-repeat ;/*THEME CHANGE HERE*/
+text-decoration:none; float:left; color:#000066;
+}
+.licss{
+background: url(nav_over022.jpg) center bottom no-repeat ;/*THEME CHANGE HERE*/
+text-decoration:none; 	
+}
+.chromestyle ul li a[rel]:after{ /*HTML to indicate drop down link*/
+content: " v";
+/*content: " " url(nav_over02.jpg); /*uncomment this line to use an image instead*/
+}
+
+
+/* ######### Style for Drop Down Menu ######### */
+
+.dropmenudiv{
+position:absolute;
+top: 0;
+border: 1px solid #BBB; /*THEME CHANGE HERE*/
+border-bottom-width: 0;
+font:normal 12px Verdana;
+line-height:18px;
+z-index:100;
+background-color: white;
+width: 200px;
+visibility: hidden;
+filter: progid:DXImageTransform.Microsoft.Shadow(color=#CACACA,direction=135,strength=4); /*Add Shadow in IE. Remove if desired*/
+}
+
+
+.dropmenudiv a{
+width: auto;
+display: block;
+text-indent: 3px;
+border-bottom: 1px solid #BBB; /*THEME CHANGE HERE*/
+padding: 2px 0;
+text-decoration: none;
+font-weight: bold;
+color:#E066FF;
+}
+.dropmenudiv a:visited{
+color:#487bab;
+padding: 2px 0;
+font-weight: bold;
+}
+
+* html .dropmenudiv a{ /*IE only hack*/
+width: 100%;
+}
+
+.dropmenudiv a:hover{ /*THEME CHANGE HERE*/
+background-color: #F0F0F0;
+color:#336601;
+font-weight: bold;
+
+
+}
+.color1{background-color:#E066FF;}

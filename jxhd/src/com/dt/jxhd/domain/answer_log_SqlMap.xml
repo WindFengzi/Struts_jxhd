@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="answer_log" >
+  <resultMap id="abatorgenerated_answer_logResult" class="com.dt.jxhd.domain.answer_log" >
+    <result column="answer_id" property="answerId" jdbcType="INTEGER" />
+    <result column="ask_id" property="askId" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="answer_id" property="answerId" jdbcType="INTEGER" />
+    <result column="group_id" property="groupId" jdbcType="VARCHAR" />
+    <result column="answer_time" property="answerTime" jdbcType="TIMESTAMP" />
+    <result column="is_right" property="isRight" jdbcType="CHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="is_a" property="isA" jdbcType="INTEGER" />
+    <result column="is_b" property="isB" jdbcType="INTEGER" />
+    <result column="is_c" property="isC" jdbcType="INTEGER" />
+    <result column="is_d" property="isD" jdbcType="INTEGER" />
+    <result column="is_e" property="isE" jdbcType="INTEGER" />
+    <result column="is_f" property="isF" jdbcType="INTEGER" />
+    <result column="is_g" property="isG" jdbcType="INTEGER" />
+    <result column="answer_content" property="answerContent" jdbcType="VARCHAR" />
+    <result column="yes_no_answer" property="yesNoAnswer" jdbcType="INTEGER" />
+    <result column="pic_draw" property="picDraw" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="answers" resultMap="abatorgenerated_answer_logResult" parameterClass="com.dt.jxhd.domain.answer_log" >
+    select answer_id,ask_id, student_id, answer_id, group_id, answer_time, is_right, type, is_a, is_b, is_c,
+      is_d, is_e, is_f, is_g, answer_content, yes_no_answer,pic_draw 
+    from answer_log where 1=1 
+      <isNotNull prepend="and" property="askId" >
+        ask_id = #askId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="studentId" >
+        student_id = #studentId:INTEGER#
+      </isNotNull>
+  </select>
+  <delete id="abatorgenerated_deleteByExample" parameterClass="com.dt.jxhd.domain.answer_log" >
+    delete from answer_log
+  </delete>
+  <insert id="abatorgenerated_insert" parameterClass="com.dt.jxhd.domain.answer_log" >
+    insert into answer_log (ask_id, student_id, answer_id, group_id, answer_time, is_right, type, is_a,
+      is_b, is_c, is_d, is_e, is_f, is_g, answer_content, yes_no_answer, pic_draw)
+    values (#askId:INTEGER#, #studentId:INTEGER#, #answerId:INTEGER#, #groupId:VARCHAR#,
+      #answerTime:TIMESTAMP#, #isRight:CHAR#, #type:CHAR#, #isA:INTEGER#, #isB:INTEGER#,
+      #isC:INTEGER#, #isD:INTEGER#, #isE:INTEGER#, #isF:INTEGER#, #isG:INTEGER#,
+      #answerContent:VARCHAR#, #yesNoAnswer:INTEGER#, #picDraw:VARCHAR#)
+  </insert>
+  <update id="abatorgenerated_updateByPrimaryKeySelective" parameterClass="com.dt.jxhd.domain.answer_log" >
+    update answer_log
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="answerId" >
+        answer_id = #answerId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="groupId" >
+        group_id = #groupId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="answerTime" >
+        answer_time = #answerTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="isRight" >
+        is_right = #isRight:CHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="type" >
+        type = #type:CHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="isA" >
+        is_a = #isA:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="isB" >
+        is_b = #isB:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="isC" >
+        is_c = #isC:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="isD" >
+        is_d = #isD:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="isE" >
+        is_e = #isE:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="isF" >
+        is_f = #isF:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="isG" >
+        is_g = #isG:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="answerContent" >
+        answer_content = #answerContent:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="yesNoAnswer" >
+        yes_no_answer = #yesNoAnswer:INTEGER#
+      </isNotNull>
+       <isNotNull prepend="," property="picDraw" >
+        pic_draw = #picDraw:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where ask_id = #askId:INTEGER#
+      and student_id = #studentId:INTEGER#
+  </update>
+  <select id="abatorgenerated_countByExample" parameterClass="com.dt.jxhd.domain.answer_log" resultClass="java.lang.Integer" >
+    select count(*) from answer_log
+  </select>
+</sqlMap>

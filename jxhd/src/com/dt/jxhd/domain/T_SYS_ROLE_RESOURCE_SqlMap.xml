@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="T_SYS_ROLE_RESOURCE" >
+  <resultMap id="abatorgenerated_T_SYS_ROLE_RESOURCEResult" class="com.dt.jxhd.domain.T_SYS_ROLE_RESOURCE" >
+    <result column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
+    <result column="RESOURCE_IDS" property="resourceIds" jdbcType="VARCHAR" />
+    <result column="RESOURCE_ID" property="resourceId" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="resourcesByRoleid" resultMap="abatorgenerated_T_SYS_ROLE_RESOURCEResult" parameterClass="com.dt.jxhd.domain.T_SYS_ROLE_RESOURCE" >
+    select ROLE_ID, RESOURCE_IDS, RESOURCE_ID
+    from T_SYS_ROLE_RESOURCE 
+    where ROLE_ID = #roleId:INTEGER#
+  </select>
+  <delete id="deleteByRoleid" parameterClass="com.dt.jxhd.domain.T_SYS_ROLE_RESOURCE" >
+    delete from T_SYS_ROLE_RESOURCE 
+    where ROLE_ID = #roleId:INTEGER#
+  </delete>
+  <insert id="insertRe" parameterClass="com.dt.jxhd.domain.T_SYS_ROLE_RESOURCE" >
+    insert into T_SYS_ROLE_RESOURCE (ROLE_ID, RESOURCE_IDS, RESOURCE_ID)
+    values (#roleId:INTEGER#, #resourceIds:VARCHAR#, #resourceId:VARCHAR#)
+  </insert>
+  <select id="abatorgenerated_countByExample" parameterClass="com.dt.jxhd.domain.T_SYS_ROLE_RESOURCE" resultClass="java.lang.Integer" >
+    select count(*) from T_SYS_ROLE_RESOURCE
+  </select>
+  <update id="abatorgenerated_updateByExampleSelective" >
+    update T_SYS_ROLE_RESOURCE
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="roleId" >
+        ROLE_ID = #roleId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="resourceIds" >
+        RESOURCE_IDS = #resourceIds:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="resourceId" >
+        RESOURCE_ID = #resourceId:VARCHAR#
+      </isNotNull>
+    </dynamic>
+  </update>
+</sqlMap>

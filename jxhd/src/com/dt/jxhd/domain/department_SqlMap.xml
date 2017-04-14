@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="department" >
+  <resultMap id="abatorgenerated_departmentResult" class="com.dt.jxhd.domain.department" >
+    <result column="department_id" property="departmentId" jdbcType="INTEGER" />
+    <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
+    <result column="parent_department_id" property="parentDepartmentId" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="departmentById" resultMap="abatorgenerated_departmentResult" parameterClass="com.dt.jxhd.domain.department" >
+    select department_id, department_name, parent_department_id
+    from department
+    where department_id = #departmentId:INTEGER#
+  </select>
+  <select id="departments" resultMap="abatorgenerated_departmentResult" parameterClass="com.dt.jxhd.domain.department" >
+    with my1 as(select * from department where department_id = 1 
+ 	union all select department.* from my1, department where my1.department_id = department.parent_department_id
+	)
+	select * from my1
+  </select>
+  <select id="departmentsByParentId" resultMap="abatorgenerated_departmentResult" parameterClass="com.dt.jxhd.domain.department" >
+	with my1 as(select * from department where department_id = #departmentId:INTEGER# 
+ 	union all select department.* from my1, department where my1.department_id = department.parent_department_id
+	)
+	select * from my1
+  </select>
+  <select id="departmentsPage" resultMap="abatorgenerated_departmentResult" parameterClass="com.dt.jxhd.domain.department" >
+    SELECT TOP $pageSize$ *  
+    from department WHERE (department_id NOT IN (SELECT TOP $topNum$ department_id FROM department WHERE 1=1   
+    <isNotEmpty prepend="and" property="parentDepartmentId">
+         parent_department_id = #parentDepartmentId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="departmentName">
+         department_name like '%$departmentName$%'
+      </isNotEmpty>
+      ORDER BY department_id desc))    
+     <isNotEmpty prepend="and" property="parentDepartmentId">
+         parent_department_id = #parentDepartmentId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="departmentName">
+         department_name like '%$departmentName$%'
+      </isNotEmpty>
+       order by department_id desc
+  </select>
+  <delete id="department_delete" parameterClass="com.dt.jxhd.domain.department" >
+    delete from department
+    where department_id = #departmentId:INTEGER#
+  </delete>
+  <insert id="department_insert" parameterClass="com.dt.jxhd.domain.department" >
+    insert into department ( department_name, parent_department_id)
+    values ( #departmentName:VARCHAR#, #parentDepartmentId:INTEGER#)
+  </insert>
+  <update id="abatorgenerated_updateByPrimaryKeySelective" parameterClass="com.dt.jxhd.domain.department" >
+    update department
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="departmentName" >
+        department_name = #departmentName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="parentDepartmentId" >
+        parent_department_id = #parentDepartmentId:INTEGER#
+      </isNotNull>
+    </dynamic>
+    where department_id = #departmentId:INTEGER#
+  </update>
+  <select id="departmentsPageNum" parameterClass="com.dt.jxhd.domain.department" resultClass="java.lang.Integer" >
+    select count(*) from department where 1=1 
+     <isNotEmpty prepend="and" property="parentDepartmentId">
+         parent_department_id = #parentDepartmentId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="departmentName">
+         department_name like '%$departmentName$%'
+      </isNotEmpty>
+  </select>
+</sqlMap>

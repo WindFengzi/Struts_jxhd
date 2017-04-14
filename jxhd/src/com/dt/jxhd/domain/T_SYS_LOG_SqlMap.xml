@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="T_SYS_LOG" >
+  <resultMap id="abatorgenerated_T_SYS_LOGResult" class="com.dt.jxhd.domain.T_SYS_LOG" >
+    <result column="ID" property="id" jdbcType="INTEGER" />
+    <result column="OPERATION_DATE" property="operationDate" jdbcType="TIMESTAMP" />
+    <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="OPERATION_TYPE" property="operationType" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="logs" resultMap="abatorgenerated_T_SYS_LOGResult" parameterClass="com.dt.jxhd.domain.T_SYS_LOG" >
+     SELECT distinct TOP $pageSize$ * FROM T_SYS_LOG 
+	WHERE (ID NOT IN (SELECT TOP $topNum$ ID FROM T_SYS_LOG WHERE 1=1
+	<isNotEmpty prepend="and" property="userName">
+         USER_NAME like '%$userName$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="memo">
+         MEMO like '%$memo$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="ip">
+         IP like '%$ip$%'
+      </isNotEmpty>
+      <isNotNull prepend="and" property="beginTime" >
+         OPERATION_DATE <![CDATA[ >= ]]> #beginTime#
+      </isNotNull>
+      <isNotNull prepend="and" property="endTime" >
+      	OPERATION_DATE <![CDATA[ <= ]]> #endTime# 
+      </isNotNull>
+      <isNotEmpty prepend="and" property="operationType">
+         OPERATION_TYPE = #operationType#
+      </isNotEmpty>
+	ORDER BY ID desc)) 
+	<isNotEmpty prepend="and" property="userName">
+         USER_NAME like '%$userName$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="memo">
+         MEMO like '%$memo$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="ip">
+         IP like '%$ip$%'
+      </isNotEmpty>
+      <isNotNull prepend="and" property="beginTime" >
+         OPERATION_DATE <![CDATA[ >= ]]> #beginTime#
+      </isNotNull>
+      <isNotNull prepend="and" property="endTime" >
+      	OPERATION_DATE <![CDATA[ <= ]]> #endTime# 
+      </isNotNull>
+       <isNotEmpty prepend="and" property="operationType">
+         OPERATION_TYPE = #operationType#
+      </isNotEmpty>
+	order by ID desc
+  </select>
+  <delete id="abatorgenerated_deleteByExample" parameterClass="com.dt.jxhd.domain.T_SYS_LOG" >
+    delete from T_SYS_LOG
+  </delete>
+  
+  <select id="getLogMaxnum" resultClass="java.lang.Integer">
+    select max(ID) from T_SYS_LOG
+  </select>
+  <select id="getLogCountnum" resultClass="java.lang.Integer">
+    select count(*) from T_SYS_LOG
+    WHERE 1=1
+	<isNotEmpty prepend="and" property="userName">
+         USER_NAME like '%$userName$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="memo">
+         MEMO like '%$memo$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="ip">
+         IP like '%$ip$%'
+      </isNotEmpty>
+      <isNotNull prepend="and" property="beginTime" >
+         OPERATION_DATE <![CDATA[ >= ]]> #beginTime#
+      </isNotNull>
+      <isNotNull prepend="and" property="endTime" >
+      	OPERATION_DATE <![CDATA[ <= ]]> #endTime# 
+      </isNotNull>
+  </select>
+  <insert id="log_insert" parameterClass="com.dt.jxhd.domain.T_SYS_LOG" >
+    insert into T_SYS_LOG ( OPERATION_DATE, LOGIN_NAME, USER_NAME, MEMO, IP, OPERATION_TYPE)
+    values ( #operationDate:TIMESTAMP#, #loginName:VARCHAR#, #userName:VARCHAR#,
+      #memo:VARCHAR#, #ip:VARCHAR#, #operationType:VARCHAR#)
+  </insert>
+  <select id="abatorgenerated_countByExample" parameterClass="com.dt.jxhd.domain.T_SYS_LOG" resultClass="java.lang.Integer" >
+    select count(*) from T_SYS_LOG
+  </select>
+  
+  <update id="abatorgenerated_updateByExampleSelective" >
+    update T_SYS_LOG
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="record.id" >
+        ID = #record.id:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="record.operationDate" >
+        OPERATION_DATE = #record.operationDate:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="record.loginName" >
+        LOGIN_NAME = #record.loginName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.userName" >
+        USER_NAME = #record.userName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.memo" >
+        MEMO = #record.memo:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.ip" >
+        IP = #record.ip:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.operationType" >
+        OPERATION_TYPE = #record.operationType:VARCHAR#
+      </isNotNull>
+    </dynamic>
+  </update>
+  <update id="abatorgenerated_updateByExample" >
+    update T_SYS_LOG
+    set ID = #record.id:INTEGER#,
+      OPERATION_DATE = #record.operationDate:TIMESTAMP#,
+      LOGIN_NAME = #record.loginName:VARCHAR#,
+      USER_NAME = #record.userName:VARCHAR#,
+      MEMO = #record.memo:VARCHAR#,
+      IP = #record.ip:VARCHAR#,
+      OPERATION_TYPE = #record.operationType:VARCHAR#
+  </update>
+</sqlMap>

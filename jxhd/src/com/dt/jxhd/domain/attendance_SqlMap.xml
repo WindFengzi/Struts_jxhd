@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="attendance" >
+  <resultMap id="abatorgenerated_attendanceResult" class="com.dt.jxhd.domain.attendance" >
+    <result column="attendance_id" property="attendanceId" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="cource_id" property="courceId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="absent" property="absent" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="abatorgenerated_attendanceResult1" class="com.dt.jxhd.domain.attendance" >
+  <result column="cource_id" property="courceId" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="subject_name" property="subjectName" jdbcType="VARCHAR" />
+    <result column="create_time1" property="createTime1" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="abatorgenerated_attendanceResult2" class="com.dt.jxhd.domain.attendance" >
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="create_time1" property="createTime1" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="kqtj" resultMap="abatorgenerated_attendanceResult1" parameterClass="com.dt.jxhd.domain.attendance" >
+     select count(*) num,cource_id,class_name,subject_name,Convert(varchar(10),create_time,120) as create_time1  
+     from attendance a,t_course_log c,subject su,t_class cl
+ where a.cource_id=c.course_id and cl.class_id=c.class_id 
+ and su.subject_id=c.subject_id 
+ <isNotEmpty prepend="and" property="departmentId" >
+        department_id in ($departmentId$) 
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="courceId" >
+        c.subject_id = #courceId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="classId" >
+        c.class_id = #classId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="beginTime" >
+         from_time <![CDATA[ >= ]]> #beginTime#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="endTime" >
+      	end_time <![CDATA[ <= ]]> #endTime# 
+      </isNotEmpty>
+ group by cource_id,class_name,subject_name,Convert(varchar(10),create_time,120)
+  </select>
+  <select id="kqtjClass" resultMap="abatorgenerated_attendanceResult2" parameterClass="com.dt.jxhd.domain.attendance" >
+     select count(*) num,class_name,Convert(varchar(10),create_time,120) as create_time1  
+     from attendance a,t_course_log c,subject su,t_class cl
+ where a.cource_id=c.course_id and cl.class_id=c.class_id 
+ and su.subject_id=c.subject_id 
+ <isNotEmpty prepend="and" property="departmentId" >
+        department_id in ($departmentId$) 
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="courceId" >
+        c.subject_id = #courceId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="classId" >
+        c.class_id = #classId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="beginTime" >
+         from_time <![CDATA[ >= ]]> #beginTime#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="endTime" >
+      	end_time <![CDATA[ <= ]]> #endTime# 
+      </isNotEmpty>
+ group by class_name,Convert(varchar(10),create_time,120) order by class_name
+  </select>
+  <select id="kqtjSubject" resultMap="abatorgenerated_attendanceResult2" parameterClass="com.dt.jxhd.domain.attendance" >
+     select count(*) num,subject_name class_name,Convert(varchar(10),create_time,120) as create_time1  
+     from attendance a,t_course_log c,subject su,t_class cl
+ where a.cource_id=c.course_id and cl.class_id=c.class_id 
+ and su.subject_id=c.subject_id 
+ <isNotEmpty prepend="and" property="departmentId" >
+        department_id in ($departmentId$) 
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="courceId" >
+        c.subject_id = #courceId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="classId" >
+        c.class_id = #classId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="beginTime" >
+         from_time <![CDATA[ >= ]]> #beginTime#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="endTime" >
+      	end_time <![CDATA[ <= ]]> #endTime# 
+      </isNotEmpty>
+ group by subject_name,Convert(varchar(10),create_time,120) order by subject_name
+  </select>
+  <select id="attendances" resultMap="abatorgenerated_attendanceResult" parameterClass="com.dt.jxhd.domain.attendance" >
+    select attendance_id, student_id, cource_id, create_time, absent
+    from attendance where 1=1 
+    <isNotNull prepend="and" property="courceId" >
+        cource_id = #courceId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="beginTime" >
+         create_time <![CDATA[ >= ]]> #beginTime#
+      </isNotNull>
+      <isNotNull prepend="and" property="endTime" >
+      	create_time <![CDATA[ <= ]]> #endTime# 
+      </isNotNull>
+  </select>
+  <delete id="abatorgenerated_deleteByPrimaryKey" parameterClass="com.dt.jxhd.domain.attendance" >
+    delete from attendance
+    where attendance_id = #attendanceId:INTEGER#
+  </delete>
+  <delete id="abatorgenerated_deleteByExample" parameterClass="com.dt.jxhd.domain.attendance" >
+    delete from attendance
+  </delete>
+  <insert id="abatorgenerated_insert" parameterClass="com.dt.jxhd.domain.attendance" >
+    insert into attendance (attendance_id, student_id, cource_id, create_time, absent)
+    values (#attendanceId:INTEGER#, #studentId:INTEGER#, #courceId:INTEGER#, #createTime:TIMESTAMP#,
+      #absent:CHAR#)
+  </insert>
+  <update id="abatorgenerated_updateByPrimaryKey" parameterClass="com.dt.jxhd.domain.attendance" >
+    update attendance
+    set student_id = #studentId:INTEGER#,
+      cource_id = #courceId:INTEGER#,
+      create_time = #createTime:TIMESTAMP#,
+      absent = #absent:CHAR#
+    where attendance_id = #attendanceId:INTEGER#
+  </update>
+  <update id="abatorgenerated_updateByPrimaryKeySelective" parameterClass="com.dt.jxhd.domain.attendance" >
+    update attendance
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="studentId" >
+        student_id = #studentId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="courceId" >
+        cource_id = #courceId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="createTime" >
+        create_time = #createTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="absent" >
+        absent = #absent:CHAR#
+      </isNotNull>
+    </dynamic>
+    where attendance_id = #attendanceId:INTEGER#
+  </update>
+  <select id="abatorgenerated_countByExample" parameterClass="com.dt.jxhd.domain.attendance" resultClass="java.lang.Integer" >
+    select count(*) from attendance
+  </select>
+</sqlMap>

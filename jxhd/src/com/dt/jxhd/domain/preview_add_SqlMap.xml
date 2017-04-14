@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="preview_add">
+	<!-- 老师添加自己的预习内容 -->
+	<insert id="addPreview" parameterClass="com.dt.jxhd.domain.preview_add">
+		insert into preview_add(teacher_id,preview_tag,preview_title,preview_content,create_time)
+		values(#teacher_id#,#preview_tag#,#preview_title#,#preview_content#,getDate())
+	</insert>
+	
+	<!-- 预习内容,十条一次 -->
+	<select id="previewItems" parameterClass="com.dt.jxhd.domain.preview_add" resultClass="com.dt.jxhd.domain.preview_add">
+    SELECT TOP $pageSize$ *  
+    from preview_add WHERE (preview_add_id NOT IN (SELECT TOP $topNum$ preview_add_id FROM preview_add WHERE 1=1   
+    <isNotEmpty prepend="and" property="preview_title">
+         preview_title like '%$preview_title$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="teacher_id">
+       teacher_id = #teacher_id:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="preview_tag">
+       		preview_tag = #preview_tag:INTEGER#
+      </isNotEmpty>
+      ORDER BY preview_add_id desc))  
+      <isNotEmpty prepend="and" property="preview_title">
+         preview_title like '%$preview_title$%'
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="teacher_id">
+       teacher_id = #teacher_id:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="preview_tag">
+       		preview_tag = #preview_tag:INTEGER#
+      </isNotEmpty>
+       order by preview_add_id desc
+  </select>
+  
+  <!-- 预习总数 -->
+  <select id="getItemCountnum" parameterClass="com.dt.jxhd.domain.preview_add" resultClass="java.lang.Integer" >
+    select count(*) from preview_add where 1=1 
+    <isNotEmpty prepend="and" property="preview_title">
+         preview_title like '%$preview_title$%'
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="teacher_id">
+       teacher_id = #teacher_id:INTEGER#
+      </isNotEmpty>
+  </select>
+	
+	<!-- 
+	<update id="updatePreviewQuestion" parameterClass="com.dt.jxhd.domain.preview_add">
+		update preview set preview_tag = 0 where teacher_id = #teacher_id# and
+		class_id = #class_id#
+	</update>
+	<select id="selectPreviewBefore" parameterClass="com.dt.jxhd.domain.preview_add"
+		resultClass="com.dt.jxhd.domain.preview_add">
+		select TOP $pageSize$ preview_id,preview_title,preview_content,create_time,t_class.class_name as class_name
+		from preview,t_class where preview_id not in (SELECT TOP $topNum$ preview_id from preview,t_class where preview.class_id = t_class.class_id and
+		preview_tag = 1 and teacher_id = #teacher_id#) and preview.class_id = t_class.class_id and
+		preview_tag = 1 and teacher_id = #teacher_id#
+	</select>
+	<select id="lookPreviewQuestionById" parameterClass="com.dt.jxhd.domain.preview_add"
+		resultClass="com.dt.jxhd.domain.preview_add">
+		select preview_content	from preview  where preview_id = #preview_id#
+	</select>
+	<select id="getDetailQuestionNumber" parameterClass="com.dt.jxhd.domain.preview_add"
+		resultClass="java.lang.Integer">
+		select count(*) from test_item  where charindex (convert(varchar,item_id),#preview_content#) >0
+	</select>
+	<select id="getDetailQuestion" parameterClass="com.dt.jxhd.domain.preview_add"
+		resultClass="com.dt.jxhd.domain.test_item">
+		 select TOP $pageSize$  question,questionType 
+ 		from test_item  where item_id 
+ 		not in( select TOP $topNum$ item_id from test_item 
+		 where charindex(convert(varchar,item_id),#preview_content#) >0 
+ 		order by item_id desc) 
+ 		and charindex(convert(varchar,item_id),#preview_content#) >0 
+ 		order by item_id desc
+	</select>
+	<select id="getPreviewQuestionNumber" parameterClass="com.dt.jxhd.domain.preview_add"
+		resultClass="java.lang.Integer">
+			select count(*) from preview where 	preview_tag = 1 and teacher_id = #teacher_id#
+	</select> -->
+</sqlMap>

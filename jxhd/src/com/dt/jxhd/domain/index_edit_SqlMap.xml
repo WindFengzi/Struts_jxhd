@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="index_edit" >
+	<select id="query_index" resultClass="com.dt.jxhd.domain.index_edit" >
+		select index_id,index_name,index_src from index_edit where index_used = 1
+	</select>
+	<update id="update_index" parameterClass="com.dt.jxhd.domain.index_edit">
+		update index_edit
+	<dynamic prepend="set" >
+      <isNotNull prepend="," property="index_name" >
+        index_name = #index_name:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="index_src" >
+        index_src = #index_src:VARCHAR#  where index_used = 1
+      </isNotNull>
+    </dynamic>
+	</update>
+</sqlMap>

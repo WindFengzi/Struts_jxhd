@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="T_SYS_ROLE" >
+  <resultMap id="abatorgenerated_T_SYS_ROLEResult" class="com.dt.jxhd.domain.T_SYS_ROLE" >
+    <result column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+    <result column="ROLE_DESC" property="roleDesc" jdbcType="VARCHAR" />
+    <result column="ROLE_ORDER" property="roleOrder" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="Roles" resultMap="abatorgenerated_T_SYS_ROLEResult" parameterClass="com.dt.jxhd.domain.T_SYS_ROLE" >
+    select ROLE_ID, ROLE_NAME, ROLE_DESC, ROLE_ORDER
+    from T_SYS_ROLE where 1=1 
+     <isNotEmpty prepend="and" property="roleName" >
+	ROLE_NAME like '%$roleName$%'
+	</isNotEmpty>
+  </select>
+  <select id="roleById" resultMap="abatorgenerated_T_SYS_ROLEResult" parameterClass="com.dt.jxhd.domain.T_SYS_ROLE" >
+    select ROLE_ID, ROLE_NAME, ROLE_DESC, ROLE_ORDER
+    from T_SYS_ROLE where ROLE_ID = #roleId:INTEGER#
+  </select>
+  <delete id="role_delete" parameterClass="com.dt.jxhd.domain.T_SYS_ROLE" >
+    delete from T_SYS_ROLE where ROLE_ID = #roleId:INTEGER#
+  </delete>
+  <insert id="role_insert" parameterClass="com.dt.jxhd.domain.T_SYS_ROLE" >
+    insert into T_SYS_ROLE ( ROLE_NAME, ROLE_DESC, ROLE_ORDER)
+    values ( #roleName:VARCHAR#, #roleDesc:VARCHAR#, #roleOrder:VARCHAR#)
+  </insert>
+  <select id="abatorgenerated_countByExample" parameterClass="com.dt.jxhd.domain.T_SYS_ROLE" resultClass="java.lang.Integer" >
+    select count(*) from T_SYS_ROLE
+  </select>
+  <update id="role_update" >
+    update T_SYS_ROLE
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="roleName" >
+        ROLE_NAME = #roleName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="roleDesc" >
+        ROLE_DESC = #roleDesc:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="roleOrder" >
+        ROLE_ORDER = #roleOrder:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where ROLE_ID = #roleId:INTEGER#
+  </update>
+</sqlMap>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="notice" >
+  <resultMap id="abatorgenerated_noticeResult" class="com.dt.jxhd.domain.notice" >
+    <result column="notice_id" property="noticeId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="class_id" property="classId" jdbcType="INTEGER" />
+    <result column="mime_type" property="mimeType" jdbcType="VARCHAR" />
+    <result column="link_type" property="linkType" jdbcType="INTEGER" />
+    <result column="have_photo" property="havePhoto" jdbcType="INTEGER" />
+    <result column="pub_it" property="pubIt" jdbcType="INTEGER" />
+    <result column="link_url" property="linkUrl" jdbcType="VARCHAR" />
+    <result column="reportable" property="reportable" jdbcType="INTEGER" />
+    <result column="ImageNews" property="imagenews" jdbcType="INTEGER" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
+    <result column="Inherit_Permi" property="inheritPermi" jdbcType="VARCHAR" />
+    <result column="Deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="Template" property="template" jdbcType="VARCHAR" />
+    <result column="Publisher" property="publisher" jdbcType="VARCHAR" />
+    <result column="Showorder" property="showorder" jdbcType="INTEGER" />
+    <result column="ZjepbNewsId" property="zjepbnewsid" jdbcType="INTEGER" />
+    <result column="success_import" property="successImport" jdbcType="INTEGER" />
+    <result column="attachFileUrl" property="attachfileurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="abatorgenerated_noticeResultWithBLOBs" class="com.dt.jxhd.domain.notice" extends="notice.abatorgenerated_noticeResult" >
+    <result column="body" property="body" jdbcType="CLOB" />
+  </resultMap>
+  <select id="articles" resultMap="abatorgenerated_noticeResultWithBLOBs" parameterClass="com.dt.jxhd.domain.notice" >
+    SELECT TOP $pageSize$ *  
+    from notice WHERE (notice_id NOT IN (SELECT TOP $topNum$ notice_id FROM notice WHERE 1=1 and Deleted=0  
+    <isNotEmpty prepend="and" property="title">
+         title like '%$title$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="template">
+         Template like '%$template$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="classId">
+         class_id = #classId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="publisher">
+         Publisher = #publisher:VARCHAR#
+      </isNotEmpty>
+      <isNotNull prepend="and" property="beginTime" >
+         update_time <![CDATA[ >= ]]> #beginTime#
+      </isNotNull>
+      <isNotNull prepend="and" property="endTime" >
+      	update_time <![CDATA[ <= ]]> #endTime# 
+      </isNotNull>
+      ORDER BY notice_id desc)) and Deleted=0  
+      <isNotEmpty prepend="and" property="title">
+         title like '%$title$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="template">
+         Template like '%$template$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="classId">
+         class_id = #classId:INTEGER#
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="publisher">
+         Publisher = #publisher:VARCHAR#
+      </isNotEmpty>
+       <isNotNull prepend="and" property="beginTime" >
+         update_time <![CDATA[ >= ]]> #beginTime#
+      </isNotNull>
+      <isNotNull prepend="and" property="endTime" >
+      	update_time <![CDATA[ <= ]]> #endTime# 
+      </isNotNull>
+       order by update_time desc
+  </select>
+  <select id="article_selectById" resultMap="abatorgenerated_noticeResultWithBLOBs" parameterClass="com.dt.jxhd.domain.notice" >
+    select notice_id, title, update_time, class_id, mime_type, link_type, have_photo, pub_it,
+      link_url, reportable, ImageNews, permission, Inherit_Permi, Deleted, Template, Publisher,
+      Showorder, ZjepbNewsId, success_import, attachFileUrl,body
+    from notice where 1=1 
+    <isNotEmpty prepend="and" property="noticeId">
+         notice_id = #noticeId:INTEGER#
+      </isNotEmpty>
+  </select>
+  <delete id="abatorgenerated_deleteByPrimaryKey" parameterClass="com.dt.jxhd.domain.notice" >
+    delete from notice
+    where notice_id = #noticeId:INTEGER#
+  </delete>
+  <delete id="abatorgenerated_deleteByExample" parameterClass="com.dt.jxhd.domain.notice" >
+    delete from notice
+  </delete>
+  <insert id="article_insert" parameterClass="com.dt.jxhd.domain.notice" >
+    insert into notice ( title, update_time, class_id, mime_type, link_type, have_photo,
+      pub_it, link_url, reportable, ImageNews, permission, Inherit_Permi, Deleted, Template,
+      Publisher, Showorder, ZjepbNewsId, success_import, attachFileUrl, body)
+    values ( #title:VARCHAR#, #updateTime:TIMESTAMP#, #classId:INTEGER#,
+      #mimeType:VARCHAR#, #linkType:INTEGER#, #havePhoto:INTEGER#, #pubIt:INTEGER#,
+      #linkUrl:VARCHAR#, #reportable:INTEGER#, #imagenews:INTEGER#, #permission:VARCHAR#,
+      #inheritPermi:VARCHAR#, #deleted:INTEGER#, #template:VARCHAR#, #publisher:VARCHAR#,
+      #showorder:INTEGER#, #zjepbnewsid:INTEGER#, #successImport:INTEGER#, #attachfileurl:VARCHAR#,
+      #body:CLOB#)
+  </insert>
+  <update id="article_update" parameterClass="com.dt.jxhd.domain.notice" >
+    update notice
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="title" >
+        title = #title:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="updateTime" >
+        update_time = #updateTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="classId" >
+        class_id = #classId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="mimeType" >
+        mime_type = #mimeType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="linkType" >
+        link_type = #linkType:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="havePhoto" >
+        have_photo = #havePhoto:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="pubIt" >
+        pub_it = #pubIt:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="linkUrl" >
+        link_url = #linkUrl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="reportable" >
+        reportable = #reportable:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="imagenews" >
+        ImageNews = #imagenews:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="permission" >
+        permission = #permission:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="inheritPermi" >
+        Inherit_Permi = #inheritPermi:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="deleted" >
+        Deleted = #deleted:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="template" >
+        Template = #template:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="publisher" >
+        Publisher = #publisher:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="showorder" >
+        Showorder = #showorder:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="zjepbnewsid" >
+        ZjepbNewsId = #zjepbnewsid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="successImport" >
+        success_import = #successImport:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="attachfileurl" >
+        attachFileUrl = #attachfileurl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="body" >
+        body = #body:CLOB#
+      </isNotNull>
+    </dynamic>
+    where notice_id = #noticeId:INTEGER#
+  </update>
+  <select id="getArticleCountnum" parameterClass="com.dt.jxhd.domain.notice" resultClass="java.lang.Integer" >
+    select count(*) from notice where 1=1 and Deleted=0 
+    <isNotEmpty prepend="and" property="title">
+         title like '%$title$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="template">
+         Template like '%$template$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="classId">
+         class_id = #classId:INTEGER#
+      </isNotEmpty>
+  </select>
+</sqlMap>

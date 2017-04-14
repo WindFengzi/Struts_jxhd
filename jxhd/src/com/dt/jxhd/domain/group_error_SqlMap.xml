@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="group_error">
+	<select id="selectGroup" parameterClass="com.dt.jxhd.domain.group_error"
+		resultClass="com.dt.jxhd.domain.group_error">
+		select distinct group_name	from group_error  where group_status = 0 and class_id = #class_id#
+		and subject_id = #subject_id#
+	</select>
+	<select id="getGroupStudentId" parameterClass="com.dt.jxhd.domain.group_error"
+		resultClass="com.dt.jxhd.domain.group_error">
+		select  student_id	from group_error  where group_status = 0 
+		and charindex(convert(varchar,group_name),#group_name#)>0 and class_id = #class_id# and
+		subject_id = #subject_id#
+	</select>
+	<update id="updateBeforeGroups" parameterClass="com.dt.jxhd.domain.group_error">
+		update group_error set group_status = -1 where class_id = #class_id# and subject_id = #subject_id#
+	</update>
+	<insert id="saveErrorGroup" parameterClass="com.dt.jxhd.domain.group_error">
+		insert into group_error(student_id,class_id,create_time,group_status,group_name,subject_id) 
+		values(#student_id#,#class_id#,getdate(),0,#group_name#,#subject_id#)
+	</insert>
+	<select id="getErrorGroups" parameterClass="com.dt.jxhd.domain.group_error"
+		resultClass="com.dt.jxhd.domain.group_error">
+		select  group_error.student_id,group_error.group_name,t_user.name as student_name	from group_error,t_user  
+		where group_status = 0 and group_error.class_id = #class_id# and 
+		group_error.subject_id = #subject_id# and  t_user.user_id = group_error.student_id;
+	</select>
+</sqlMap>

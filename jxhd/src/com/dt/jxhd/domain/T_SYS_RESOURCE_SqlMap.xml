@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="T_SYS_RESOURCE" >
+  <resultMap id="abatorgenerated_T_SYS_RESOURCEResult" class="com.dt.jxhd.domain.T_SYS_RESOURCE" >
+    <result column="RES_ID" property="resId" jdbcType="INTEGER" />
+    <result column="RES_PID" property="resPid" jdbcType="VARCHAR" />
+    <result column="RES_NAME" property="resName" jdbcType="VARCHAR" />
+    <result column="RES_URL" property="resUrl" jdbcType="VARCHAR" />
+    <result column="RES_TARGET" property="resTarget" jdbcType="VARCHAR" />
+    <result column="RES_DESC" property="resDesc" jdbcType="VARCHAR" />
+    <result column="IS_MENU" property="isMenu" jdbcType="VARCHAR" />
+    <result column="IS_URL" property="isUrl" jdbcType="VARCHAR" />
+    <result column="IS_ACL" property="isAcl" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="resources" resultMap="abatorgenerated_T_SYS_RESOURCEResult" parameterClass="com.dt.jxhd.domain.T_SYS_RESOURCE" >
+    select RES_ID, RES_PID, RES_NAME, RES_URL, RES_TARGET, RES_DESC, IS_MENU, IS_URL, IS_ACL
+    from T_SYS_RESOURCE order by RES_ID
+  </select>
+  <delete id="abatorgenerated_deleteByExample" parameterClass="com.dt.jxhd.domain.T_SYS_RESOURCE" >
+    delete from T_SYS_RESOURCE
+  </delete>
+  <insert id="abatorgenerated_insert" parameterClass="com.dt.jxhd.domain.T_SYS_RESOURCE" >
+    insert into T_SYS_RESOURCE (RES_ID, RES_PID, RES_NAME, RES_URL, RES_TARGET, RES_DESC, IS_MENU,
+      IS_URL, IS_ACL)
+    values (#resId:INTEGER#, #resPid:VARCHAR#, #resName:VARCHAR#, #resUrl:VARCHAR#,
+      #resTarget:VARCHAR#, #resDesc:VARCHAR#, #isMenu:VARCHAR#, #isUrl:VARCHAR#, #isAcl:VARCHAR#)
+  </insert>
+  <select id="abatorgenerated_countByExample" parameterClass="com.dt.jxhd.domain.T_SYS_RESOURCE" resultClass="java.lang.Integer" >
+    select count(*) from T_SYS_RESOURCE
+  </select>
+  <update id="abatorgenerated_updateByExampleSelective" >
+    update T_SYS_RESOURCE
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="resId" >
+        RES_ID = #resId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="resPid" >
+        RES_PID = #resPid:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="resName" >
+        RES_NAME = #resName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="resUrl" >
+        RES_URL = #resUrl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="resTarget" >
+        RES_TARGET = #resTarget:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="resDesc" >
+        RES_DESC = #resDesc:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="isMenu" >
+        IS_MENU = #isMenu:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="isUrl" >
+        IS_URL = #isUrl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="isAcl" >
+        IS_ACL = #isAcl:VARCHAR#
+      </isNotNull>
+    </dynamic>
+  </update>
+</sqlMap>

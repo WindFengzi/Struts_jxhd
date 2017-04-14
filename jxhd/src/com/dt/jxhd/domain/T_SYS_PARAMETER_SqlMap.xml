@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="T_SYS_PARAMETER" >
+  <resultMap id="abatorgenerated_T_SYS_PARAMETERResult" class="com.dt.jxhd.domain.T_SYS_PARAMETER" >
+    <result column="ID" property="id" jdbcType="INTEGER" />
+    <result column="PARAMETER_TYPE_ID" property="parameterTypeId" jdbcType="VARCHAR" />
+    <result column="PARAMETER_VALUE" property="parameterValue" jdbcType="VARCHAR" />
+    <result column="PARAMETER_NAME" property="parameterName" jdbcType="VARCHAR" />
+    <result column="PARAMETER_DESC" property="parameterDesc" jdbcType="VARCHAR" />
+    <result column="PARAMETER_TYPE_NAME" property="parameterTypeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="params" resultMap="abatorgenerated_T_SYS_PARAMETERResult" parameterClass="com.dt.jxhd.domain.T_SYS_PARAMETER" >
+    SELECT TOP $pageSize$ *  
+    from T_SYS_PARAMETER WHERE (ID NOT IN (SELECT TOP $topNum$ ID FROM T_SYS_PARAMETER WHERE 1=1 
+    <isNotEmpty prepend="and" property="parameterName">
+         PARAMETER_NAME like '%$parameterName$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="parameterTypeId">
+         PARAMETER_TYPE_ID = #parameterTypeId:VARCHAR#
+      </isNotEmpty>
+      ORDER BY ID desc)) 
+     <isNotEmpty prepend="and" property="parameterName">
+         PARAMETER_NAME like '%$parameterName$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="parameterTypeId">
+         PARAMETER_TYPE_ID = #parameterTypeId:VARCHAR#
+      </isNotEmpty>
+       order by ID desc
+  </select>
+  <select id="param_selectById" resultMap="abatorgenerated_T_SYS_PARAMETERResult" parameterClass="com.dt.jxhd.domain.T_SYS_PARAMETER" >
+    select ID, PARAMETER_TYPE_ID, PARAMETER_VALUE, PARAMETER_NAME, PARAMETER_DESC,
+      PARAMETER_TYPE_NAME
+    from T_SYS_PARAMETER where 1=1 
+    <isNotEmpty prepend="and" property="id">
+         ID = #id:INTEGER#
+      </isNotEmpty>
+  </select>
+  <delete id="param_delete" parameterClass="com.dt.jxhd.domain.T_SYS_PARAMETER" >
+    delete from T_SYS_PARAMETER where 1=1 
+    <isNotEmpty prepend="and" property="id">
+         ID = #id:INTEGER#
+      </isNotEmpty>
+  </delete>
+  <insert id="param_insert" parameterClass="com.dt.jxhd.domain.T_SYS_PARAMETER" >
+    insert into T_SYS_PARAMETER (PARAMETER_TYPE_ID, PARAMETER_VALUE, PARAMETER_NAME,
+      PARAMETER_DESC, PARAMETER_TYPE_NAME)
+    values (#parameterTypeId:VARCHAR#, #parameterValue:VARCHAR#,
+      #parameterName:VARCHAR#, #parameterDesc:VARCHAR#, #parameterTypeName:VARCHAR#)
+  </insert>
+  <select id="getParamCountnum" parameterClass="com.dt.jxhd.domain.T_SYS_PARAMETER" resultClass="java.lang.Integer" >
+    select count(*) from T_SYS_PARAMETER WHERE 1=1 
+    <isNotEmpty prepend="and" property="parameterName">
+         PARAMETER_NAME like '%$parameterName$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="parameterTypeId">
+         PARAMETER_TYPE_ID = #parameterTypeId:VARCHAR#
+      </isNotEmpty>
+  </select>
+  <update id="param_update" >
+    update T_SYS_PARAMETER
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="parameterTypeId" >
+        PARAMETER_TYPE_ID = #parameterTypeId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="parameterValue" >
+        PARAMETER_VALUE = #parameterValue:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="parameterName" >
+        PARAMETER_NAME = #parameterName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="parameterDesc" >
+        PARAMETER_DESC = #parameterDesc:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="parameterTypeName" >
+        PARAMETER_TYPE_NAME = #parameterTypeName:VARCHAR#
+      </isNotNull>
+    </dynamic>
+     where ID = #id:INTEGER#
+  </update>
+</sqlMap>

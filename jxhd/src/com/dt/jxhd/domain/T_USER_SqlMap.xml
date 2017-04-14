@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="t_user">
+  <resultMap class="com.dt.jxhd.domain.t_user" id="abatorgenerated_t_userResult">
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="class_id" jdbcType="INTEGER" property="classId" />
+    <result column="title_id" jdbcType="INTEGER" property="titleId" />
+    <result column="department_id" jdbcType="VARCHAR" property="departmentId" />
+    <result column="is_teacher" jdbcType="INTEGER" property="isTeacher" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="is_owner" jdbcType="INTEGER" property="isOwner" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="expire_time" jdbcType="VARCHAR" property="expireTime" />
+    <result column="login_count" jdbcType="INTEGER" property="loginCount" />
+    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+    <result column="online" jdbcType="INTEGER" property="online" />
+    <result column="hobby" jdbcType="VARCHAR" property="hobby" />
+    <result column="speciality" jdbcType="VARCHAR" property="speciality" />
+    <result column="rev_1" jdbcType="VARCHAR" property="rev1" />
+    <result column="rev_2" jdbcType="VARCHAR" property="rev2" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="grade_id" jdbcType="INTEGER" property="gradeId" />
+  </resultMap>
+  <select id="t_user_selectById" parameterClass="com.dt.jxhd.domain.t_user" resultMap="abatorgenerated_t_userResult">
+    SELECT  u.user_id, u.class_id, u.title_id,u.department_id, u.is_teacher, u.name, u.login_name, 
+                u.pwd, u.sex, u.nation, u.id_number, u.address, u.phone, u.email, u.is_owner, u.type, u.status, u.update_time, 
+                u.update_by, u.expire_time, u.login_count, u.last_login_time, u.online, u.hobby, u.speciality,d.department_name AS rev_1, u.rev_2, u.ip,u.role_id,u.grade_id  
+			FROM t_user AS u INNER JOIN
+                department AS d ON u.department_id = d.department_id 
+                where u.user_id = #userId:INTEGER#
+  </select>
+  <select id="userById" parameterClass="com.dt.jxhd.domain.t_user" resultMap="abatorgenerated_t_userResult">
+    SELECT  u.user_id, u.class_id, u.title_id, department_id, u.is_teacher, u.name, u.login_name, 
+                u.pwd, u.sex, u.nation, u.id_number, u.address, u.phone, u.email, u.is_owner, u.type, u.status, u.update_time, 
+                u.update_by, u.expire_time, u.login_count, u.last_login_time, u.online, u.hobby, u.speciality, u.rev_1, u.rev_2, u.ip,u.role_id,u.grade_id 
+			FROM t_user AS u 
+                where 1=1  
+                <isNotEmpty prepend="and" property="userId">
+		        	user_id = #userId:INTEGER#
+		      </isNotEmpty>
+                <isNotEmpty prepend="and" property="loginName">
+	        		login_name = #loginName:VARCHAR#
+		      	</isNotEmpty>
+  </select>
+  <select id="users" parameterClass="com.dt.jxhd.domain.t_user" resultMap="abatorgenerated_t_userResult">
+     SELECT TOP $pageSize$ *  
+    from t_user WHERE (user_id NOT IN (SELECT TOP $topNum$ user_id FROM t_user WHERE 1 =1
+    <isNotEmpty prepend="and" property="name">
+         name like '%$name$%'
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="isTeacher">
+        is_teacher = #isTeacher:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="classId">
+        class_id = #classId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="gradeId">
+        grade_id = #gradeId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="departmentId">
+        department_id in ($departmentId$) 
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="hobby">
+        user_id in ($hobby$) 
+      </isNotEmpty>
+      ORDER BY user_id desc)) and 1 =1  
+    <isNotEmpty prepend="and" property="name">
+         name like '%$name$%'
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="isTeacher">
+        is_teacher = #isTeacher:INTEGER#
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="classId">
+        class_id = #classId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="gradeId">
+        grade_id = #gradeId:INTEGER#
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="departmentId">
+        department_id in ($departmentId$) 
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="hobby">
+        user_id in ($hobby$) 
+      </isNotEmpty>
+       order by user_id desc
+  </select>
+  <select id="usersNoPage" parameterClass="com.dt.jxhd.domain.t_user" resultMap="abatorgenerated_t_userResult">
+  select user_id, class_id, title_id, department_id, is_teacher, name, login_name, pwd, sex,
+      nation, id_number, address, phone, email, is_owner, type, status, update_time, update_by,
+      expire_time, login_count, last_login_time, online, hobby, speciality, rev_1, rev_2,ip,role_id,grade_id 
+    from t_user WHERE 1 =1
+    <isNotEmpty prepend="and" property="name">
+         name like '%$name$%'
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="isTeacher">
+        is_teacher = #isTeacher:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="classId">
+        class_id = #classId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="departmentId">
+        department_id in ($departmentId$) 
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="hobby">
+        user_id in ($hobby$) 
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="speciality">
+        user_id not in ($speciality$) 
+      </isNotEmpty>
+      ORDER BY id_number
+  </select>
+  <select id="usersLeaveNoPage" parameterClass="com.dt.jxhd.domain.t_user" resultMap="abatorgenerated_t_userResult">
+  select user_id, class_id, title_id, department_id, is_teacher, name, login_name, pwd, sex,
+      nation, id_number, address, phone, email, is_owner, type, status, update_time, update_by,
+      expire_time, login_count, last_login_time, online, hobby, speciality, rev_1, rev_2,ip,role_id,grade_id 
+    from t_user u,leave l WHERE u.user_id=l.student_id and l.review_type=1 
+    <isNotEmpty prepend="and" property="name">
+         name like '%$name$%'
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="isTeacher">
+        is_teacher = #isTeacher:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="classId">
+        class_id = #classId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="departmentId">
+        department_id in ($departmentId$) 
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="hobby">
+        user_id in ($hobby$) 
+      </isNotEmpty>
+      <isNotNull prepend="and" property="beginTime" >
+         l.from_time <![CDATA[ <= ]]> #beginTime#
+      </isNotNull>
+      <isNotNull prepend="and" property="beginTime" >
+      	l.to_time <![CDATA[ >= ]]> #beginTime# 
+      </isNotNull>
+      ORDER BY id_number
+  </select>
+  <delete id="user_delete" parameterClass="com.dt.jxhd.domain.t_user">
+    delete from t_user
+    where user_id = #userId:INTEGER#
+  </delete>
+  <insert id="user_insert" parameterClass="com.dt.jxhd.domain.t_user">
+    insert into t_user ( class_id, title_id, department_id, is_teacher, name, login_name,
+      pwd, sex, nation, id_number, address, phone, email, is_owner, type, status, update_time,
+      update_by, expire_time, login_count, last_login_time, online, hobby, speciality, rev_1, rev_2, ip,role_id,grade_id )
+    values ( #classId:INTEGER#, #titleId:INTEGER#, #departmentId:VARCHAR#,
+      #isTeacher:INTEGER#, #name:VARCHAR#, #loginName:VARCHAR#, #pwd:VARCHAR#, #sex:INTEGER#,
+      #nation:VARCHAR#, #idNumber:VARCHAR#, #address:VARCHAR#, #phone:VARCHAR#, #email:VARCHAR#,
+      #isOwner:INTEGER#, #type:CHAR#, #status:INTEGER#, #updateTime:TIMESTAMP#, #updateBy:VARCHAR#,
+      #expireTime:VARCHAR#, #loginCount:INTEGER#, #lastLoginTime:TIMESTAMP#, #online:INTEGER#,
+      #hobby:VARCHAR#, #speciality:VARCHAR#, #rev1:VARCHAR#, #rev2:VARCHAR#,#ip:VARCHAR#, #roleId:INTEGER#, #gradeId:INTEGER#)
+  </insert>
+  <update id="user_update" parameterClass="com.dt.jxhd.domain.t_user">
+    update t_user
+    <dynamic prepend="set">
+      <isNotNull prepend="," property="classId">
+        class_id = #classId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="titleId">
+        title_id = #titleId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="departmentId">
+        department_id = #departmentId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="isTeacher">
+        is_teacher = #isTeacher:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="name">
+        name = #name:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="loginName">
+        login_name = #loginName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="pwd">
+        pwd = #pwd:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sex">
+        sex = #sex:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="nation">
+        nation = #nation:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="idNumber">
+        id_number = #idNumber:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="address">
+        address = #address:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="phone">
+        phone = #phone:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="email">
+        email = #email:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="isOwner">
+        is_owner = #isOwner:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="type">
+        type = #type:CHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="status">
+        status = #status:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="updateTime">
+        update_time = #updateTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="updateBy">
+        update_by = #updateBy:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="expireTime">
+        expire_time = #expireTime:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="loginCount">
+        login_count = #loginCount:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="lastLoginTime">
+        last_login_time = #lastLoginTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="online">
+        online = #online:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="hobby">
+        hobby = #hobby:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="speciality">
+        speciality = #speciality:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="rev1">
+        rev_1 = #rev1:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="rev2">
+        rev_2 = #rev2:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="ip">
+        ip = #ip:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="roleId">
+        role_id = #roleId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="gradeId">
+        grade_id = #gradeId:INTEGER#
+      </isNotNull>
+    </dynamic>
+    where user_id = #userId:INTEGER#
+  </update>
+  <select id="getUserCountnum" parameterClass="com.dt.jxhd.domain.t_user" resultClass="java.lang.Integer">
+    select count(*) from t_user WHERE 1 =1
+    <isNotEmpty prepend="and" property="name">
+         name like '%$name$%'
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="isTeacher">
+        is_teacher = #isTeacher:INTEGER#
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="classId">
+        class_id = #classId:INTEGER#
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="departmentId">
+        department_id in ($departmentId$) 
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="hobby">
+        user_id in ($hobby$) 
+      </isNotEmpty>
+  </select>
+  <select id="login" parameterClass="com.dt.jxhd.domain.t_user" resultMap="abatorgenerated_t_userResult">
+    select distinct user_id, class_id, title_id, department_id, is_teacher, name, login_name, pwd, sex,
+      nation, id_number, address, phone, email, is_owner, type, status, update_time, update_by,
+      expire_time, login_count, last_login_time, online, hobby, speciality,r.resource_ids rev_1, rev_2, ip,u.role_id,u.grade_id 
+    from t_user u,T_SYS_ROLE_RESOURCE r   where  u.role_id=r.role_id and u.login_name = #loginName# and u.pwd = #pwd#
+  </select>
+  <select id="getStudent" parameterClass="com.dt.jxhd.domain.t_user" 
+  resultMap="abatorgenerated_t_userResult"  >
+   select * from t_user where class_id = #classId:Integer#
+  </select>
+</sqlMap>

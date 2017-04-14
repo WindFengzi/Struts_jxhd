@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!-- name属性是class属性的别名，但是如果没有id属性，也可以通过name属性获得相应的类 -->
+	<bean name="userAction" class="com.dt.jxhd.action.UserAction" autowire="byName" scope="prototype"/>
+	<bean name="articleAction" class="com.dt.jxhd.action.ArticleAction" autowire="byName" scope="prototype"/>
+	<bean name="logAction" class="com.dt.jxhd.action.LogAction" autowire="byName" scope="prototype"/>
+	<bean name="questionAction" class="com.dt.jxhd.action.QuestionAction" autowire="byName" scope="prototype"/>
+	<bean name="pjglAction" class="com.dt.jxhd.action.PjglAction" autowire="byName" scope="prototype"/>
+	<bean name="courseAction" class="com.dt.jxhd.action.CourseAction" autowire="byName" scope="prototype"/>
+</beans>

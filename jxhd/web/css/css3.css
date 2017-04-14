@@ -1,0 +1,110 @@
+@charset "utf-8";
+/* CSS Document */
+body{margin:0px; padding:0px; list-style:none; font-size:12px; line-height:24px; font-family:"宋体"; color:#333; background:#FFF; }
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+margin:0;padding:0;}
+* focus {outline: none;margin: 0;padding: 0;}
+a:focus { outline: none;}
+table {border-collapse:collapse;border-spacing:0;}
+fieldset, img {border:0;}
+address, caption, cite, code, dfn, em, strong, th, var {font-style:normal;}
+li {list-style:none;}
+caption, th {text-align:left;}
+h1, h2, h3, h4, h5, h6 {font-size:100%;}
+input, textarea, select {font-family:inherit;font-size:inherit;font-weight:inherit;}
+legend {color:#000;}
+.clean {clear:both;}
+a{ outline:none;text-decoration:none;}
+a:hover { color:#00F;}
+.fl {float:left;}
+.fr {float:right;}
+.flink{ font-size:12px; text-decoration:underline; color:#006cc5;}
+
+/* login */
+.outer {height: 100%; overflow: hidden;width: 100%; background:url(../images/loginback1.jpg) repeat-x;}
+.middle {width:1135px; height:100%; background:url(../images/logincase_back.jpg) no-repeat; margin:0px auto;overflow: hidden;}
+.login_logo{width:700px; height:87px; margin:0px auto; padding-top:20px;overflow: hidden;font-size:30px; font-family:"微软雅黑"; line-height:90px; color:#FFF; font-weight:bolder;}
+.login{width:421px; height:235px; margin:0px auto; margin-top:95px; background:url(../images/login.png) no-repeat;overflow: hidden; padding-top:65px;}
+.login table td{height:48px; font-size:16px; font-family:"微软雅黑"; line-height:48px;}
+.login table td .login_input{width:280px; height:28px; margin-top:4px; border:1px solid #808080; line-height:28px;}
+.login table td lable{font-size:12px;}
+.login table td lable input, button{border:0px; list-style:none;}
+.loginbtn{width:280px;height:38px;background:url(../images/loginbtn.jpg) no-repeat left top;text-indent:0px;padding-bottom:4px;}
+.copyright{width:100%; height:40px; margin:0px auto; text-align:center; margin-top:100px; color:#fff; line-height:20px;overflow: hidden;}
+
+/*---top--*/
+#header{width:100%; height:76px; background:url(../images/topback1.jpg) repeat-x; margin:0px; padding:0px; color:#dffffd; overflow:hidden;}
+#logo{width:610px; height:76px; background:url(../images/headleft.jpg) no-repeat; line-height:70px; font-size:26px; font-family:"黑体"; position:absolute; left:0px;top:0px;}
+#headerright{width:500px; height:76px;background:url(../images/headright.jpg) no-repeat; position:absolute; right:0px; top:0px; float:right; color:#FFF;}
+#headerright div{width:auto;margin-right:8px; font-size:12px; line-height:30px; float:right;}
+#headerright div a{color:#FFF;}
+#headerright div a:hover{ text-decoration:underline;}
+#headerright div img{vertical-align:middle; margin-right:1px;}
+
+/*---left--*/
+#left{width:178px; height:100%; background:#e4ecf2; margin:0px; padding:0px; border:1px #91a4b0 solid; padding:1px; position:relative;}
+.leftnav{width:100%; height:29px; background:url(../images/menutitle.jpg) repeat-x; text-align:center; line-height:29px; color:#2d2d2d; font-weight:bold; font-size:14px;}
+#menu { width:178px; margin:auto; color:#2d2d2d; position:absolute; top:29px; left:1px; z-index:99;}
+#menu a{color:#333;}
+#menu h1 { font-size:14px; height:29px; margin-top:-1px; border:#618da8 1px solid; background-color:#F93; background:url(../images/menuback.jpg) repeat-x;}
+#menu h2 { font-size:12px; border:#c9cbc7 1px solid; background:url(../images/menusen.jpg) repeat-x; line-height:18px; margin-top:-1px;}
+#menu ul {height:170px;border:#c9cbc7 1px solid; border-top:none;overflow:auto;}
+#menu ul li {padding:0px; background:#eefcfc;font-size:12px; border-bottom:1px solid #c9cbc7; text-decoration:none;line-height:18px;}
+#menu a { display:block; padding:5px 0 3px 10px; text-decoration:none; overflow:hidden;}
+#menu a:hover{ color:#002823; background:url(../images/menuback_h.jpg) repeat-x;}
+#menu .no {display:none;}
+#menu h1 a{color:#FFF;}
+#menu h2 a{color:#2d2d2d; padding-left:15px;}
+#menu h2 a:hover{background:url(../images/menusen_h.jpg) repeat-x;}
+#menu ul li a{ padding-left:20px;}
+#menu ul li a:hover{background:#8fc9f5;}
+#menu img{ vertical-align:middle; padding-right:10px;}
+.menudi{width:100%; height:350px; background:url(../images/menudi.jpg) left bottom no-repeat; position:absolute; bottom:0px; left:1px;}
+
+/*---nav--*/
+#nav{width:100%; height:26px; background:url(../images/tabnav_headback.jpg) repeat-x;}
+ul.tabnav {height:23px;float: left;clear: left;top:2px; left:2px; position:absolute;}
+ul.tabnav li {float: left; margin-left:2px;}
+ul.tabnav li a {float: left;text-decoration: none;color: #0c1319; padding: 0px 12px 0 12px;margin-right: 1px;font: 900 12px "Arial", Helvetica, sans-serif;font-family:"微软雅黑";line-height:23px;font-weight:normal;background: url(../images/tabnav.jpg) repeat-x;border:1px solid #637580;-moz-border-radius: 3px 3px 0 0;-khtml-border-radius: 3px 3px 0 0;-webkit-border-radius: 3px 3px 0 0;border-radius: 3px 3px 0 0; border-bottom:0px;}
+ul.tabnav li a:hover {float:left; font-weight:bold;background: url(../images/tabnav_h.jpg) repeat-x;}
+ul.tabnav li a.current {background: url(../images/tabnav_h.jpg) repeat-x;font-weight:bold;}
+#main{ width:99%; height:auto; padding:5px; overflow:hidden;}
+
+
+/*---form--*/
+.form{width:100%; height:auto; margin:0px; margin-bottom:5px; padding:0px; overflow:hidden;}
+.form table{margin:0px; padding:0px;}
+.form th{height:30px;line-height:30px; border:1px solid #d9e7e5; background:#edf7fc; text-align:right; padding-right:4px;}
+.form td{ padding-left:4px;  background-color:#fff;border:1px solid #d9e7e5;line-height:30px;}
+.form td input{width:96%; height:22px; line-height:22px;}
+.form td select{width:96%; height:22px; line-height:22px;}
+.form buttontd{ background-color:#fff; float:right;}
+
+/* button css*/
+.button{width:100%; height:22px; margin-top:5px; margin-bottom:5px;}
+.buttontd img{border:0px;vertical-align:middle;padding:0px;margin:0px;}
+.buttontd input,button{font-family:"Arial","Tahoma","宋体";border:0px;vertical-align:middle;margin:4px;line-height:18px;	font-size:12px;width:77px; }
+.btn1{width:77px;height:22px;background:url(../images/buttonbg.png) no-repeat left top;color:#2d2d2d;float:right;margin:0px; border:none; margin-right:5px;}
+.btn2{width:77px;height:22px;background:url(../images/buttonbg.png) no-repeat left -22px;color:#fff;float:right;margin:0px; border:none; font-weight:bold; margin-right:5px;}
+
+/* list css*/
+#list{width:100%; height:auto;margin:0px; margin-bottom:5px; padding:0px; overflow:hidden;}
+.title{width:100%; height:20px; background:url(../images/titleback.gif) repeat-x; padding-top:5px; margin:0px; overflow:hidden; border-left:1px solid #89afaa; border-right:1px solid #89afaa;}
+.titlename{width:150px; height:14px; margin-left:5px; background:url(../images/titleicon.gif) no-repeat; font-size:12px; font-weight:bold; line-height:14px; padding-left:8px; float:left;}
+.titleright{ display:block; width:120px; height:20px; float:right; line-height:20px; margin-right:10px; text-align:right; margin-top:0px;}
+
+.list_table{width:100%; height:100%; overflow:hidden; }
+.list_table td{height:25px; line-height:25px;}
+.tab-nd{ width:100%;float:left; margin-bottom:-1px;}
+.tab-nd tr{ background:#f4f4f4;}
+.tab-nd tr.altow{ background:#fff;}
+.tab-nd td{font-size:12px;vertical-align:top;border:1px solid #b7cfcc; border-top:none;height:25px; line-height:25px; padding-left:5px; padding-right:5px;}
+.tab-nd th{ background:url(../images/tablebg01.gif) repeat-x;font-size:12px; height:25px; line-height:25px; text-align:center; border:1px solid #89afaa;}
+.tab-nd tr.over{ background:#fff8ea;}
+.mergeth th{ background:url(../images/tablebg02.gif) repeat-x;}
+.toolbar{width:100%; height:25px; background:#dfe4e4; line-height:25px; border:1px solid #b7cfcc;}
+.page{width:580px; height:100%; float:right; padding-top:3px;}
+.page li{width:25px; height:20px; float:left; margin-left:5px;}
+.btnpage1{width:25px;height:20px;background:url(../images/page.gif) no-repeat left top;color:#666666; border:none; margin:0px; line-height:20px; text-align:center;}
+.btnpage2{width:25px;height:20px;background:url(../images/page.gif) no-repeat left -20px;color:#fff; border:none; margin:0px; line-height:20px; text-align:center; font-weight:bold;}
+.btnpageon{width:25px;height:20px;background:url(../images/page.gif) no-repeat left -20px; border:none; margin:0px;color:#fff;line-height:20px; text-align:center;font-weight:bold;}

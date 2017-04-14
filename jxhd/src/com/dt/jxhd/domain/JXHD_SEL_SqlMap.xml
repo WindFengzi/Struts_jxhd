@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="JXHD_SEL" >
+  <resultMap id="abatorgenerated_JXHD_SELResult" class="com.dt.jxhd.domain.JXHD_SEL" >
+    <result column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ChoiceA" property="choicea" jdbcType="VARCHAR" />
+    <result column="ChoiceB" property="choiceb" jdbcType="VARCHAR" />
+    <result column="ChoiceC" property="choicec" jdbcType="VARCHAR" />
+    <result column="ChoiceD" property="choiced" jdbcType="VARCHAR" />
+    <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="DOUBLE" />
+    <result column="teacherID" property="teacherid" jdbcType="INTEGER" />
+    <result column="QuesDifficult" property="quesdifficult" jdbcType="VARCHAR" />
+    <result column="questionType" property="questiontype" jdbcType="VARCHAR" />
+    <result column="questionOrders" property="questionorders" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="abatorgenerated_JXHD_SELResultWithBLOBs" class="com.dt.jxhd.domain.JXHD_SEL" extends="JXHD_SEL.abatorgenerated_JXHD_SELResult" >
+    <result column="question" property="question" jdbcType="CLOB" />
+  </resultMap>
+  <resultMap id="abatorgenerated_JXHD_SELResult1" class="com.dt.jxhd.domain.JXHD_SEL" >
+    <result column="ID" property="id" jdbcType="INTEGER" />
+    <result column="question" property="question" jdbcType="CLOB" />
+    <result column="questionType" property="questiontype" jdbcType="VARCHAR" />
+    <result column="questionOrders" property="questionorders" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="sels" resultMap="abatorgenerated_JXHD_SELResultWithBLOBs" parameterClass="com.dt.jxhd.domain.JXHD_SEL" >
+    SELECT TOP $pageSize$ *  
+    from JXHD_SEL WHERE (ID NOT IN (SELECT TOP $topNum$ ID FROM JXHD_SEL WHERE 1=1   
+    <isNotEmpty prepend="and" property="question">
+         question like '%$question$%'
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="questiontype" >
+        questionType = #questiontype:VARCHAR#
+      </isNotEmpty>
+      ORDER BY ID desc))  
+      <isNotEmpty prepend="and" property="question">
+         question like '%$question$%'
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="questiontype" >
+        questionType = #questiontype:VARCHAR#
+      </isNotEmpty>
+       order by ID desc
+  </select>
+  <select id="questions" resultMap="abatorgenerated_JXHD_SELResult1" parameterClass="com.dt.jxhd.domain.JXHD_SEL" >
+    SELECT TOP $pageSize$ *  
+    from questionsView WHERE (ID NOT IN (SELECT TOP $topNum$ ID FROM questionsView WHERE 1=1   
+    <isNotEmpty prepend="and" property="question">
+         question like '%$question$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="questiontype" >
+        questionType = #questiontype:VARCHAR#
+      </isNotEmpty>
+      ORDER BY ID desc))  
+      <isNotEmpty prepend="and" property="question">
+         question like '%$question$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="questiontype" >
+        questionType = #questiontype:VARCHAR#
+      </isNotEmpty>
+       order by ID desc
+  </select>
+  <select id="sel_selectById" resultMap="abatorgenerated_JXHD_SELResultWithBLOBs" parameterClass="com.dt.jxhd.domain.JXHD_SEL" >
+    select ID,question, ChoiceA, ChoiceB, ChoiceC, ChoiceD, answer, score, teacherID, QuesDifficult,
+      questionType, questionOrders, question
+    from JXHD_SEL where 1=1 
+    <isNotEmpty prepend="and" property="id">
+         ID = #id:INTEGER#
+      </isNotEmpty>
+  </select>
+  <delete id="deleteSele" parameterClass="com.dt.jxhd.domain.JXHD_SEL" >
+    delete from JXHD_SEL where ID = #id:INTEGER#
+  </delete>
+  <insert id="sel_insert" parameterClass="com.dt.jxhd.domain.JXHD_SEL" >
+    insert into JXHD_SEL ( ChoiceA, ChoiceB, ChoiceC, ChoiceD, answer, score, teacherID,
+      QuesDifficult, questionType, questionOrders, question)
+    values ( #choicea:VARCHAR#, #choiceb:VARCHAR#, #choicec:VARCHAR#,
+      #choiced:VARCHAR#, #answer:VARCHAR#, #score:DOUBLE#, #teacherid:INTEGER#,
+      #quesdifficult:VARCHAR#, #questiontype:VARCHAR#, #questionorders:VARCHAR#, #question:CLOB#)
+  </insert>
+  <select id="getSelCountnum" parameterClass="com.dt.jxhd.domain.JXHD_SEL" resultClass="java.lang.Integer" >
+    select count(*) from JXHD_SEL WHERE 1=1   
+    <isNotEmpty prepend="and" property="question">
+         question like '%$question$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="questiontype" >
+        questionType = #questiontype:VARCHAR#
+      </isNotEmpty>
+  </select>
+  <select id="getQuestionsCountnum" parameterClass="com.dt.jxhd.domain.JXHD_SEL" resultClass="java.lang.Integer" >
+    select count(*) from questionsView WHERE 1=1   
+    <isNotEmpty prepend="and" property="question">
+         question like '%$question$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="questiontype" >
+        questionType = #questiontype:VARCHAR#
+      </isNotEmpty>
+  </select>
+  <update id="sel_update" >
+    update JXHD_SEL
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="choicea" >
+        ChoiceA = #choicea:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="choiceb" >
+        ChoiceB = #choiceb:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="choicec" >
+        ChoiceC = #choicec:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="choiced" >
+        ChoiceD = #choiced:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="answer" >
+        answer = #answer:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="score" >
+        score = #score:DOUBLE#
+      </isNotNull>
+      <isNotNull prepend="," property="teacherid" >
+        teacherID = #teacherid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="quesdifficult" >
+        QuesDifficult = #quesdifficult:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="questiontype" >
+        questionType = #questiontype:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="questionorders" >
+        questionOrders = #questionorders:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="question" >
+        question = #question:CLOB#
+      </isNotNull>
+    </dynamic>
+     where ID = #id:INTEGER#
+  </update>
+</sqlMap>

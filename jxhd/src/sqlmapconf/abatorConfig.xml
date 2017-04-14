@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE abatorConfiguration PUBLIC "-//Apache Software Foundation//DTD Abator for iBATIS Configuration 1.0//EN"
+  "http://ibatis.apache.org/dtd/abator-config_1_0.dtd">
+
+<abatorConfiguration>
+	<abatorContext>    <!-- TODO: Add Database Connection Information -->
+		<jdbcConnection driverClass="net.sourceforge.jtds.jdbc.Driver"
+			connectionURL="jdbc:jtds:sqlserver://www.zjtouchnet.com:2001/interactive"
+			userId="sa" password="1234">
+			<classPathEntry
+				location="D:\Workspaces\MyEclipse\pscryp\web\WEB-INF\lib\jtds-1.2.2.jar" />
+		</jdbcConnection>
+
+		<javaModelGenerator targetPackage="com.dt.jxhd.domain"
+			targetProject="jxhd" />
+		<sqlMapGenerator targetPackage="com.dt.jxhd.domain"
+			targetProject="jxhd" />
+
+		<table schema="" tableName="title" domainObjectName="title">
+		</table>
+
+	</abatorContext>
+</abatorConfiguration>

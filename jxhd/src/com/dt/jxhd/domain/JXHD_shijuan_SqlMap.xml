@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="JXHD_shijuan" >
+  <resultMap id="abatorgenerated_JXHD_shijuanResult" class="com.dt.jxhd.domain.JXHD_shijuan" >
+    <result column="ID" property="id" jdbcType="INTEGER" />
+     <result column="shijuan_name" property="shijuanName" jdbcType="VARCHAR" />
+    <result column="chuti_man" property="chutiMan" jdbcType="VARCHAR" />
+    <result column="chuti_time" property="chutiTime" jdbcType="TIMESTAMP" />
+    <result column="datiType" property="datitype" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="questionOrders" property="questionorders" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="shijuans" resultMap="abatorgenerated_JXHD_shijuanResult" parameterClass="com.dt.jxhd.domain.JXHD_shijuan" >
+    select ID,shijuan_name, chuti_man, chuti_time, datiType, status, questionOrders
+    from JXHD_shijuan
+    SELECT TOP $pageSize$ *  
+    from JXHD_shijuan WHERE (ID NOT IN (SELECT TOP $topNum$ ID FROM JXHD_shijuan WHERE 1=1   
+    <isNotEmpty prepend="and" property="shijuanName">
+         shijuan_name like '%$shijuanName$%'
+      </isNotEmpty>
+      ORDER BY ID desc))  
+      <isNotEmpty prepend="and" property="shijuanName">
+         shijuan_name like '%$shijuanName$%'
+      </isNotEmpty>
+       order by ID desc
+  </select>
+  <delete id="abatorgenerated_deleteByExample" parameterClass="com.dt.jxhd.domain.JXHD_shijuan" >
+    delete from JXHD_shijuan
+  </delete>
+  <insert id="abatorgenerated_insert" parameterClass="com.dt.jxhd.domain.JXHD_shijuan" >
+    insert into JXHD_shijuan (ID, shijuan_name,chuti_man, chuti_time, datiType, status, questionOrders)
+    values (#id:INTEGER#, #shijuanName:VARCHAR#, #chutiMan:VARCHAR#, #chutiTime:TIMESTAMP#, #datitype:VARCHAR#,
+      #status:VARCHAR#, #questionorders:VARCHAR#)
+  </insert>
+  <select id="getShijuanCountnum" parameterClass="com.dt.jxhd.domain.JXHD_shijuan" resultClass="java.lang.Integer" >
+    select count(*) from JXHD_shijuan WHERE 1=1   
+    <isNotEmpty prepend="and" property="shijuanName">
+         shijuan_name like '%$shijuanName$%'
+      </isNotEmpty>
+  </select>
+  <update id="abatorgenerated_updateByExampleSelective" >
+    update JXHD_shijuan
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="id" >
+        ID = #id:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="shijuanName" >
+        shijuan_name = #shijuanName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="chutiMan" >
+        chuti_man = #chutiMan:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="chutiTime" >
+        chuti_time = #chutiTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="datitype" >
+        datiType = #datitype:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="status" >
+        status = #status:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="questionorders" >
+        questionOrders = #questionorders:VARCHAR#
+      </isNotNull>
+    </dynamic>
+  </update>
+</sqlMap>

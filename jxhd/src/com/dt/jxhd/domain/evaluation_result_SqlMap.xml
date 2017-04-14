@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="evaluation_result" >
+  <resultMap id="abatorgenerated_evaluation_resultResult" class="com.dt.jxhd.domain.evaluation_result" >
+    <result column="evaluation_id" property="evaluationId" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="course_id" property="courseId" jdbcType="INTEGER" />
+    <result column="evaluation_type" property="evaluationType" jdbcType="INTEGER" />
+    <result column="grade_id" property="gradeId" jdbcType="VARCHAR" />
+    <result column="evaluation_info" property="evaluationInfo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="be_user_id" property="beUserId" jdbcType="INTEGER" />
+    <result column="be_group_id" property="beGroupId" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="evaluationResult_selectById" resultMap="abatorgenerated_evaluation_resultResult" parameterClass="com.dt.jxhd.domain.evaluation_result" >
+    select evaluation_id, item_id, user_id, course_id, evaluation_type, grade_id, evaluation_info,
+      create_time, be_user_id, be_group_id
+    from evaluation_result
+    where evaluation_id = #evaluationId:INTEGER#
+  </select>
+  <select id="evaluationResults" resultMap="abatorgenerated_evaluation_resultResult" parameterClass="com.dt.jxhd.domain.evaluation_result" >
+    SELECT TOP $pageSize$ *  
+    from view_evaluation_result WHERE (evaluation_id NOT IN (SELECT TOP $topNum$ evaluation_id FROM view_evaluation_result WHERE 1=1   
+    <isNotEmpty prepend="and" property="itemId" >
+        item_id = #itemId:VARCHAR#
+      </isNotEmpty>
+      ORDER BY evaluation_id desc))    
+     <isNotEmpty prepend="and" property="itemId" >
+        item_id = #itemId:VARCHAR#
+      </isNotEmpty>
+       order by evaluation_id desc
+  </select>
+   <select id="evaluationGroups" resultMap="abatorgenerated_evaluation_resultResult" parameterClass="com.dt.jxhd.domain.evaluation_result" >
+    SELECT TOP $pageSize$ *  
+    from view_evaluation_group WHERE (evaluation_id NOT IN (SELECT TOP $topNum$ evaluation_id FROM view_evaluation_group WHERE 1=1   
+    <isNotEmpty prepend="and" property="itemId" >
+        item_id = #itemId:VARCHAR#
+      </isNotEmpty>
+      ORDER BY evaluation_id desc))    
+     <isNotEmpty prepend="and" property="itemId" >
+        item_id = #itemId:VARCHAR#
+      </isNotEmpty>
+       order by evaluation_id desc
+  </select>
+  <delete id="deleteEvaluationRes" parameterClass="com.dt.jxhd.domain.evaluation_result" >
+    delete from evaluation_result
+    where evaluation_id = #evaluationId:INTEGER#
+  </delete>
+  <delete id="abatorgenerated_deleteByExample" parameterClass="com.dt.jxhd.domain.evaluation_result" >
+    delete from evaluation_result
+  </delete>
+  <insert id="evaluationRes_insert" parameterClass="com.dt.jxhd.domain.evaluation_result" >
+    insert into evaluation_result ( item_id, user_id, course_id, evaluation_type,
+      grade_id, evaluation_info, create_time, be_user_id, be_group_id)
+    values ( #itemId:VARCHAR#, #userId:VARCHAR#, #courseId:INTEGER#,
+      #evaluationType:INTEGER#, #gradeId:VARCHAR#, #evaluationInfo:VARCHAR#, #createTime:TIMESTAMP#,
+      #beUserId:INTEGER#, #beGroupId:INTEGER#)
+  </insert>
+  <update id="abatorgenerated_updateByPrimaryKey" parameterClass="com.dt.jxhd.domain.evaluation_result" >
+    update evaluation_result
+    set item_id = #itemId:INTEGER#,
+      user_id = #userId:INTEGER#,
+      course_id = #courseId:INTEGER#,
+      evaluation_type = #evaluationType:INTEGER#,
+      grade_id = #gradeId:INTEGER#,
+      evaluation_info = #evaluationInfo:VARCHAR#,
+      create_time = #createTime:TIMESTAMP#,
+      be_user_id = #beUserId:INTEGER#,
+      be_group_id = #beGroupId:INTEGER#
+    where evaluation_id = #evaluationId:INTEGER#
+  </update>
+  <update id="abatorgenerated_updateByPrimaryKeySelective" parameterClass="com.dt.jxhd.domain.evaluation_result" >
+    update evaluation_result
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="itemId" >
+        item_id = #itemId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="userId" >
+        user_id = #userId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="courseId" >
+        course_id = #courseId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="evaluationType" >
+        evaluation_type = #evaluationType:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="gradeId" >
+        grade_id = #gradeId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="evaluationInfo" >
+        evaluation_info = #evaluationInfo:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="createTime" >
+        create_time = #createTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="beUserId" >
+        be_user_id = #beUserId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="beGroupId" >
+        be_group_id = #beGroupId:INTEGER#
+      </isNotNull>
+    </dynamic>
+    where evaluation_id = #evaluationId:INTEGER#
+  </update>
+  <select id="getEvaluationResCountnum" parameterClass="com.dt.jxhd.domain.evaluation_result" resultClass="java.lang.Integer" >
+    select count(*) from view_evaluation_result where 1=1 
+    <isNotEmpty prepend="and" property="itemId" >
+        item_id = #itemId:VARCHAR#
+      </isNotEmpty>
+  </select>
+  <select id="getEvaluationGroupCountnum" parameterClass="com.dt.jxhd.domain.evaluation_result" resultClass="java.lang.Integer" >
+    select count(*) from view_evaluation_group where 1=1 
+    <isNotEmpty prepend="and" property="itemId" >
+        item_id = #itemId:VARCHAR#
+      </isNotEmpty>
+  </select>
+</sqlMap>

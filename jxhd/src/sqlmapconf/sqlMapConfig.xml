@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		errorTracingEnabled="true"
+		lazyLoadingEnabled="true" maxRequests="32" maxSessions="10"
+		maxTransactions="5" useStatementNamespaces="true" />
+
+	<sqlMap resource="com/dt/jxhd/domain/notice_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/T_SYS_LOG_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/test_item_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/JXHD_QuestionPaper_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/JXHD_shijuan_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/T_SYS_PARAMETER_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/evaluation_item_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/evaluation_grade_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/evaluation_result_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/T_USER_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/ask_log_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/t_class_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/answer_log_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/course_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/t_course_log_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/student_group_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/department_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/attendance_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/subject_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/class_section_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/evaluation_item_grade_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/leave_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/T_SYS_RESOURCE_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/T_SYS_ROLE_RESOURCE_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/T_SYS_ROLE_SqlMap.xml" />
+	<sqlMap resource="com/dt/jxhd/domain/index_edit_SqlMap.xml"/>
+	<sqlMap resource="com/dt/jxhd/domain/preview_SqlMap.xml"/>
+	<sqlMap resource="com/dt/jxhd/domain/group_error_SqlMap.xml"/>
+	<sqlMap resource="com/dt/jxhd/domain/error_dispatcher_SqlMap.xml"/>
+	<!-- 添加预习表的映射  -->
+	<sqlMap resource="com/dt/jxhd/domain/preview_add_SqlMap.xml"/>
+	<sqlMap resource="com/dt/jxhd/domain/preview_send_SqlMap.xml"/>
+	<!-- 评论的两张表 -->  
+	<sqlMap resource="com/dt/jxhd/domain/evalution_comment_SqlMap.xml"/>
+	<sqlMap resource="com/dt/jxhd/domain/evalution_teacher_comment_SqlMap.xml"/>
+	<sqlMap resource="com/dt/jxhd/domain/ask_question_SqlMap.xml"/>
+</sqlMapConfig>

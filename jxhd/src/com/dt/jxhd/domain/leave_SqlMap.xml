@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="leave" >
+  <resultMap id="abatorgenerated_leaveResult" class="com.dt.jxhd.domain.leave" >
+    <result column="leave_id" property="leaveId" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="VARCHAR" />
+    <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="from_time" property="fromTime" jdbcType="TIMESTAMP" />
+    <result column="to_time" property="toTime" jdbcType="TIMESTAMP" />
+    <result column="review_type" property="reviewType" jdbcType="INTEGER" />
+    <result column="review_content" property="reviewContent" jdbcType="VARCHAR" />
+    <result column="review_time" property="reviewTime" jdbcType="TIMESTAMP" />
+    <result column="review_teacher_id" property="reviewTeacherId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="leave_type" property="leaveType" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="abatorgenerated_leaveResult1" class="com.dt.jxhd.domain.leave" >
+    <result column="leave_id" property="leaveId" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="VARCHAR" />
+    <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="from_time" property="fromTime" jdbcType="TIMESTAMP" />
+    <result column="to_time" property="toTime" jdbcType="TIMESTAMP" />
+    <result column="review_type" property="reviewType" jdbcType="INTEGER" />
+    <result column="review_content" property="reviewContent" jdbcType="VARCHAR" />
+    <result column="review_time" property="reviewTime" jdbcType="TIMESTAMP" />
+    <result column="review_teacher_id" property="reviewTeacherId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="leave_type" property="leaveType" jdbcType="INTEGER" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="leaveById" resultMap="abatorgenerated_leaveResult1" parameterClass="com.dt.jxhd.domain.leave" >
+    select leave_id, student_id, teacher_id, content, from_time, to_time, review_type,
+      review_content, review_time, review_teacher_id, create_time, leave_type,class_name 
+    from view_leave
+    where leave_id = #leaveId:INTEGER#
+  </select>
+   <select id="leavesDm" resultMap="abatorgenerated_leaveResult" parameterClass="com.dt.jxhd.domain.leave" >
+    select  leave_id, student_id, teacher_id, [content], from_time, to_time, review_type, review_content, review_time, 
+                review_teacher_id, create_time, leave_type  
+    from leave
+    WHERE   (from_time <![CDATA[ <= ]]> GETDATE()) AND (to_time <![CDATA[ >= ]]> GETDATE()) AND (review_type = 1)
+  </select>
+  <select id="leaves" resultMap="abatorgenerated_leaveResult1" parameterClass="com.dt.jxhd.domain.leave" >
+     SELECT TOP $pageSize$ *  
+    from view_leave WHERE (leave_id NOT IN (SELECT TOP $topNum$ leave_id FROM view_leave WHERE 1 =1
+    <isNotEmpty prepend="and" property="studentId">
+         student_id like '%$studentId$%'
+      </isNotEmpty>
+       <isNotNull prepend="and" property="beginTime" >
+         from_time <![CDATA[ >= ]]> #beginTime#
+      </isNotNull>
+      <isNotNull prepend="and" property="endTime" >
+      	from_time <![CDATA[ <= ]]> #endTime# 
+      </isNotNull>
+      ORDER BY leave_id desc)) and 1 =1  
+    <isNotEmpty prepend="and" property="studentId">
+         student_id like '%$studentId$%'
+      </isNotEmpty>
+      <isNotNull prepend="and" property="beginTime" >
+         from_time <![CDATA[ >= ]]> #beginTime#
+      </isNotNull>
+      <isNotNull prepend="and" property="endTime" >
+      	from_time <![CDATA[ <= ]]> #endTime# 
+      </isNotNull>
+       order by leave_id desc
+  </select>
+  <delete id="abatorgenerated_deleteByPrimaryKey" parameterClass="com.dt.jxhd.domain.leave" >
+    delete from leave
+    where leave_id = #leaveId:INTEGER#
+  </delete>
+  <delete id="abatorgenerated_deleteByExample" parameterClass="com.dt.jxhd.domain.leave" >
+    delete from leave
+  </delete>
+  <insert id="abatorgenerated_insert" parameterClass="com.dt.jxhd.domain.leave" >
+    insert into leave (leave_id, student_id, teacher_id, content, from_time, to_time, review_type,
+      review_content, review_time, review_teacher_id, create_time, leave_type)
+    values (#leaveId:INTEGER#, #studentId:VARCHAR#, #teacherId:INTEGER#, #content:VARCHAR#,
+      #fromTime:TIMESTAMP#, #toTime:TIMESTAMP#, #reviewType:INTEGER#, #reviewContent:VARCHAR#,
+      #reviewTime:TIMESTAMP#, #reviewTeacherId:INTEGER#, #createTime:TIMESTAMP#,
+      #leaveType:INTEGER#)
+  </insert>
+  <update id="abatorgenerated_updateByPrimaryKey" parameterClass="com.dt.jxhd.domain.leave" >
+    update leave
+    set student_id = #studentId:INTEGER#,
+      teacher_id = #teacherId:VARCHAR#,
+      content = #content:VARCHAR#,
+      from_time = #fromTime:TIMESTAMP#,
+      to_time = #toTime:TIMESTAMP#,
+      review_type = #reviewType:INTEGER#,
+      review_content = #reviewContent:VARCHAR#,
+      review_time = #reviewTime:TIMESTAMP#,
+      review_teacher_id = #reviewTeacherId:INTEGER#,
+      create_time = #createTime:TIMESTAMP#,
+      leave_type = #leaveType:INTEGER#
+    where leave_id = #leaveId:INTEGER#
+  </update>
+  <update id="update_leave" parameterClass="com.dt.jxhd.domain.leave" >
+    update leave
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="studentId" >
+        student_id = #studentId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="teacherId" >
+        teacher_id = #teacherId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="content" >
+        content = #content:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="fromTime" >
+        from_time = #fromTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="toTime" >
+        to_time = #toTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="reviewType" >
+        review_type = #reviewType:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="reviewContent" >
+        review_content = #reviewContent:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="reviewTime" >
+        review_time = #reviewTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="reviewTeacherId" >
+        review_teacher_id = #reviewTeacherId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="createTime" >
+        create_time = #createTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="leaveType" >
+        leave_type = #leaveType:INTEGER#
+      </isNotNull>
+    </dynamic>
+    where leave_id = #leaveId:INTEGER#
+  </update>
+  <select id="getLeaveCountnum" parameterClass="com.dt.jxhd.domain.leave" resultClass="java.lang.Integer" >
+    select count(*) from view_leave WHERE 1 =1
+    <isNotEmpty prepend="and" property="studentId">
+         student_id like '%$studentId$%'
+      </isNotEmpty>
+  </select>
+  <select id="leaveNum" parameterClass="com.dt.jxhd.domain.leave" resultClass="java.lang.Integer" >
+    SELECT   COUNT(DISTINCT l.student_id)  FROM leave AS l INNER JOIN
+                t_user AS u ON l.student_id = u.user_id
+	WHERE   1=1 
+	<isNotNull prepend="and" property="teacherId" >
+        u.class_id = #teacherId:VARCHAR#
+      </isNotNull>
+	<isNotNull prepend="and" property="beginTime" >
+         from_time <![CDATA[ >= ]]> #beginTime#
+      </isNotNull>
+      <isNotNull prepend="and" property="endTime" >
+      	to_time <![CDATA[ <= ]]> #endTime# 
+      </isNotNull>
+  </select>
+</sqlMap>

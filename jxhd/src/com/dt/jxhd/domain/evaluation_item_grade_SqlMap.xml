@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="evaluation_item_grade" >
+  <resultMap id="abatorgenerated_evaluation_item_gradeResult" class="com.dt.jxhd.domain.evaluation_item_grade" >
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="grade_id" property="gradeId" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="itemGrades" resultMap="abatorgenerated_evaluation_item_gradeResult" parameterClass="com.dt.jxhd.domain.evaluation_item_grade" >
+    select item_id, grade_id
+    from evaluation_item_grade where item_id = #itemId:INTEGER#
+  </select>
+  <delete id="item_grade_delete" parameterClass="com.dt.jxhd.domain.evaluation_item_grade" >
+    delete from evaluation_item_grade
+    where item_id = #itemId:INTEGER#
+  </delete>
+  <delete id="abatorgenerated_deleteByExample" parameterClass="com.dt.jxhd.domain.evaluation_item_grade" >
+    delete from evaluation_item_grade
+  </delete>
+  <insert id="item_grade_insert" parameterClass="com.dt.jxhd.domain.evaluation_item_grade" >
+    insert into evaluation_item_grade (item_id, grade_id)
+    values (#itemId:INTEGER#, #gradeId:INTEGER#)
+  </insert>
+  <select id="abatorgenerated_countByExample" parameterClass="com.dt.jxhd.domain.evaluation_item_grade" resultClass="java.lang.Integer" >
+    select count(*) from evaluation_item_grade
+  </select>
+  <update id="abatorgenerated_updateByExampleSelective" >
+    update evaluation_item_grade
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="record.itemId" >
+        item_id = #record.itemId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="record.gradeId" >
+        grade_id = #record.gradeId:INTEGER#
+      </isNotNull>
+    </dynamic>
+  </update>
+</sqlMap>

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!-- baseTxProxy在applicationContext-default.xml中 -->
+	<bean id="userService" parent="baseTxProxy">
+		<property name="target">
+			<bean class="com.dt.jxhd.service.impl.UserService" autowire="byName"/>
+		</property>
+	</bean>	
+	<bean id="articleService" parent="baseTxProxy" >
+		<property name="target">
+			<bean class="com.dt.jxhd.service.impl.ArticleService" autowire="byName"/>
+		</property>
+	</bean>	
+	<bean id="logService" parent="baseTxProxy">
+		<property name="target">
+			<bean class="com.dt.jxhd.service.impl.LogService" autowire="byName"/>
+		</property>
+	</bean>	
+	<bean id="questionService" parent="baseTxProxy">
+		<property name="target">
+			<bean class="com.dt.jxhd.service.impl.QuestionService" autowire="byName"/>
+		</property>
+	</bean>	
+	<bean id="userDetailService" parent="baseTxProxy">
+		<property name="target">
+			<bean class="com.dt.jxhd.service.impl.UserDetailService" autowire="byName"/>
+		</property>
+	</bean>	
+	<bean id="pjglService" parent="baseTxProxy">
+		<property name="target">
+			<bean class="com.dt.jxhd.service.impl.PjglService" autowire="byName"/>
+		</property>
+	</bean>	
+	<bean id="courseService" parent="baseTxProxy">
+		<property name="target">
+			<bean class="com.dt.jxhd.service.impl.CourseService" autowire="byName"/>
+		</property>
+	</bean>	
+	
+</beans>

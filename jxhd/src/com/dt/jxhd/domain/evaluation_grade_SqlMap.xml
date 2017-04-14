@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="evaluation_grade" >
+  <resultMap id="abatorgenerated_evaluation_gradeResult" class="com.dt.jxhd.domain.evaluation_grade" >
+    <result column="grade_id" property="gradeId" jdbcType="INTEGER" />
+    <result column="grade_desc" property="gradeDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="grade_selectById" resultMap="abatorgenerated_evaluation_gradeResult" parameterClass="com.dt.jxhd.domain.evaluation_grade" >
+    select grade_id, grade_desc
+    from evaluation_grade
+    where grade_id = #gradeId:INTEGER#
+  </select>
+  <select id="grade_selectByItemId" resultMap="abatorgenerated_evaluation_gradeResult" parameterClass="com.dt.jxhd.domain.evaluation_grade" >
+    select grade_id, grade_desc
+    from evaluation_grade where grade_id in (SELECT grade_id
+	FROM      evaluation_item_grade where item_id=#gradeId:INTEGER#)
+  </select>
+  <select id="evaluationGrades" resultMap="abatorgenerated_evaluation_gradeResult" parameterClass="com.dt.jxhd.domain.evaluation_grade" >
+    SELECT TOP $pageSize$ *  
+    from evaluation_grade WHERE (grade_id NOT IN (SELECT TOP $topNum$ grade_id FROM evaluation_grade WHERE 1=1   
+    <isNotEmpty prepend="and" property="gradeDesc">
+         grade_desc like '%$gradeDesc$%'
+      </isNotEmpty>
+      ORDER BY grade_id desc))    
+      <isNotEmpty prepend="and" property="gradeDesc">
+         grade_desc like '%$gradeDesc$%'
+      </isNotEmpty>
+       order by grade_id desc
+  </select>
+  <delete id="deleteEvaluationGrade" parameterClass="com.dt.jxhd.domain.evaluation_grade" >
+    delete from evaluation_grade
+    where grade_id = #gradeId:INTEGER#
+  </delete>
+  <insert id="grade_insert" parameterClass="com.dt.jxhd.domain.evaluation_grade" >
+    insert into evaluation_grade (grade_desc)
+    values (#gradeDesc:VARCHAR#)
+  </insert>
+  <update id="grade_update" parameterClass="com.dt.jxhd.domain.evaluation_grade" >
+    update evaluation_grade
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="gradeDesc" >
+        grade_desc = #gradeDesc:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where grade_id = #gradeId:INTEGER#
+  </update>
+  <select id="getGradeCountnum" parameterClass="com.dt.jxhd.domain.evaluation_grade" resultClass="java.lang.Integer" >
+    select count(*) from evaluation_grade WHERE 1=1   
+    <isNotEmpty prepend="and" property="gradeDesc">
+         grade_desc like '%$gradeDesc$%'
+      </isNotEmpty>
+  </select>
+</sqlMap>

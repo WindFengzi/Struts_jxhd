@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ask_log" >
+  <resultMap id="abatorgenerated_ask_logResult" class="com.dt.jxhd.domain.ask_log" >
+    <result column="ask_id" property="askId" jdbcType="INTEGER" />
+    <result column="cource_id" property="courceId" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <result column="ask_time" property="askTime" jdbcType="TIMESTAMP" />
+    <result column="ask_type" property="askType" jdbcType="INTEGER" />
+    <result column="finish_type" property="finishType" jdbcType="INTEGER" />
+    <result column="rob_user_id" property="robUserId" jdbcType="INTEGER" />
+    <result column="group_id" property="groupId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="abatorgenerated_ask_logResult1" class="com.dt.jxhd.domain.ask_log" >
+    <result column="ask_id" property="askId" jdbcType="INTEGER" />
+    <result column="cource_id" property="courceId" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <result column="ask_time" property="askTime" jdbcType="TIMESTAMP" />
+    <result column="ask_type" property="askType" jdbcType="INTEGER" />
+    <result column="finish_type" property="finishType" jdbcType="INTEGER" />
+    <result column="rob_user_id" property="robUserId" jdbcType="INTEGER" />
+    <result column="group_id" property="groupId" jdbcType="INTEGER" />
+     <result column="question" property="question" jdbcType="CLOB" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <resultMap id="abatorgenerated_ask_logResult2" class="com.dt.jxhd.domain.ask_log" >
+    <result column="ask_id" property="askId" jdbcType="INTEGER" />
+    <result column="cource_id" property="courceId" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <result column="ask_time" property="askTime" jdbcType="TIMESTAMP" />
+    <result column="ask_type" property="askType" jdbcType="INTEGER" />
+    <result column="finish_type" property="finishType" jdbcType="INTEGER" />
+    <result column="rob_user_id" property="robUserId" jdbcType="INTEGER" />
+    <result column="group_id" property="groupId" jdbcType="INTEGER" />
+    <result column="is_right" property="isRight" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="abatorgenerated_ask_logResult3" class="com.dt.jxhd.domain.ask_log" >
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="subject_name" property="subjectName" jdbcType="VARCHAR" />
+    <result column="sum_num" property="sumNum" jdbcType="INTEGER" />
+    <result column="jwjd_num" property="jwjdNum" jdbcType="INTEGER" />
+    <result column="qd_num" property="qdNum" jdbcType="INTEGER" />
+    <result column="tr_num" property="trNum" jdbcType="INTEGER" />
+    <result column="tz_num" property="tzNum" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="abatorgenerated_ask_logResult4" class="com.dt.jxhd.domain.ask_log" >
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="subject_name" property="subjectName" jdbcType="VARCHAR" />
+    <result column="sum_num" property="sumNum" jdbcType="INTEGER" />
+    <result column="jwjd_num" property="jwjdNum" jdbcType="INTEGER" />
+    <result column="qd_num" property="qdNum" jdbcType="INTEGER" />
+    <result column="tr_num" property="trNum" jdbcType="INTEGER" />
+    <result column="tz_num" property="tzNum" jdbcType="INTEGER" />
+    <result column="right_num" property="rightNum" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="twtj" resultMap="abatorgenerated_ask_logResult3" parameterClass="com.dt.jxhd.domain.ask_log" >
+    select class_name,subject_name ,count(*) sum_num,sum(case when ask_type=0 then 1 else 0 end) jwjd_num,sum(case when ask_type=1 then 1 else 0 end) qd_num 
+,sum(case when ask_type=2 then 1 else 0 end) tr_num,sum(case when ask_type=3 then 1 else 0 end) tz_num 
+ from ask_log a,t_course_log c,subject su,t_class cl
+  where a.cource_id=c.course_id  and cl.class_id=c.class_id 
+ and su.subject_id=c.subject_id 
+ <isNotEmpty prepend="and" property="departmentId" >
+        department_id in ($departmentId$) 
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="courceId" >
+        c.subject_id = #courceId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="classId" >
+        c.class_id = #classId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="beginTime" >
+         from_time <![CDATA[ >= ]]> #beginTime#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="endTime" >
+      	end_time <![CDATA[ <= ]]> #endTime# 
+      </isNotEmpty>
+ group by class_name,subject_name 
+  </select>
+   <select id="hdtj" resultMap="abatorgenerated_ask_logResult4" parameterClass="com.dt.jxhd.domain.ask_log" >
+    select u.name user_name,subject_name ,count(*) sum_num,sum(case when ask_type=0 then 1 else 0 end) jwjd_num,
+sum(case when ask_type=1 then 1 else 0 end) qd_num 
+,sum(case when ask_type=2 then 1 else 0 end) tr_num,
+sum(case when ask_type=3 then 1 else 0 end) tz_num
+,sum(case when is_right=1 then 1 else 0 end) right_num from answer_log an,ask_log al,t_course_log c,subject su,t_user u
+ where an.ask_id=al.ask_id and al.cource_id=c.course_id  
+ and su.subject_id=c.subject_id and an.student_id=u.user_id  
+ <isNotEmpty prepend="and" property="departmentId" >
+        department_id in ($departmentId$) 
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="courceId" >
+        c.subject_id = #courceId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="classId" >
+        c.class_id = #classId:INTEGER#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="beginTime" >
+         from_time <![CDATA[ >= ]]> #beginTime#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="endTime" >
+      	end_time <![CDATA[ <= ]]> #endTime# 
+      </isNotEmpty>
+ group by u.name,subject_name
+  </select>
+  <select id="ask_selectById" resultMap="abatorgenerated_ask_logResult" parameterClass="com.dt.jxhd.domain.ask_log" >
+    select ask_id, cource_id, item_id, teacher_id, ask_time, ask_type,finish_type,rob_user_id,group_id 
+    from ask_log
+    where ask_id = #askId:INTEGER#
+  </select>
+  <select id="v_get_is_answerById" resultMap="abatorgenerated_ask_logResult2" parameterClass="com.dt.jxhd.domain.ask_log" >
+    select ask_id, cource_id, item_id, teacher_id, ask_time, ask_type,finish_type,rob_user_id,group_id,is_right 
+    from v_get_is_answer 
+    where ask_id = #askId:INTEGER#
+  </select>
+  <select id="asks" resultMap="abatorgenerated_ask_logResult1" parameterClass="com.dt.jxhd.domain.ask_log" >
+    SELECT TOP $pageSize$ *  
+    from view_ask_log WHERE (ask_id NOT IN (SELECT TOP $topNum$ ask_id FROM view_ask_log WHERE 1=1   
+    <isNotEmpty prepend="and" property="itemId">
+         item_id = #itemId:INTEGER#
+      </isNotEmpty>
+     <isNotEmpty prepend="and" property="question">
+         question like '%$question$%'
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="askType">
+         ask_type = #askType:INTEGER#
+      </isNotEmpty>
+      ORDER BY ask_id desc))    
+      <isNotEmpty prepend="and" property="itemId">
+         item_id = #itemId:INTEGER#
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="question">
+         question like '%$question$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="askType">
+         ask_type = #askType:INTEGER#
+      </isNotEmpty>
+       order by ask_id desc
+  </select>
+  <delete id="deleteAsk" parameterClass="com.dt.jxhd.domain.ask_log" >
+    delete from ask_log
+    where ask_id = #askId:INTEGER#
+  </delete>
+  <insert id="ask_insert" parameterClass="com.dt.jxhd.domain.ask_log" >
+    insert into ask_log ( cource_id, item_id, teacher_id, ask_time, ask_type,finish_type,rob_user_id,group_id)
+    values ( #courceId:INTEGER#, #itemId:INTEGER#, #teacherId:INTEGER#,
+      #askTime:TIMESTAMP#, #askType:INTEGER#, #finishType:INTEGER#, #robUserId:INTEGER#, #groupId:INTEGER#)
+    <selectKey resultClass="int" keyProperty="askId">
+      select max(ask_id) as ID from ask_log
+   </selectKey>
+  </insert>
+  <update id="ask_update" parameterClass="com.dt.jxhd.domain.ask_log" >
+    update ask_log
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="courceId" >
+        cource_id = #courceId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="itemId" >
+        item_id = #itemId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="teacherId" >
+        teacher_id = #teacherId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="askTime" >
+        ask_time = #askTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="askType" >
+        ask_type = #askType:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="finishType" >
+        finish_type = #finishType:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="robUserId" >
+        rob_user_id = #robUserId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="groupId" >
+        group_id = #groupId:INTEGER#
+      </isNotNull>
+    </dynamic>
+    where ask_id = #askId:INTEGER#
+  </update>
+  <select id="getAskCountnum" parameterClass="com.dt.jxhd.domain.ask_log" resultClass="java.lang.Integer" >
+    select count(*) from view_ask_log WHERE 1=1   
+    <isNotEmpty prepend="and" property="itemId">
+         item_id = #itemId:INTEGER#
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="question">
+         question like '%$question$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="askType">
+         ask_type = #askType:INTEGER#
+      </isNotEmpty>
+  </select>
+</sqlMap>

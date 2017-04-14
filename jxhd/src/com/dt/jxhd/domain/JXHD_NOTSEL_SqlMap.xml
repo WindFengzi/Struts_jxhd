@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="JXHD_NOTSEL" >
+  <resultMap id="abatorgenerated_JXHD_NOTSELResult" class="com.dt.jxhd.domain.JXHD_NOTSEL" >
+    <result column="ID" property="id" jdbcType="INTEGER" />
+    <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="DOUBLE" />
+    <result column="teacherID" property="teacherid" jdbcType="INTEGER" />
+    <result column="QuesDifficult" property="quesdifficult" jdbcType="VARCHAR" />
+    <result column="questionType" property="questiontype" jdbcType="VARCHAR" />
+    <result column="questionOrders" property="questionorders" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="abatorgenerated_JXHD_NOTSELResultWithBLOBs" class="com.dt.jxhd.domain.JXHD_NOTSEL" extends="JXHD_NOTSEL.abatorgenerated_JXHD_NOTSELResult" >
+    <result column="question" property="question" jdbcType="CLOB" />
+  </resultMap>
+  <select id="notsels" resultMap="abatorgenerated_JXHD_NOTSELResultWithBLOBs" parameterClass="com.dt.jxhd.domain.JXHD_NOTSEL" >
+     SELECT TOP $pageSize$ *  
+    from JXHD_NOTSEL WHERE (ID NOT IN (SELECT TOP $topNum$ ID FROM JXHD_NOTSEL WHERE 1=1   
+    <isNotEmpty prepend="and" property="question">
+         question like '%$question$%'
+      </isNotEmpty>
+      ORDER BY ID desc))  
+      <isNotEmpty prepend="and" property="question">
+         question like '%$question$%'
+      </isNotEmpty>
+       order by ID desc
+  </select>
+  <select id="notsel_selectById" resultMap="abatorgenerated_JXHD_NOTSELResultWithBLOBs" parameterClass="com.dt.jxhd.domain.JXHD_NOTSEL" >
+    select ID, answer, score, teacherID, QuesDifficult, questionType, questionOrders, question
+    from JXHD_NOTSEL where 1=1 
+    <isNotEmpty prepend="and" property="id">
+         ID = #id:INTEGER#
+      </isNotEmpty>
+  </select>
+  <delete id="deleteNotsele" parameterClass="com.dt.jxhd.domain.JXHD_NOTSEL" >
+    delete from JXHD_NOTSEL where ID = #id:INTEGER#
+  </delete>
+  <insert id="notsel_insert" parameterClass="com.dt.jxhd.domain.JXHD_NOTSEL" >
+    insert into JXHD_NOTSEL (answer, score, teacherID, QuesDifficult, questionType,
+      questionOrders, question)
+    values (#answer:VARCHAR#, #score:DOUBLE#, #teacherid:INTEGER#,
+      #quesdifficult:VARCHAR#, #questiontype:VARCHAR#, #questionorders:VARCHAR#, #question:CLOB#)
+  </insert>
+  <select id="getNotselCountnum" parameterClass="com.dt.jxhd.domain.JXHD_NOTSEL" resultClass="java.lang.Integer" >
+    select count(*) from JXHD_NOTSEL WHERE 1=1   
+    <isNotEmpty prepend="and" property="question">
+         question like '%$question$%'
+      </isNotEmpty>
+  </select>
+  <update id="notsel_update" >
+    update JXHD_NOTSEL
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="answer" >
+        answer = #answer:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="score" >
+        score = #score:DOUBLE#
+      </isNotNull>
+      <isNotNull prepend="," property="teacherid" >
+        teacherID = #teacherid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="quesdifficult" >
+        QuesDifficult = #quesdifficult:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="questiontype" >
+        questionType = #questiontype:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="questionorders" >
+        questionOrders = #questionorders:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="question" >
+        question = #question:CLOB#
+      </isNotNull>
+    </dynamic>
+    where ID = #id:INTEGER#
+  </update>
+</sqlMap>

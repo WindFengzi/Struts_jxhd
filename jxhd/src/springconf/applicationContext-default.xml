@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+	<bean id="configure"  
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="location" value="classpath:/Config.properties" />         
+    </bean>  
+
+   	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${dataSource.driverClassName}" />        	
+        <property name="url" value="${dataSource.url}" />
+        <property name="username" value="${dataSource.username}" />         
+        <property name="password" value="${dataSource.password}" />
+    </bean>
+    
+	<!-- ibatis sqlMapClient config-->
+	<bean id="sqlMapClient"
+		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="classpath:/sqlmapconf/sqlMapConfig.xml" />			
+		<property name="dataSource" ref="dataSource" />
+	</bean> 
+	
+	<!-- Transactions -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+		<property name="nestedTransactionAllowed" value="true" />
+	</bean>
+  
+    <!-- baseTxProxy因为需要被继承，所以必须是abstract类型，表示baseTxProxy不会被创建 -->
+	<bean id="baseTxProxy" abstract="true"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="proxyTargetClass" value ="true" />
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributes">
+			<props>				
+				<prop key="create*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="add*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="insert*">PROPAGATION_REQUIRED,-Exception</prop>									
+				<prop key="delete*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="audit*">PROPAGATION_REQUIRED,-Exception</prop>					
+				<prop key="remove*">PROPAGATION_REQUIRED,-Exception</prop>			
+				<prop key="clear*">PROPAGATION_REQUIRED,-Exception</prop>													
+				<prop key="copy*">PROPAGATION_REQUIRED,-Exception</prop>																		
+				<prop key="update*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="do*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="batch*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="check*">PROPAGATION_REQUIRED,readOnly</prop>					
+				<prop key="is*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>		
+	</bean>
+	
+</beans>

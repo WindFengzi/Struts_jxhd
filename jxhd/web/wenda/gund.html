@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>gund.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+  </head>
+  
+ <body>
+<form name=myform><input type=text name=random value=""  
+ style="background-color: #ccffff; border: 1px solid #d3d3d3; font-size: 50pt;; height: 70px; width: 75px;">  
+ <input type=button value="begin" onclick=begin() name=button1> <input  
+   type=button value="end" onclick=end() name=button2></form> 
+
+ 
+</body>
+</html>
+<script language=javascript>   
+    var flg  
+    function begin() {  
+        flg = 1  
+        nothing()  
+    }  
+    function end() {  
+        flg = 0  
+    }  
+    function nothing() {  
+       var x = 51  
+        while (x > 50) {  
+           x = Math.random()  
+            x = Math.floor(x * 100 / 2) + 1  
+       }  
+      document.myform.random.value = x  
+        if (flg == 0)  
+           return false  
+       setTimeout("nothing()", 40)  
+   }  
+</script>  

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="JXHD_QuestionPaper">
+  <resultMap class="com.dt.jxhd.domain.JXHD_QuestionPaper" id="abatorgenerated_JXHD_QuestionPaperResult">
+    <result column="ID" jdbcType="INTEGER" property="id" />
+    <result column="shijuanID" jdbcType="INTEGER" property="shijuanid" />
+    <result column="QuestionID" jdbcType="INTEGER" property="questionid" />
+    <result column="QuestionType" jdbcType="VARCHAR" property="questiontype" />
+    <result column="chuti_man" jdbcType="VARCHAR" property="chutiMan" />
+    <result column="chuti_time" jdbcType="TIMESTAMP" property="chutiTime" />
+    <result column="dati_man" jdbcType="VARCHAR" property="datiMan" />
+    <result column="dati_time" jdbcType="TIMESTAMP" property="datiTime" />
+    <result column="UserAnswer" jdbcType="VARCHAR" property="useranswer" />
+    <result column="score" jdbcType="DOUBLE" property="score" />
+    <result column="Commence" jdbcType="DOUBLE" property="commence" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="questionOrders" jdbcType="VARCHAR" property="questionorders" />
+  </resultMap>
+  <select id="QuestionPapers" parameterClass="com.dt.jxhd.domain.JXHD_QuestionPaper" resultMap="abatorgenerated_JXHD_QuestionPaperResult">
+    SELECT TOP $pageSize$ *  
+    from JXHD_QuestionPaper WHERE (ID NOT IN (SELECT TOP $topNum$ ID FROM JXHD_QuestionPaper WHERE 1=1   
+    <isNotEmpty prepend="and" property="chutiMan">
+         chuti_man like '%$chutiMan$%'
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="shijuanid">
+         shijuanID = #shijuanid:INTEGER#
+      </isNotEmpty>
+      ORDER BY ID desc))  
+      <isNotEmpty prepend="and" property="chutiMan">
+         chuti_man like '%$chutiMan$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="shijuanid">
+         shijuanID = #shijuanid:INTEGER#
+      </isNotEmpty>
+       order by ID desc
+  </select>
+    <select id="QuestionPaperById" parameterClass="com.dt.jxhd.domain.JXHD_QuestionPaper" resultMap="abatorgenerated_JXHD_QuestionPaperResult">
+    select ID, shijuanID, QuestionID, QuestionType, chuti_man, chuti_time, dati_man, dati_time,
+      UserAnswer, score, Commence, status, questionOrders
+    from JXHD_QuestionPaper 
+    where  ID = #id:INTEGER#
+    </select>
+  <delete id="abatorgenerated_deleteByExample" parameterClass="com.dt.jxhd.domain.JXHD_QuestionPaper">
+    delete from JXHD_QuestionPaper
+  </delete>
+  <insert id="QuestionPaper_insert" parameterClass="com.dt.jxhd.domain.JXHD_QuestionPaper">
+    insert into JXHD_QuestionPaper (shijuanID, QuestionID, QuestionType, chuti_man, chuti_time,
+      dati_man, dati_time, UserAnswer, score, Commence, status, questionOrders)
+    values ( #shijuanid:INTEGER#, #questionid:INTEGER#, #questiontype:VARCHAR#,
+      #chutiMan:VARCHAR#, #chutiTime:TIMESTAMP#, #datiMan:VARCHAR#, #datiTime:TIMESTAMP#,
+      #useranswer:VARCHAR#, #score:DOUBLE#, #commence:DOUBLE#, #status:VARCHAR#,
+      #questionorders:VARCHAR#)
+  </insert>
+  <select id="QuestionPaperCount" parameterClass="com.dt.jxhd.domain.JXHD_QuestionPaper" resultClass="java.lang.Integer">
+    select count(*) from JXHD_QuestionPaper WHERE 1=1   
+    <isNotEmpty prepend="and" property="chutiMan">
+         chuti_man like '%$chutiMan$%'
+      </isNotEmpty>
+  </select> 
+  <update id="QuestionPaper_update">
+    update JXHD_QuestionPaper
+    <dynamic prepend="set">
+      <isNotNull prepend="," property="shijuanid">
+        shijuanID = #shijuanid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="questionid">
+        QuestionID = #questionid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="questiontype">
+        QuestionType = #questiontype:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="chutiMan">
+        chuti_man = #chutiMan:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="chutiTime">
+        chuti_time = #chutiTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="datiMan">
+        dati_man = #datiMan:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="datiTime">
+        dati_time = #datiTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="useranswer">
+        UserAnswer = #useranswer:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="score">
+        score = #score:DOUBLE#
+      </isNotNull>
+      <isNotNull prepend="," property="commence">
+        Commence = #commence:DOUBLE#
+      </isNotNull>
+      <isNotNull prepend="," property="status">
+        status = #status:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="questionorders">
+        questionOrders = #questionorders:VARCHAR#
+      </isNotNull>
+    </dynamic>
+     where  ID = #id:INTEGER#
+  </update>
+  <update id="abatorgenerated_updateByExample">
+    update JXHD_QuestionPaper
+    set ID = #id:INTEGER#,
+      shijuanID = #shijuanid:INTEGER#,
+      QuestionID = #questionid:INTEGER#,
+      QuestionType = #questiontype:VARCHAR#,
+      chuti_man = #chutiMan:VARCHAR#,
+      chuti_time = #chutiTime:TIMESTAMP#,
+      dati_man = #datiMan:VARCHAR#,
+      dati_time = #datiTime:TIMESTAMP#,
+      UserAnswer = #useranswer:VARCHAR#,
+      score = #score:DOUBLE#,
+      Commence = #commence:DOUBLE#,
+      status = #status:VARCHAR#,
+      questionOrders = #questionorders:VARCHAR#
+  </update>
+</sqlMap>

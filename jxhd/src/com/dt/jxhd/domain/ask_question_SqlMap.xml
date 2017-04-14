@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ask_question" >
+<!-- 问题总数 -->
+  <select id="getCountNum" parameterClass="com.dt.jxhd.domain.ask_question" resultClass="java.lang.Integer" >
+    select count(*) from ask_question where 1=1 
+       <isNotEmpty prepend="and" property="teacher_id">
+       teacher_id = #teacher_id:INTEGER#
+      </isNotEmpty>
+  </select>
+<!-- 问题内容,十条一次 -->
+	<select id="getAskQueList" parameterClass="com.dt.jxhd.domain.ask_question" resultClass="com.dt.jxhd.domain.ask_question">
+    SELECT TOP $pageSize$ *  
+    from ask_question WHERE (id NOT IN (SELECT TOP $topNum$ id FROM ask_question WHERE 1=1   
+      <isNotEmpty prepend="and" property="teacher_id">
+       teacher_id = #teacher_id:INTEGER#
+      </isNotEmpty>
+      ORDER BY subdate desc))  
+       <isNotEmpty prepend="and" property="teacher_id">
+       teacher_id = #teacher_id:INTEGER#
+      </isNotEmpty>
+       order by subdate desc
+  </select>
+</sqlMap>

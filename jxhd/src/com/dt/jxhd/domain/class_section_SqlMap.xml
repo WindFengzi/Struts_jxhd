@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="class_section" >
+  <resultMap id="abatorgenerated_class_sectionResult" class="com.dt.jxhd.domain.class_section" >
+    <result column="class_section_id" property="classSectionId" jdbcType="INTEGER" />
+    <result column="from_time" property="fromTime" jdbcType="VARCHAR" />
+    <result column="to_time" property="toTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="sections" resultMap="abatorgenerated_class_sectionResult" parameterClass="com.dt.jxhd.domain.class_section" >
+    select class_section_id, from_time, to_time
+    from class_section
+  </select>
+   <select id="sectionById" resultMap="abatorgenerated_class_sectionResult" parameterClass="com.dt.jxhd.domain.class_section" >
+    select class_section_id, from_time, to_time
+    from class_section where class_section_id = #classSectionId:INTEGER#
+  </select>
+  <delete id="section_delete" parameterClass="com.dt.jxhd.domain.class_section" >
+    delete from class_section where class_section_id = #classSectionId:INTEGER#
+  </delete>
+  <insert id="section_insert" parameterClass="com.dt.jxhd.domain.class_section" >
+    insert into class_section (class_section_id, from_time, to_time)
+    values (#classSectionId:INTEGER#, #fromTime:VARCHAR#, #toTime:VARCHAR#)
+  </insert>
+  <select id="sectionNum" parameterClass="com.dt.jxhd.domain.class_section" resultClass="java.lang.Integer" >
+    select count(*) from class_section
+  </select>
+  <update id="abatorgenerated_updateByExampleSelective" >
+    update class_section
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="classSectionId" >
+        class_section_id = #classSectionId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="fromTime" >
+        from_time = #fromTime:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="endTime" >
+        to_time = #toTime:VARCHAR#
+      </isNotNull>
+    </dynamic>
+  </update>
+</sqlMap>

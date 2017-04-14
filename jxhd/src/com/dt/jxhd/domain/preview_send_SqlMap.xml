@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+ <sqlMap namespace="preview_send">
+ 
+ 	<!-- 插入前查询是否存在想通的数据 -->
+ 	 <select id="getSelectCommomNum" parameterClass="com.dt.jxhd.domain.preview_send" resultClass="java.lang.Integer" > 	
+      	 select  count(*) from preview_send where 
+ 			preview_add_id = #preview_add_id:INTEGER# and temp_id = #temp_id:INTEGER#
+  	</select>
+	<!-- 老师给班级发布预习内容 -->
+	<insert id="addPreviewSend" parameterClass="com.dt.jxhd.domain.preview_send">
+		insert into preview_send(preview_add_id,temp_id,temp_tag,send_time)
+		values(#preview_add_id#,#temp_id#,#temp_tag#,getDate())
+	</insert>
+	<!-- 老师查看发布的预习日志 -->
+	<select id="releasePreviewLog" parameterClass="com.dt.jxhd.domain.preview_send" resultClass="com.dt.jxhd.domain.preview_send" >
+	select TOP $pageSize$ preview_send_id,send_time,temp_id,temp_tag,class_name,
+		teacher_id,preview_title,preview_content,pa.preview_add_id
+		from preview_add pa ,preview_send ps, t_class tc 
+		where (preview_send_id NOT IN (SELECT TOP $topNum$ ps.preview_send_id FROM  preview_add pa ,preview_send ps, t_class tc WHERE 1=1 and
+		 pa.preview_add_id = ps.preview_add_id and ps.temp_id = tc.class_id 
+		 <isNotEmpty prepend="and" property="teacher_id">
+       			pa.teacher_id = #teacher_id:INTEGER#
+      	</isNotEmpty>
+		<isNotEmpty prepend="and" property="preview_title">
+         		pa.preview_title like '%$preview_title$%'
+      	</isNotEmpty>
+      	<isNotEmpty prepend="and" property="temp_id">
+       			ps.temp_id = #temp_id:INTEGER#
+      	</isNotEmpty>
+      	<isNotEmpty prepend="and" property="preview_tag">
+       			pa.preview_tag = #preview_tag:INTEGER#
+      	</isNotEmpty>
+      	<isNotEmpty prepend="and" property="class_name">
+       			ps.class_name = #class_name:VARCHAR#
+      	</isNotEmpty>
+		order by preview_send_id desc))
+		and pa.preview_add_id = ps.preview_add_id and ps.temp_id = tc.class_id 
+		<isNotEmpty prepend="and" property="teacher_id">
+       			pa.teacher_id = #teacher_id:INTEGER#
+      	</isNotEmpty>
+		<isNotEmpty prepend="and" property="preview_title">
+         		pa.preview_title like '%$preview_title$%'
+      	</isNotEmpty>
+      	<isNotEmpty prepend="and" property="temp_id">
+       			ps.temp_id = #temp_id:INTEGER#
+      	</isNotEmpty>
+      	<isNotEmpty prepend="and" property="preview_tag">
+       			pa.preview_tag = #preview_tag:INTEGER#
+      	</isNotEmpty>
+      	<isNotEmpty prepend="and" property="class_name">
+       			ps.class_name = #class_name:VARCHAR#
+      	</isNotEmpty>
+		order by preview_send_id desc;
+		
+	</select>
+	
+  <!-- 预习总数 -->
+  <select id="getItemCountnum" parameterClass="com.dt.jxhd.domain.preview_send" resultClass="java.lang.Integer" >
+      select count(*) 
+		from preview_add pa ,(select * from  preview_send ps, t_class tc 
+		where 1=1 and ps.temp_id = tc.class_id) sc where pa.preview_add_id = sc.preview_add_id 
+		<isNotEmpty prepend="and" property="teacher_id">
+       		pa.teacher_id = #teacher_id:INTEGER#
+      	</isNotEmpty>
+  </select>
+	
+	<!-- 查看预习详情 -->
+  <select id="lookPrevieqLog" parameterClass="com.dt.jxhd.domain.preview_send" resultClass="com.dt.jxhd.domain.preview_send" >
+  	select * from preview_send ps,preview_add pa where preview_send_id = #preview_send_id:INTEGER# and 
+	pa.preview_add_id = ps.preview_add_id;
+  </select>
+  <!-- 查看班级名 -->
+  <select id="getclassname" parameterClass="java.lang.Integer" resultClass="java.lang.String" >
+  	select class_name from t_class where class_id = #temp_id:INTEGER#;
+  </select>
+  <!-- 删除预习内容 -->
+  <delete id="deletePreviewSend"  parameterClass="com.dt.jxhd.domain.preview_send">
+		delete from preview_send
+    where preview_send_id = #preview_send_id:INTEGER# 
+	</delete>
+</sqlMap>

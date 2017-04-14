@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="evaluation_student" >
+  <resultMap id="abatorgenerated_evaluation_studentResult" class="com.dt.jxhd.domain.evaluation_student" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="VARCHAR" />
+    <result column="grade_id" property="gradeId" jdbcType="VARCHAR" />
+    <result column="item_id" property="itemId" jdbcType="VARCHAR" />
+    <result column="evaluation_student_id" property="evaluationStudentId" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="evaluationStu_selectById" resultMap="abatorgenerated_evaluation_studentResult" parameterClass="com.dt.jxhd.domain.evaluation_student" >
+    select id, student_id, grade_id, item_id, evaluation_student_id, time
+    from evaluation_student
+    where id = #id:INTEGER#
+  </select>
+  <select id="evaluationStudents" resultMap="abatorgenerated_evaluation_studentResult" parameterClass="com.dt.jxhd.domain.evaluation_student" >
+    SELECT TOP $pageSize$ *  
+    from view_evaluation_student WHERE (id NOT IN (SELECT TOP $topNum$ id FROM view_evaluation_student WHERE 1=1   
+    <isNotEmpty prepend="and" property="itemId" >
+        item_id = #itemId:VARCHAR#
+      </isNotEmpty>
+      ORDER BY id desc))    
+     <isNotEmpty prepend="and" property="itemId" >
+        item_id = #itemId:VARCHAR#
+      </isNotEmpty>
+       order by id desc
+  </select>
+  <delete id="deleteEvaluationStu" parameterClass="com.dt.jxhd.domain.evaluation_student" >
+    delete from evaluation_student
+    where id = #id:INTEGER#
+  </delete>
+  <insert id="evaluationStu_insert" parameterClass="com.dt.jxhd.domain.evaluation_student" >
+    insert into evaluation_student (student_id, grade_id, item_id, evaluation_student_id, time)
+    values ( #studentId:VARCHAR#, #gradeId:VARCHAR#, #itemId:VARCHAR#,
+      #evaluationStudentId:VARCHAR#, #time:TIMESTAMP#)
+  </insert>
+  <update id="abatorgenerated_updateByPrimaryKeySelective" parameterClass="com.dt.jxhd.domain.evaluation_student" >
+    update evaluation_student
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="studentId" >
+        student_id = #studentId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="gradeId" >
+        grade_id = #gradeId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="itemId" >
+        item_id = #itemId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="evaluationStudentId" >
+        evaluation_student_id = #evaluationStudentId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="time" >
+        time = #time:TIMESTAMP#
+      </isNotNull>
+    </dynamic>
+    where id = #id:INTEGER#
+  </update>
+  <select id="getEvaluationStuCountnum" parameterClass="com.dt.jxhd.domain.evaluation_student" resultClass="java.lang.Integer" >
+    select count(*) from view_evaluation_student WHERE 1=1   
+    <isNotEmpty prepend="and" property="itemId" >
+        item_id = #itemId:VARCHAR#
+      </isNotEmpty>
+  </select>
+</sqlMap>

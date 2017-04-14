@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="userDetail" >
+  <resultMap id="abatorgenerated_userDetailResult" class="com.dt.jxhd.domain.userDetail" >
+    <result column="ID" property="id" jdbcType="INTEGER" />
+    <result column="login" property="login" jdbcType="VARCHAR" />
+    <result column="pwd" property="pwd" jdbcType="VARCHAR" />
+    <result column="GroupName" property="groupname" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="company" property="company" jdbcType="VARCHAR" />
+    <result column="duty" property="duty" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="mobileTel" property="mobiletel" jdbcType="VARCHAR" />
+    <result column="fax" property="fax" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="groupid" property="groupid" jdbcType="INTEGER" />
+    <result column="userprv" property="userprv" jdbcType="INTEGER" />
+    <result column="usercid" property="usercid" jdbcType="VARCHAR" />
+    <result column="auditing" property="auditing" jdbcType="INTEGER" />
+    <result column="orders" property="orders" jdbcType="INTEGER" />
+    <result column="zjepUesrID" property="zjepuesrid" jdbcType="INTEGER" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
+     <result column="birth" property="birth" jdbcType="TIMESTAMP" />
+      <result column="zhicheng" property="zhicheng" jdbcType="VARCHAR" />
+       <result column="gonghao" property="gonghao" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="login" resultMap="abatorgenerated_userDetailResult" parameterClass="com.dt.jxhd.domain.userDetail" >
+    select distinct ID, login, pwd, GroupName, name, company, duty, sex, phone, mobileTel, fax, email, address,
+      comment, groupid, userprv,c.css usercid, auditing, orders, zjepUesrID,permission,birth,zhicheng,gonghao 
+    from userDetail u,JXGL_CSS c where u.ID=c.user_id and u.userprv =1 and login = #login:VARCHAR# and pwd = #pwd:VARCHAR#
+  </select>
+  <select id="userDetails" resultMap="abatorgenerated_userDetailResult" parameterClass="com.dt.jxhd.domain.userDetail" >
+     SELECT TOP $pageSize$ *  
+    from userDetail WHERE (ID NOT IN (SELECT TOP $topNum$ ID FROM userDetail WHERE userprv =1
+    <isNotEmpty prepend="and" property="name">
+         name like '%$name$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="login">
+         login like '%$login$%'
+      </isNotEmpty>
+    <isNotEmpty prepend="and" property="groupname">
+         GroupName = #groupname:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="zjepuesrid">
+         zjepUesrID = #zjepuesrid:VARCHAR#
+      </isNotEmpty>
+     <isNotEmpty prepend="and" property="pwd">
+      pwd = #pwd:VARCHAR#
+     </isNotEmpty>
+      ORDER BY ID desc)) and userprv =1  
+    <isNotEmpty prepend="and" property="name">
+         name like '%$name$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="login">
+         login like '%$login$%'
+      </isNotEmpty>
+    <isNotEmpty prepend="and" property="groupname">
+         GroupName = #groupname:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="zjepuesrid">
+         zjepUesrID = #zjepuesrid:VARCHAR#
+      </isNotEmpty>
+     <isNotEmpty prepend="and" property="pwd">
+      pwd = #pwd:VARCHAR#
+     </isNotEmpty>
+       order by ID desc
+  </select>
+  <select id="userDetail_selectById" resultMap="abatorgenerated_userDetailResult" parameterClass="com.dt.jxhd.domain.userDetail" >
+    select ID, login, pwd, GroupName, name, company, duty, sex, phone, mobileTel, fax, email, address,
+      comment, groupid, userprv, usercid, auditing, orders, zjepUesrID ,permission,birth,zhicheng,gonghao
+    from userDetail where  userprv =1 
+    <isNotEmpty prepend="and" property="id" >
+         ID = #id:INTEGER# 
+      </isNotEmpty>
+    <isNotEmpty prepend="and" property="login" >
+         login = #login:VARCHAR# 
+      </isNotEmpty>
+  </select>
+  <delete id="abatorgenerated_deleteByExample" parameterClass="com.dt.jxhd.domain.userDetail" >
+    delete from userDetail
+  </delete>
+  <insert id="userDetail_insert" parameterClass="com.dt.jxhd.domain.userDetail" >
+    insert into userDetail (login, pwd, GroupName, name, company, duty, sex, phone, mobileTel, fax,
+      email, address, comment, groupid, userprv, usercid, auditing, orders, zjepUesrID, permission,birth,zhicheng,gonghao)
+    values (#login:VARCHAR#, #pwd:VARCHAR#, #groupname:VARCHAR#, #name:VARCHAR#,
+      #company:VARCHAR#, #duty:VARCHAR#, #sex:VARCHAR#, #phone:VARCHAR#, #mobiletel:VARCHAR#, #fax:VARCHAR#,
+      #email:VARCHAR#, #address:VARCHAR#, #comment:VARCHAR#, #groupid:INTEGER#, #userprv:INTEGER#,
+      #usercid:VARCHAR#, #auditing:INTEGER#, #orders:INTEGER#, #zjepuesrid:INTEGER#, #permission:VARCHAR#
+      , #birth:TIMESTAMP#, #zhicheng:VARCHAR#, #gonghao:VARCHAR#)
+  </insert>
+  <select id="getUserCountnum" parameterClass="com.dt.jxhd.domain.userDetail" resultClass="java.lang.Integer" >
+    select count(*) from userDetail where userprv =1  
+     <isNotEmpty prepend="and" property="groupname">
+         GroupName = #groupname:VARCHAR#
+      </isNotEmpty>
+  </select>
+  <update id="userDetail_update" >
+    update userDetail
+    <dynamic prepend="set" >
+      <isNotEmpty prepend="," property="login" >
+        login = #login:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="pwd" >
+        pwd = #pwd:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="groupname" >
+        GroupName = #groupname:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="name" >
+        name = #name:VARCHAR#
+      </isNotEmpty>
+      <isNotNull prepend="," property="company" >
+        company = #company:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="duty" >
+        duty = #duty:VARCHAR#
+      </isNotNull>
+       <isNotNull prepend="," property="sex" >
+        sex = #sex:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="phone" >
+        phone = #phone:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="mobiletel" >
+        mobileTel = #mobiletel:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="fax" >
+        fax = #fax:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="email" >
+        email = #email:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="address" >
+        address = #address:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="comment" >
+        comment = #comment:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="groupid" >
+        groupid = #groupid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="userprv" >
+        userprv = #userprv:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="usercid" >
+        usercid = #usercid:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="auditing" >
+        auditing = #auditing:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="orders" >
+        orders = #orders:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="zjepuesrid" >
+        zjepUesrID = #zjepuesrid:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="permission" >
+        permission = #permission:VARCHAR#
+      </isNotNull>
+       <isNotNull prepend="," property="birth" >
+        birth = #birth:TIMESTAMP#
+      </isNotNull>
+       <isNotNull prepend="," property="zhicheng" >
+        zhicheng = #zhicheng:VARCHAR#
+      </isNotNull>
+       <isNotNull prepend="," property="gonghao" >
+        gonghao = #gonghao:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where    ID = #id:INTEGER#
+  </update>
+</sqlMap>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="teacher" >
+  <resultMap id="abatorgenerated_teacherResult" class="com.dt.jxhd.domain.teacher" >
+    <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="CHAR" />
+    <result column="nation" property="nation" jdbcType="VARCHAR" />
+    <result column="id_number" property="idNumber" jdbcType="CHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="teacher_selectById" resultMap="abatorgenerated_teacherResult" parameterClass="com.dt.jxhd.domain.teacher" >
+    select teacher_id, department_id, name, sex, nation, id_number, position, address, phone, email
+    from teacher
+    where teacher_id = #teacherId:VARCHAR#
+  </select>
+  <select id="teachers" resultMap="abatorgenerated_teacherResult" parameterClass="com.dt.jxhd.domain.teacher" >
+    SELECT TOP $pageSize$ *  
+    from teacher WHERE (teacher_id NOT IN (SELECT TOP $topNum$ teacher_id FROM teacher WHERE 1 =1
+    <isNotEmpty prepend="and" property="name">
+         name like '%$name$%'
+      </isNotEmpty>
+      ORDER BY teacher_id desc)) and 1 =1  
+    <isNotEmpty prepend="and" property="name">
+         name like '%$name$%'
+      </isNotEmpty>
+       order by teacher_id desc
+  </select>
+  <delete id="teacher_delete" parameterClass="com.dt.jxhd.domain.teacher" >
+    delete from teacher
+    where teacher_id = #teacherId:VARCHAR#
+  </delete>
+  <delete id="abatorgenerated_deleteByExample" parameterClass="com.dt.jxhd.domain.teacher" >
+    delete from teacher
+  </delete>
+  <insert id="teacher_insert" parameterClass="com.dt.jxhd.domain.teacher" >
+    insert into teacher (department_id, name, sex, nation, id_number, position, address,
+      phone, email)
+    values ( #departmentId:VARCHAR#, #name:VARCHAR#, #sex:CHAR#,
+      #nation:VARCHAR#, #idNumber:CHAR#, #position:VARCHAR#, #address:VARCHAR#, #phone:VARCHAR#,
+      #email:VARCHAR#)
+  </insert>
+   <select id="getTeacherCountnum" parameterClass="com.dt.jxhd.domain.teacher" resultClass="java.lang.Integer" >
+    select count(*) from teacher where 1=1 
+    <isNotEmpty prepend="and" property="name">
+         name like '%$name$%'
+      </isNotEmpty>
+  </select>
+  <update id="teacher_update" parameterClass="com.dt.jxhd.domain.teacher" >
+    update teacher
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="departmentId" >
+        department_id = #departmentId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="name" >
+        name = #name:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sex" >
+        sex = #sex:CHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="nation" >
+        nation = #nation:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="idNumber" >
+        id_number = #idNumber:CHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="position" >
+        position = #position:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="address" >
+        address = #address:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="phone" >
+        phone = #phone:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="email" >
+        email = #email:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where teacher_id = #teacherId:VARCHAR#
+  </update>
+</sqlMap>

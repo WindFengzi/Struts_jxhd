@@ -1,0 +1,842 @@
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+<!--  	<constant name="struts.devMode" value="true" />  开发模式，默认值为false，改为true就是以后一旦就改这个文件中的配置就不用去重启tomcat-->
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<package name="default" extends="struts-default">
+		<!-- 登录的拦截器 -->
+		<interceptors>
+			<interceptor name="loginInterceptor" class="com.dt.jxhd.action.LoginInterceptor">
+				<param name="excludeMethods">Gologin</param>
+			</interceptor>
+			<interceptor-stack name="loginInterceptorAll">
+				<interceptor-ref name="defaultStack"/>
+				<interceptor-ref name="loginInterceptor"/>
+			</interceptor-stack>
+		</interceptors> 
+	
+		<!-- 整个包下都用loginInterceptorAll拦截器 -->
+		<default-interceptor-ref name="loginInterceptorAll"/>
+	
+		<global-results>
+			<!-- <result name="Exception">/WEB-INF/global/exception.jsp</result> --><!-- 出现异常 -->
+			<result name="login"  >/WEB-INF/global/logout.jsp</result><!-- 登录 -->
+			<result name="nologin" >/WEB-INF/global/logout.jsp</result><!-- 退出清除session并转到登录 -->
+			<result name="noRight" >/WEB-INF/global/noRight.jsp</result><!-- 没有权限操作 -->
+			<result name="overdue" >/WEB-INF/global/overdue.jsp</result><!-- 过期需要续费的界面 -->
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping result="Exception" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+	
+		<!-- 登录处理 -->
+		<action name="Gologin" class="userAction" method="Gologin">
+			<result name="index">/shouye.jsp</result>
+			<result name="login">/WEB-INF/global/login.jsp</result>
+		</action>
+		<action name="Users" class="userAction" method="users"><!-- 教师或学生信息管理 -->
+			<result name="teacherList">/user/list.jsp</result><!-- 老师信息管理 -->
+			<result name="studentList">/student/list.jsp</result><!-- 学生信息管理 -->
+		</action>
+		<action name="UsersR" class="userAction" method="usersR">
+			<result name="teacherList">/user/listR.jsp</result>
+			<result name="studentList">/student/listR.jsp</result>
+		</action>
+		<action name="UserSave" class="userAction" method="userSave">
+			<result name="teacherList">/user/listR.jsp</result>
+			<result name="studentList">/student/listR.jsp</result>
+		</action>
+		<!-- 编辑单个用户 -->
+		<action name="UserById" class="userAction" method="userById">
+			<result name="teacherUpdate">/user/update.jsp</result>
+			<result name="studentUpdate">/student/update.jsp</result>
+		</action>
+		<action name="ToInsertUser" class="userAction" method="toInsertUser">
+			<result name="teacherInsert">/user/insert.jsp</result>
+			<result name="studentInsert">/student/insert.jsp</result>
+		</action>
+		<action name="UpdateUser" class="userAction" method="updateUser">
+			<result name="teacherList">/user/listR.jsp</result>
+			<result name="studentList">/student/listR.jsp</result>
+		</action>
+		<action name="DeleteUser" class="userAction" method="deleteUser">
+			<result name="teacherList">/user/listR.jsp</result>
+			<result name="studentList">/student/listR.jsp</result>
+		</action>
+		<action name="DeletePlUser" class="userAction" method="deletePlUser">
+			<result name="teacherList">/user/listR.jsp</result>
+			<result name="studentList">/student/listR.jsp</result>
+		</action>
+		<action name="ToInsertPlUser" class="userAction" method="toInsertPlUser"><!-- excel导入处理 -->
+			<result name="userdr">/user/userdr.jsp</result>
+		</action>
+		<!-- 保存更新的分组 -->
+		<action name="GroupUpdate" class="userAction" method="groupUpdate">
+			<result name="list">/group/list.jsp</result>
+		</action>
+		<!-- leave目录下请假管理 -->
+		<action name="Leaves" class="userAction" method="leaves"><!-- 请假管理 -->
+			<result name="list">/WEB-INF/leave/list.jsp</result>
+		</action>
+		<action name="LeaveById" class="userAction" method="leaveById"><!-- 老师审批 -->
+			<result name="insert">/WEB-INF/leave/mark.jsp</result>
+		</action>
+		<action name="LeaveUpdate" class="userAction" method="leaveUpdate">
+			<result name="list">/WEB-INF/leave/list.jsp</result>
+		</action>
+		
+		<action name="DianmUsers" class="userAction" method="dianmUsers">
+			<result name="list">/dm/list2.jsp</result>
+		</action>
+		<action name="UsersStatus" class="userAction" method="usersStatus">
+			<result name="list">/userStatus/list.jsp</result>
+		</action>
+		<action name="QiandaoTb" class="userAction" method="qiandaoTb"><!-- 签到查看图表 -->
+			<result name="tubiao">/dm/tubiao.jsp</result>
+		</action>
+		<action name="ToKqtj" class="userAction" method="toKqtj"><!-- 考勤统计 -->
+			<result name="list">/kqtj/list.jsp</result>
+		</action>
+		<action name="Kqtj" class="userAction" method="kqtj">
+			<result name="list">/kqtj/listR.jsp</result>
+			<result name="zhexian">/kqtj/zhexian.jsp</result>
+			<result name="zhuzhuang">/kqtj/zhuzhuang.jsp</result>
+			<result name="yuanbing">/kqtj/yuanbing.jsp</result>
+		</action>
+		<action name="KqtjTb" class="userAction" method="kqtjTb">
+			<result name="zhexian">/kqtj/zhexian.jsp</result>
+			<result name="zhuzhuang">/kqtj/zhuzhuang.jsp</result>
+			<result name="yuanbing">/kqtj/yuanbing.jsp</result>
+		</action>
+		<!-- role目录下是关于角色管理 -->
+		<action name="Roles" class="userAction" method="roles"><!-- 角色管理 -->
+			<result name="list">/role/list.jsp</result>
+		</action>
+		<action name="ToInsertRole" class="userAction" method="toInsertRole">
+			<result name="insert">/role/insert.jsp</result>
+		</action>
+		<action name="RoleById" class="userAction" method="roleById">
+			<result name="update">/role/update.jsp</result>
+		</action>
+		<action name="SaveRole" class="userAction" method="saveRole">
+			<result name="list">/role/list.jsp</result>
+		</action>
+		<action name="UpdateRole" class="userAction" method="updateRole">
+			<result name="list">/role/list.jsp</result>
+		</action>
+		<action name="DeleteRole" class="userAction" method="deleteRole">
+			<result name="list">/role/list.jsp</result>
+		</action>
+		<action name="ToFpzy" class="userAction" method="toFpzy">
+			<result name="fpzy">/role/fpzy.jsp</result>
+		</action>
+		<action name="InsertZy" class="userAction" method="insertZy">
+			<result name="fpzy">/role/fpzy.jsp</result>
+		</action>
+		
+		<action name="Resources" class="userAction" method="resources"><!-- 资源管理 -->
+			<result name="list">/resource/list.jsp</result>
+		</action>
+
+	
+		<!-- 公告管理模块 -->
+		<action name="ToInsert" class="articleAction" method="toInsert"><!-- 公告添加，只是转向insert.jsp页面 -->
+			<result name="insert">/WEB-INF/bulletin/insert.jsp</result>
+		<!-- 没有用到	<result name="zygxInsert">/zygx/insert.jsp</result> -->
+		</action>
+		<action name="DeleteArticle" class="articleAction" method="deleteArticle"><!-- 公告删除 -->
+			<result name="list">/WEB-INF/bulletin/list.jsp</result>
+		</action>
+		<action name="Articles" class="articleAction" method="articles"><!-- 所有公告查询 -->
+			<result name="list">/WEB-INF/bulletin/list.jsp</result>
+		</action>
+		<action name="DeleteFj" class="articleAction" method="deleteFj"><!-- 修改页面中的增加和删除附件 -->
+			<result name="update">/WEB-INF/bulletin/update.jsp</result>
+		</action>
+		<action name="ArticleById" class="articleAction" method="articleById"><!-- 修改某一条新闻 -->
+			<result name="update">/WEB-INF/bulletin/update.jsp</result>
+		</action>
+		<action name="ArticleByIdView" class="articleAction" method="articleByIdView"><!-- 根据id查看具体的新闻页 -->
+			<result name="view">/WEB-INF/bulletin/view.jsp</result><!-- 展示某一条新闻界面 -->
+		</action>
+		<!-- 下载文件附件的管理 -->
+		<action name="ActicleFileDownload" class="articleAction" method="articleFileDownload">
+			<result type="stream">
+				<param name="contentType">application/octet-stream;charset=ISO8859-1</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="${downloadFileName}"</param>
+			</result>
+		</action>
+
+		<!-- item目录下是关于试题 -->
+		<action name="Items" class="questionAction" method="items"><!-- 试题管理 -->
+			<result name="list">/item/list.jsp</result>
+		</action>
+		<action name="ToInsertItem" class="questionAction" method="toInsertItem">
+			<result name="insert">/item/insert.jsp</result>
+		</action>
+		<action name="ItemById" class="questionAction" method="itemById">
+			<result name="update">/item/update.jsp</result>
+		</action>
+		<action name="DeletePath" class="questionAction" method="deletePath">
+			<result name="update">/item/update.jsp</result>
+		</action>
+		<action name="ItemByIdView" class="questionAction" method="itemByIdView">
+			<result name="view">/item/view.jsp</result>
+		</action>
+		<action name="DeleteItem" class="questionAction" method="deleteItem">
+			<result name="list">/item/list.jsp</result>
+		</action>
+		<!-- ask目录是关于添加问答 -->
+		<action name="ToSelectItems" class="questionAction" method="toSelectItems"><!-- 添加题目 -->
+			<result name="list">/ask/timuList.jsp</result>
+		</action>
+		
+		<!-- @date 2016/10/10 by-Hman-->
+		<!-- 跳转到添加预习界面 -->
+		<action name="ToPreviewItems" class="questionAction" method="toPreviewItems">
+			<result name="add">/preview/addPreview.jsp</result>
+		</action>
+		<!-- 添加预习内容到表 -->
+		<action name="AddPreview" class="questionAction" method="addPreview">
+			<interceptor-ref name="fileUpload">
+				<param name="allowedTypes">
+					image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/x-png,
+					image/pjpeg,application/pdf,application/vnd.ms-word
+					,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+					,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document
+					,text/plain,image/tiff,application/zip,application/rar
+					,application/x-zip-compressed,application/octet-stream
+				</param>
+				<param name="maximumSize">1209715200</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<param name="savePath">/upload</param>
+			
+			<result name="list">/preview/toReleasePreviewList.jsp</result>
+		</action>
+		<!-- 查看预习 -->
+		<action name="LookPreviewProblem" class="questionAction" method="lookPreviewProblem"><!-- 点击确定按钮后，题目保存到数据库 -->
+			<result name="list">/preview/list.jsp</result>
+		</action>
+		<!-- 跳转到发布预习列表 -->
+		<action name="ToReleasePreview" class="questionAction" method="toReleasePreview"><!-- 点击确定按钮后，题目保存到数据库 -->
+			<result name="tolist">/preview/toReleasePreviewList.jsp</result>
+		</action>
+		<!-- 发布预习列表(显示班级和年级) -->
+		<action name="ReleasePreview" class="questionAction" method="releasePreview"><!-- 点击确定按钮后，题目保存到数据库 -->
+			<result name="list">/preview/releasePreviewList.jsp</result>
+		</action>
+		<!-- 发布列表(显示列表内容)  -->
+		<action name="PreviewSelectItems" class="questionAction" method="previewSelectItems"><!-- 点击确定按钮后，题目保存到数据库 -->
+			<result name="list">/preview/previewItem.jsp</result>
+		</action>
+		<!-- 选择好预习添加到preview_send表  -->
+		<action name="AddPreviewToSend" class="questionAction" method="addPreviewToSend"><!-- 点击确定按钮后，题目保存到数据库 -->
+			<result name="list">/preview/toReleasePreviewList.jsp</result>
+		</action>
+		<!-- @date 2016/10/11 -->
+		<!-- 老师查看发布过的预习记录 -->
+		<action name="ToReleasePreviewLogList" class="questionAction" method="toReleasePreviewLogList"><!-- 点击确定按钮后，题目保存到数据库 -->
+			<result name="list">/preview/toReleasePreviewLogList.jsp</result>
+		</action>
+		<action name="ReleasePreviewLogList" class="questionAction" method="releasePreviewLogList"><!-- 点击确定按钮后，题目保存到数据库 -->
+			<result name="list">/preview/releasePreviewLogList.jsp</result>
+		</action>
+		<!-- 查看单条发布过的预习内容 -->
+		<action name="SeePreviewSend" class="questionAction" method="seePreviewSend"><!-- 点击确定按钮后，题目保存到数据库 -->
+			<result name="list">/preview/lookPreviewLog.jsp</result>
+		</action>
+		<!-- 删除该预习内容 -->		
+		<action name="DeletePreviewSend" class="questionAction" method="deletePreviewSend"><!-- 点击确定按钮后，题目保存到数据库 -->
+			<result name="delete">/preview/releasePreviewLogList.jsp</result>
+		</action>
+		
+		
+		<action name="ToQuestionR" class="questionAction" method="toQuestionR"><!-- 添加题目列表（开始编写题目） -->
+			<result name="list">/preview/question.jsp</result>
+		</action>
+		<!-- 选择单个试题 -->
+		<action name="ToPreviewSelectItems" class="questionAction" method="toPreviewSelectItems"><!-- 添加题目 -->
+			<result name="list">/preview/timuList.jsp</result>
+		</action>
+		<action name="AddPreviewProblem" class="questionAction" method="addPreviewProblem"><!-- 点击确定按钮后，题目保存到数据库 -->
+			<result name="list">/preview/listBefore.jsp</result>
+		</action>
+		
+		<!-- 预习查看具体题目 -->
+		<action name="PreviewById" class="questionAction" method="previewById">
+			<result name="list">/preview/listBeforeDetail.jsp</result>
+		</action>
+		
+		
+		<!-- 添加错误问答 -->
+		<action name="ToErrorItems" class="questionAction" method="toErrorItems"><!-- 添加题目 -->
+			<result name="list">/errorDispatcher/list.jsp</result>
+		</action>
+		<!-- 错误问答右边 -->
+		<action name="ToErrorQuestionR" class="questionAction" method="toErrorQuestionR"><!-- 添加题目列表（开始编写题目） -->
+			<result name="list">/errorDispatcher/question.jsp</result>
+		</action>
+		<!-- 选择单个试题 -->
+		<action name="ToErrorSelectItems" class="questionAction" method="toPreviewSelectItems"><!-- 添加题目 -->
+			<result name="list">/errorDispatcher/timuList.jsp</result>
+		</action>
+			<!-- 得到错误分发学生 -->
+		<action name="GetStudent" class="courseAction" method="getStudent">
+			<result name="list">/errorDispatcher/student.jsp</result>
+		</action>
+		<!-- 得到错误分发组 -->
+		<action name="SelectGroup" class="questionAction" method="selectGroup">
+			<result name="list">/errorDispatcher/group.jsp</result>
+		</action>
+		<!-- 添加错误问答 -->
+		<action name="AddErrorProblem" class="questionAction" method="addErrorProblem"><!-- 点击确定按钮后，题目保存到数据库 -->
+			<result name="list">/errorDispatcher/listSuccess.jsp</result>
+		</action>
+		
+		<!-- groupError目录是设置组 -->
+		<!-- 错误分组跳转 -->
+		<action name="StudentGroupsError" class="questionAction" method="studentGroupsError"><!-- 设置组 -->
+			<result name="list">/groupError/list.jsp</result>
+		</action>
+		<!-- 错误分组右边 -->
+		<action name="ToErrorGroupQuestionR" class="questionAction" method="toErrorQuestionR">
+			<result name="list">/groupError/question.jsp</result>
+		</action>
+		<!-- 得到错误分组 -->
+		<action name="ToGetErrorGroups" class="questionAction" method="toGetErrorGroups">
+			<result name="list">/groupError/look.jsp</result>
+		</action>
+		<!-- 重置错误分组转向 -->
+		<action name="ToErrorGroup" class="questionAction" method="toErrorGroup">
+			<result name="list">/groupError/select.jsp</result>
+		</action>
+		<!-- 保存重置错误的分组 -->
+		<action name="ErrorGroupSave" class="questionAction" method="errorGroupSave">	<!-- 保存转向分组 -->
+			<result name="list">/groupError/look.jsp</result>
+		</action>
+		<action name="ToUpdateErrorGroup" class="questionAction" method="toUpdateGroupError"><!-- 修改分组 -->
+			<result name="update">/groupError/update.jsp</result>
+		</action>
+		
+		<!-- 课堂问答 -->
+		<action name="AskQuestionsByStudent" class="questionAction" method="askQuestionsByStudent">
+			<result name="list">/ask/askquelist.jsp</result>
+		</action>
+		<action name="Daiding" class="questionAction" method="daiding">
+			<result name="list">/ask/askquelist.jsp</result>
+		</action>
+		<!-- <action name="" class="questionAction" method=""></action> -->
+		
+		<action name="Asks" class="questionAction" method="asks"><!-- 问答：即问即答、抢答活动、挑人作答、挑组作答、图片比对 -->
+			<result name="list">/ask/list.jsp</result>
+		</action>
+		<action name="ToInsertAsk" class="questionAction" method="toInsertAsk">
+			<result name="insert">/ask/insert.jsp</result>
+		</action>
+		<action name="SaveAsk" class="questionAction" method="saveAsk">
+			<result name="view">/ask/view.jsp</result><!-- 问答：即问即答、抢答活动、挑人作答、挑组作答、图片比对查看 -->
+			<result name="tupian">/ask/tupian.jsp</result>
+			<result name="tiaoren">/slots/tiaoren.jsp</result>
+		</action>
+			<action name="DeleteAsk" class="questionAction" method="deleteAsk">
+			<result name="list">/ask/list.jsp</result>
+		</action>
+		<action name="ToItem" class="questionAction" method="toItem"><!-- 查看具体的问答：即问即答、抢答活动、挑人作答、挑组作答、图片比对 -->
+			<result name="view">/ask/view.jsp</result>
+			<result name="tupian">/ask/tupian.jsp</result>
+		</action>
+		<action name="AskLog" class="questionAction" method="askLog">
+			<result name="list">/ask/askLog.jsp</result>
+		</action>
+		<action name="AskLog1" class="questionAction" method="askLog1">
+			<result name="list">/ask/askLog1.jsp</result>
+		</action>
+		<action name="AskLogTupian" class="questionAction" method="askLogTupian"><!-- 查看图片 -->
+			<result name="list">/ask/tupianView.jsp</result>
+		</action>
+		<action name="AskLogBidui" class="questionAction" method="askLogBidui">
+			<result name="list">/ask/tupianBidui.jsp</result>
+		</action>
+		<action name="AskTubiao" class="questionAction" method="askTubiao">
+			<result name="tubiao">/ask/tubiao.jsp</result>
+		</action>
+		
+		<action name="ToTiaoren" class="questionAction" method="toTiaoren"><!-- 挑人作答 -->
+			<result name="tiaoren">/slots/tiaoren.jsp</result>
+		</action>
+		<action name="ToTiaozu" class="questionAction" method="toTiaozu"><!-- 挑组作答 -->
+			<result name="tiaozu">/rotate/tiaozu.jsp</result>
+		</action>
+	
+		<!-- group目录是设置组 -->
+		<action name="GroupSave" class="userAction" method="groupSave">	<!-- 保存重置的分组 -->
+			<result name="list">/group/list.jsp</result>
+		</action>
+		<action name="StudentGroups" class="userAction" method="studentGroups"><!-- 设置组 -->
+			<result name="list">/group/list.jsp</result>
+		</action>
+		<action name="ToFenzu" class="questionAction" method="toFenzu"><!-- 重置分组 -->
+			<result name="select">/group/select.jsp</result>
+		</action>
+		<action name="ToRandomFenzu" class="questionAction" method="toRandomFenzu"><!-- 随机分组 -->
+			<result name="select">/group/list.jsp</result>
+		</action>
+		<action name="ToUpdateGroup" class="questionAction" method="toUpdateGroup"><!-- 修改分组 -->
+			<result name="update">/group/update.jsp</result>
+		</action>
+		
+		
+		<action name="ToZhuanpan" class="questionAction" method="toZhuanpan">
+			<result name="zhuanpan">/zhuanpan/zhuanpan.jsp</result>
+		</action>
+		<action name="AnswerById" class="questionAction" method="answerById">
+			<result name="answerLog">/ask/answerLog.jsp</result>
+		</action>
+		<!-- kqtj目录下关于提问和回答统计 -->
+		<action name="Twtj" class="questionAction" method="twtj"><!-- 提问统计 -->
+			<result name="list">/kqtj/twtjList.jsp</result>
+		</action>
+		<action name="Hdtj" class="questionAction" method="hdtj"><!-- 回答统计 -->
+			<result name="list">/kqtj/hdtjList.jsp</result>
+		</action>
+		<action name="SendZuApp" class="questionAction" method="sendZuApp">
+			<result name="view">/ask/view.jsp</result>
+		</action>
+		<!-- 挑人停止，发送app -->
+		<action name="SendApp" class="questionAction" method="sendApp">
+			<result name="view">/ask/view.jsp</result>
+		</action>
+		<action name="ToInsertPlItem" class="questionAction" method="toInsertPlItem">
+			<result name="itemdr">/item/itemdr.jsp</result>
+		</action>
+		
+		
+		<action name="LogsList" class="logAction" method="logsList">
+			<result name="list">/log/list.jsp</result>
+		</action>
+		<action name="ToXtsz" class="logAction" method="toXtsz"><!-- 系统管理 -->
+			<result name="list">/xtszList.jsp</result>
+		</action>
+		<!-- param目录下是关于参数管理 -->
+		<action name="Params" class="logAction" method="params"><!-- 参数管理 -->
+			<result name="list">/param/list.jsp</result>
+		</action>
+		<action name="ToInsertParam" class="logAction" method="toInsertParam">
+			<result name="insert">/param/insert.jsp</result>
+		</action>
+		<action name="ParamById" class="logAction" method="paramById">
+			<result name="update">/param/update.jsp</result>
+		</action>
+		<action name="SaveParam" class="logAction" method="saveParam">
+			<result name="list">/param/list.jsp</result>
+		</action>
+		<action name="UpdateParam" class="logAction" method="updateParam">
+			<result name="list">/param/list.jsp</result>
+		</action>
+		<action name="DeleteParam" class="logAction" method="deleteParam">
+			<result name="list">/param/list.jsp</result>
+		</action>
+		<!-- class目录下与班级管理有关 -->
+		<action name="Classes" class="logAction" method="classes"><!-- 班级管理 -->
+			<result name="list">/class/list.jsp</result>
+		</action>
+		<action name="ToInsertClass" class="logAction" method="toInsertClass">
+			<result name="insert">/class/insert.jsp</result>
+		</action>
+		<action name="ClassById" class="logAction" method="classById">
+			<result name="update">/class/update.jsp</result>
+		</action>
+		<action name="SaveClass" class="logAction" method="saveClass">
+			<result name="list">/class/list.jsp</result>
+		</action>
+		<action name="UpdateClass" class="logAction" method="updateClass">
+			<result name="list">/class/list.jsp</result>
+		</action>
+		<action name="DeleteClass" class="logAction" method="deleteClass">
+			<result name="list">/class/list.jsp</result>
+		</action>
+		<action name="ToAddDepartment" class="logAction" method="toAddDepartment">
+			<result name="insert">/department/insert.jsp</result>
+		</action>
+		<action name="SaveDepartment" class="logAction" method="saveDepartment">
+			<result name="listR">/department/listR.jsp</result>
+		</action>
+		<action name="DeleteDepartment" class="logAction" method="deleteDepartment">
+			<result name="listR">/department/listR.jsp</result>
+		</action>
+		
+		<!-- index目录下与首页有关 -->
+		<action name="queryIndex" class="logAction" method="queryIndex">
+			<result name="list">/index/index.jsp</result>
+		</action>
+		
+		<action name="queryIndex1" class="logAction" method="queryIndex1">
+			<result name="list">/index/update.jsp</result>
+		</action>
+		
+		<!-- pjxm目录下都是关于评价内容 -->
+		<action name="EvaluationItems" class="pjglAction" method="evaluationItems"><!-- 评价内容 -->
+			<result name="list">/pjxm/list.jsp</result>
+		</action>
+		<action name="ToInsertEvaluationItem" class="pjglAction"
+			method="toInsertEvaluationItem">
+			<result name="insert">/pjxm/insert.jsp</result>
+		</action>
+		<action name="SaveEvaluationItem" class="pjglAction" method="saveEvaluationItem">
+			<result name="list">/pjxm/list.jsp</result>
+		</action>
+		<action name="UpdateEvaluationItem" class="pjglAction"
+			method="updateEvaluationItem">
+			<result name="list">/pjxm/list.jsp</result>
+		</action>
+		<action name="EvaluationItemById" class="pjglAction" method="evaluationItemById">
+			<result name="update">/pjxm/update.jsp</result>
+		</action>
+		<action name="DeleteEvaluationItem" class="pjglAction"
+			method="deleteEvaluationItem">
+			<result name="list">/pjxm/list.jsp</result>
+		</action>
+		<!-- grade目录下与评价等级有关 -->
+		<action name="EvaluationGrades" class="pjglAction" method="evaluationGrades"><!-- 评价等级 -->
+			<result name="list">/grade/list.jsp</result>
+		</action>
+		<action name="ToInsertEvaluationGrade" class="pjglAction"
+			method="toInsertEvaluationGrade">
+			<result name="insert">/grade/insert.jsp</result>
+		</action>
+		<action name="SaveEvaluationGrade" class="pjglAction" method="saveEvaluationGrade">
+			<result name="list">/grade/list.jsp</result>
+		</action>
+		<action name="UpdateEvaluationGrade" class="pjglAction"
+			method="updateEvaluationGrade">
+			<result name="list">/grade/list.jsp</result>
+		</action>
+		<action name="EvaluationGradeById" class="pjglAction" method="evaluationGradeById">
+			<result name="update">/grade/update.jsp</result>
+		</action>
+		<action name="DeleteEvaluationGrade" class="pjglAction"
+			method="deleteEvaluationGrade">
+			<result name="list">/grade/list.jsp</result>
+		</action>
+		
+		<!-- evalutionSTu目录下是学生互评，evalutionGroup目录下是组间互评 -->
+		<action name="EvaluationResults" class="pjglAction" method="evaluationResults"><!-- 学生互评结果 -->
+			<result name="list">/evaluationStu/list.jsp</result>
+		</action>
+		<action name="EvaluationGroups" class="pjglAction" method="evaluationGroups"><!-- 组间互评结果 -->
+			<result name="list">/evaluationGroup/list.jsp</result>
+		</action>
+		<action name="DeleteEvaluationStu" class="pjglAction" method="deleteEvaluationStu"><!-- 学生互评删除 -->
+			<result name="list">/evaluationStu/list.jsp</result>
+		</action>
+		<action name="DeleteEvaluationGroup" class="pjglAction" method="deleteEvaluationGroup"><!-- 组间互评结果删除 -->
+			<result name="list">/evaluationGroup/list.jsp</result>
+		</action>
+		<action name="ToInsertEvaluationStu" class="pjglAction" method="toInsertEvaluationStu"><!-- 学生互评评价 -->
+			<result name="insert">/evaluationStu/insert.jsp</result>
+		</action>
+		<action name="ToInsertEvaluationGroup" class="pjglAction" method="toInsertEvaluationGroup"><!-- 组间互评评价 -->
+			<result name="insert">/evaluationGroup/insert.jsp</result>
+		</action>
+		<!-- 2016/11/01 by-Hman -->
+		<!-- 老师点评 -->
+		<action name="EvaluationTeacher" class="pjglAction" method="evaluationTeacher"><!-- 查看老师点评 部门列表 -->
+			<result name="departmentList">/evaluationComment/departmentList.jsp</result>
+		</action>
+		<action name="AdminTeacherList" class="pjglAction" method="adminTeacherList"><!-- 老师点评 内容列表 -->
+			<result name="list">/evaluationComment/adminTeacherList.jsp</result>
+		</action>
+		<action name="AddTeacherComment" class="pjglAction" method="addTeacherComment"><!-- 老师点评 内容列表 -->
+			<result name="departmentList">/evaluationComment/addDepartmentList.jsp</result>
+		</action>
+		<action name="AddTeacherCommented" class="pjglAction" method="addTeacherCommented"><!-- 老师点评 内容列表 -->
+			<result name="add">/evaluationComment/addComment.jsp</result>
+		</action>
+		<action name="AddCommentByTeacher" class="pjglAction" method="addCommentByTeacher"><!-- 老师点评 内容列表 -->
+			<result name="list">/evaluationComment/departmentList.jsp</result>
+		</action>
+		
+		<!-- 学生评论 -->
+		<action name="EvaluationStudent" class="pjglAction" method="evaluationStudent"><!-- 跳转到学生评论 -->
+			<result name="departmentList">/evaluationComment/departmentList.jsp</result>
+		</action>
+		<action name="StudentCommentList" class="pjglAction" method="studentCommentList">
+			<result name="list">/evaluationComment/studentCommentList.jsp</result>
+			<result name="teacherlist">/evaluationComment/beCommentedTeacherList.jsp</result>
+			<result name="adminlist">/evaluationComment/beCommentedAdminList.jsp</result>
+		</action>
+		<!-- 查看被评价学生内容 -->
+		<action name="LookTheCommentedStudent" class="pjglAction" method="lookTheCommentedStudent"><!-- 跳转到学生评论 -->
+			<result name="look">/evaluationComment/lookCommentStudent.jsp</result>
+		</action>
+		
+		
+		<action name="ToDianm" class="pjglAction" method="toDianm"><!-- 教学互动反馈 -->
+			<result name="list">/jxhdList.jsp</result>
+		</action>
+		
+		<action name="ToSetCourse" class="courseAction" method="toSetCourse">
+			<result name="setCourse">/setCourse/list.jsp</result>
+		</action>
+		<action name="CourseShezhi" class="courseAction" method="courseShezhi"><!-- 课程设置 -->
+			<result name="setCourse">/setCourse/list.jsp</result>
+		</action>
+		<action name="SetCourse" class="courseAction" method="setCourse"><!-- 设置课程 -->
+			<result name="setList">/setCourse/setList.jsp</result>
+		</action>
+				<action name="CourseLogs" class="courseAction" method="courseLogs">
+			<result name="courseLogs">/setCourse/courseLogs.jsp</result>
+		</action>
+		
+		<action name="ToDepartments" class="courseAction" method="toDepartments"><!-- 部门管理 -->
+			<result name="list">/department/list.jsp</result>
+		</action>
+		<action name="Departments" class="courseAction" method="departments">
+			<result name="list">/department/listR.jsp</result>
+		</action>
+		<action name="DepartmentByParentId" class="courseAction" method="departmentByParentId"><!-- 设置具体课程表 -->
+			<result name="listR">/setCourse/listR.jsp</result>
+		</action>
+		<action name="DepartmentByParentId1" class="courseAction"
+			method="departmentByParentId1">
+			<result name="setListR">/setCourse/setListR.jsp</result>
+		</action>
+		<action name="DepartmentByParentId2" class="courseAction" method="departmentByParentId2"><!-- 教师左边导航点击处理 -->
+			<result name="teacherList">/user/listR.jsp</result><!-- 教师管理显示 -->
+			<result name="studentList">/student/listR.jsp</result><!-- 学生管理显示 -->
+		</action>
+		<action name="ToTjfx" class="courseAction" method="toTjfx"><!-- 统计分析 -->
+			<result name="tjfxList">/tjfxList.jsp</result>
+		</action>
+		<!-- section目录下是关于课时节设置 -->
+		<action name="Sections" class="courseAction" method="sections"><!-- 课时节数设置 -->
+			<result name="list">/section/list.jsp</result>
+		</action>
+		<action name="ToSaveSection" class="courseAction" method="toSaveSection">
+			<result name="insert">/section/insert.jsp</result>
+		</action>
+		<action name="SaveSection" class="courseAction" method="saveSection">
+			<result name="list">/section/list.jsp</result>
+		</action>
+		<action name="DeleteSection" class="courseAction" method="deleteSection">
+			<result name="list">/section/list.jsp</result>
+		</action>
+	
+		
+	</package>	
+
+	<constant name="struts.multipart.maxSize" value="1209715200" />
+	
+	<!-- 保存一条新闻页面，同时处理附件文件上传问题 -->
+	<package name="upload" extends="struts-default">
+		
+		<!-- 整个个package下都用这个拦截器 -->
+		<default-interceptor-ref name="loginInterceptorAll"/>
+		
+		
+		
+		<action name="SaveArticle" class="articleAction" method="saveArticle">
+			<interceptor-ref name="fileUpload">
+				<!-- 配置允许上传的文件类型，多个用","分隔 -->
+				<param name="allowedTypes">
+					image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/x-png,
+					image/pjpeg,application/pdf,application/vnd.ms-word
+					,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+					,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document
+					,text/plain,image/tiff,application/zip,application/rar
+					,application/x-zip-compressed,application/octet-stream
+				</param>
+				<!-- 配置允许上传的文件大小，单位字节 -->
+				<param name="maximumSize">1209715200</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<!-- 动态设置Action中的savePath属性的值 -->
+			<param name="savePath">/upload</param>
+			<result name="input">/WEB-INF/bulletin/insert.jsp</result>
+			<result name="list">/WEB-INF/bulletin/list.jsp</result>
+		</action>
+		
+		
+		<!-- 更新一条公告，因为有附件，所有要加拦截器 -->
+		<action name="UpdateArticle" class="articleAction" method="updateArticle">
+			<interceptor-ref name="fileUpload">
+				<!-- 配置允许上传的文件类型，多个用","分隔 -->
+				<param name="allowedTypes">
+					image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/x-png,
+					image/pjpeg,application/pdf,application/vnd.ms-word
+					,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+					,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document
+					,text/plain,image/tiff,application/zip,application/rar
+					,application/x-zip-compressed,application/octet-stream
+				</param>
+				<!-- 配置允许上传的文件大小，单位字节 -->
+				<param name="maximumSize">1209715200</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<!-- 动态设置Action中的savePath属性的值 -->
+			<param name="savePath">/upload</param>
+			<result name="input">/WEB-INF/bulletin/insert.jsp</result>
+			<result name="list">/WEB-INF/bulletin/list.jsp</result>
+		</action>
+		
+		<!-- 首页图片，因为有附件，所有要加拦截器 -->
+		<action name="UpdateIndex" class="logAction" method="updateIndex">
+			<interceptor-ref name="fileUpload">
+				<!-- 配置允许上传的文件类型，多个用","分隔 -->
+				<param name="allowedTypes">
+					image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/x-png,
+					image/pjpeg
+				</param>
+				<!-- 配置允许上传的文件大小，单位字节 -->
+				<param name="maximumSize">1209715200</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<!-- 动态设置Action中的savePath属性的值 -->
+			<param name="savePath">/upload/uploadImg</param>
+			<result name="input">/index/update.jsp</result><!-- 类型转化 输入验证校验  文件上传 等出错的时候 -->
+			<result name="list">/index/index.jsp</result>
+		</action>
+		<!-- 
+		图片上传，未起到作用
+		<action name="FileUpload" class="articleAction" method="fileUpload">
+			<interceptor-ref name="fileUpload">
+				配置允许上传的文件类型，多个用","分隔
+				<param name="allowedTypes">
+					image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/x-png,
+					image/pjpeg,application/pdf
+					,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+					,application/vnd.ms-word,application/vnd.openxmlformats-officedocument.wordprocessingml.document
+					,text/plain,image/tiff,application/zip,application/rar
+					,application/x-zip-compressed,application/octet-stream
+				</param>
+				配置允许上传的文件大小，单位字节
+				<param name="maximumSize">1209715200</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+
+			动态设置Action中的savePath属性的值
+			<param name="savePath">/upload</param>
+			<result name="input">/bulletin/insert.jsp</result>
+			<result name="list">/bulletin/list.jsp</result>
+		</action> -->
+		
+		<!-- 试题添加，因为有浏览图片的选项 -->
+		<action name="SaveItem" class="questionAction" method="saveItem">
+			<interceptor-ref name="fileUpload">
+				<param name="allowedTypes">
+					image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/x-png,
+					image/pjpeg
+				</param>
+				<param name="maximumSize">1209715200</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<param name="savePath">/upload</param>
+			<result name="input">/item/insert.jsp</result>
+			<result name="list">/item/list.jsp</result>
+		</action>
+		
+		
+		<action name="UpdateItem" class="questionAction" method="updateItem">
+			<interceptor-ref name="fileUpload">
+				<param name="allowedTypes">
+					image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/x-png,
+					image/pjpeg
+				</param>
+				<param name="maximumSize">1209715200</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<param name="savePath">/upload</param>
+			<result name="input">/item/update.jsp</result>
+			<result name="list">/item/list.jsp</result>
+		</action>
+		<action name="InsertPlUser" class="userAction" method="insertPlUser"><!-- excel模板导入处理 -->
+			<interceptor-ref name="fileUpload">
+				<param name="allowedTypes">
+					image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/x-png,
+					image/pjpeg,application/pdf
+					,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+					,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document
+					,text/plain,image/tiff,application/zip,application/rar
+					,application/x-zip-compressed,application/octet-stream
+				</param>
+				<param name="maximumSize">1209715200</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<param name="savePath">/upload</param>
+			<result name="userdr">/user/userdr.jsp</result>
+			<result name="teacherList">/user/listR.jsp</result>
+			<result name="studentList">/student/listR.jsp</result>
+		</action>
+		<action name="InsertPlItem" class="questionAction" method="insertPlItem">
+			<interceptor-ref name="fileUpload">
+				<param name="allowedTypes">
+					image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/x-png,
+					image/pjpeg,application/pdf
+					,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+					,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document
+					,text/plain,image/tiff,application/zip,application/rar
+					,application/x-zip-compressed,application/octet-stream
+				</param>
+				<param name="maximumSize">1209715200</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<param name="savePath">/upload</param>
+			<result name="itemdr">/user/itemdr.jsp</result>
+			<result name="list">/item/list.jsp</result>
+		</action>
+		
+	</package>
+	
+
+	<package name="ajax" extends="json-default">
+		<action name="SaveEvaluationStuAjax" class="pjglAction" method="saveEvaluationStuAjax">
+			<result type="json"></result>
+		</action>
+		<action name="SaveEvaluationGroupAjax" class="pjglAction"
+			method="saveEvaluationGroupAjax">
+			<result type="json"></result>
+		</action>
+		<action name="DepartmentByParentIdAjax" class="courseAction"
+			method="departmentByParentIdAjax">
+			<result type="json"></result>
+		</action>
+		<action name="CourseByParentIdAjax" class="courseAction"
+			method="courseByParentIdAjax">
+			<result type="json"></result>
+		</action>
+		<action name="SaveCourseLogAjax" class="courseAction" method="saveCourseLogAjax">
+			<result type="json"></result>
+		</action>
+		<action name="SaveCourseAjax" class="courseAction" method="saveCourseAjax">
+			<result type="json"></result>
+		</action>
+		<action name="DianmAjax" class="userAction" method="dianmAjax">
+			<result type="json"></result>
+		</action>
+		<action name="CheckUsernameAjax" class="userAction" method="checkUsernameAjax">
+			<result type="json"></result>
+		</action>
+		<action name="GradeByItemIdAjax" class="pjglAction" method="gradeByItemIdAjax">
+			<result type="json"></result>
+		</action>
+		<action name="SendAppAjax" class="questionAction" method="sendAppAjax">
+			<result type="json"></result>
+		</action>
+		<action name="SendZuAppAjax" class="questionAction" method="sendZuAppAjax">
+			<result type="json"></result>
+		</action>
+		<action name="ClassByGradeIdAjax" class="logAction" method="classByGradeIdAjax">
+			<result type="json"></result>
+		</action>
+		<action name="StudentByClassIdAjax" class="userAction" method="studentByClassIdAjax">
+			<result type="json"></result>
+		</action>
+		<action name="ClassByClassNumAjax" class="logAction" method="classByClassNumAjax">
+			<result type="json"></result>
+		</action>
+		<action name="ClassTeacherList" class="pjglAction" method="classTeacherList"><!-- 老师点评 内容列表 -->
+			<result type="json"></result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="evalution_comment">
+
+	<insert id="insertEvalutionComment" parameterClass="com.dt.jxhd.domain.evalution_teacher_comment">
+    	insert into evalution_comment (grade, comment)
+    	values (#grade:VARCHAR#, #comment:VARCHAR#)
+    	<selectKey resultClass="int" keyProperty="id" >
+    		SELECT @@IDENTITY AS ID
+    	</selectKey>
+ 	</insert>
+ 	
+ 	<update id="updateComment">
+	    update evalution_comment
+	    <dynamic prepend="set">
+	      <isNotNull prepend="," property="grade">
+	        grade =  #grade:VARCHAR#
+	      </isNotNull>
+	      <isNotNull prepend="," property="comment">
+	        comment = #comment:VARCHAR#
+	      </isNotNull>
+	    </dynamic>
+     	where id = #id:INTEGER#
+  	</update>
+ 	
+ <!-- 	<insert id="insertEvalutionComment" parameterClass="com.dt.jxhd.domain.evalution_teacher_comment">
+    	insert into evalution_comment (grade, comment)
+    	values (#grade:VARCHAR#, #comment:VARCHAR#)
+    	<selectKey resultClass="int" keyProperty="id" >     
+        	SELECT SCOPE_IDENTITY() as id  
+    	</selectKey>
+	</insert> -->
+ 	
+</sqlMap>

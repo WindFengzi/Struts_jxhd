@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="preview">
+	<insert id="addPreviewQuestion" parameterClass="com.dt.jxhd.domain.preview">
+		insert into preview
+		(teacher_id,class_id,preview_tag,create_time,preview_title,preview_content)
+		values
+		(#teacher_id#,#class_id#,1,getDate(),#preview_title#,#preview_content#)
+	</insert>
+	<update id="updatePreviewQuestion" parameterClass="com.dt.jxhd.domain.preview">
+		update preview set preview_tag = 0 where teacher_id = #teacher_id# and
+		class_id = #class_id#
+	</update>
+	<select id="selectPreviewBefore" parameterClass="com.dt.jxhd.domain.preview"
+		resultClass="com.dt.jxhd.domain.preview">
+		select TOP $pageSize$ preview_id,preview_title,preview_content,create_time,t_class.class_name as class_name
+		from preview,t_class where preview_id not in (SELECT TOP $topNum$ preview_id from preview,t_class where preview.class_id = t_class.class_id and
+		preview_tag = 1 and teacher_id = #teacher_id#) and preview.class_id = t_class.class_id and
+		preview_tag = 1 and teacher_id = #teacher_id#
+	</select>
+	<select id="lookPreviewQuestionById" parameterClass="com.dt.jxhd.domain.preview"
+		resultClass="com.dt.jxhd.domain.preview">
+		select preview_content	from preview  where preview_id = #preview_id#
+	</select>
+	<select id="getDetailQuestionNumber" parameterClass="com.dt.jxhd.domain.preview"
+		resultClass="java.lang.Integer">
+		select count(*) from test_item  where charindex (convert(varchar,item_id),#preview_content#) >0
+	</select>
+	<select id="getDetailQuestion" parameterClass="com.dt.jxhd.domain.preview"
+		resultClass="com.dt.jxhd.domain.test_item">
+		 select TOP $pageSize$  question,questionType 
+ 		from test_item  where item_id 
+ 		not in( select TOP $topNum$ item_id from test_item 
+		 where charindex(convert(varchar,item_id),#preview_content#) >0 
+ 		order by item_id desc) 
+ 		and charindex(convert(varchar,item_id),#preview_content#) >0 
+ 		order by item_id desc
+	</select>
+	<select id="getPreviewQuestionNumber" parameterClass="com.dt.jxhd.domain.preview"
+		resultClass="java.lang.Integer">
+			select count(*) from preview where 	preview_tag = 1 and teacher_id = #teacher_id#
+	</select>
+</sqlMap>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="evalution_teacher_comment">
+  <!-- 老师点评列表数量 -->
+  <select id="getTeacherClassTeacherCountNum" parameterClass="com.dt.jxhd.domain.evalution_teacher_comment" 
+  			resultClass="java.lang.Integer">
+    select count(*) from evalution_teacher_comment WHERE 1=1  
+    <isNotEmpty prepend="and" property="tag">
+         tag = #tag:INTEGER#
+    </isNotEmpty> 
+    <isNotEmpty prepend="and" property="teacher_id">
+         teacher_id = #teacher_id:INTEGER#
+    </isNotEmpty>
+    <isNotEmpty prepend="and" property="class_id">
+         class_id = #class_id:INTEGER#
+    </isNotEmpty>
+  </select>
+  
+  <!-- 老师点评列表内容 -->
+  <select id="getTeacherAndTeacherClassComment" parameterClass="com.dt.jxhd.domain.evalution_teacher_comment"
+		resultClass="com.dt.jxhd.domain.evalution_teacher_comment">
+      SELECT TOP $pageSize$ *  from (
+		select etc.*,tu.name,tc.class_name,ec.comment,ec.grade,tu2.name studentname,tu3.name studentToname  from 
+		evalution_teacher_comment etc left join t_user tu
+		on etc.teacher_id = tu.user_id 
+		left join t_class tc
+		on etc.class_id = tc.class_id
+		left join evalution_comment ec
+		on etc.comment_id = ec.id
+		left join t_user tu2 on etc.student_id = tu2.user_id
+		left join t_user tu3 on etc.studentTo_id = tu3.user_id
+		where 1=1
+		<isNotEmpty prepend="and" property="tag">
+         	etc.tag = #tag:INTEGER#
+    	</isNotEmpty>
+		<isNotEmpty prepend="and" property="teacher_id">
+         	etc.teacher_id = #teacher_id:INTEGER#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="and" property="class_id">
+         	etc.class_id = #class_id:INTEGER#
+   		</isNotEmpty>
+		) t_t
+		WHERE (id NOT IN (SELECT TOP $topNum$ id FROM 
+		(select etc.*,tu.name,tc.class_name,ec.comment,ec.grade,tu2.name studentname,tu3.name studentToname  from 
+		evalution_teacher_comment etc left join t_user tu
+		on etc.teacher_id = tu.user_id 
+		left join t_class tc
+		on etc.class_id = tc.class_id
+		left join evalution_comment ec
+		on etc.comment_id = ec.id 
+		left join t_user tu2 on etc.student_id = tu2.user_id
+		left join t_user tu3 on etc.studentTo_id = tu3.user_id
+		where 1=1
+		<isNotEmpty prepend="and" property="tag">
+         etc.tag = #tag:INTEGER#
+    	</isNotEmpty>
+		<isNotEmpty prepend="and" property="teacher_id">
+         	etc.teacher_id = #teacher_id:INTEGER#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="and" property="class_id">
+         	etc.class_id = #class_id:INTEGER#
+   		</isNotEmpty>
+		) tt
+		WHERE 1=1 
+   	ORDER BY id desc))     
+   	order by id desc
+  </select>
+  
+  <!-- 管理员和老师查看被点评学生的数目 -->
+  <select id="beCommentedStudentCountNumber" parameterClass="com.dt.jxhd.domain.evalution_teacher_comment" resultClass="java.lang.Integer">
+  	select count(distinct(studentTo_id)) from 
+	evalution_teacher_comment etc left join t_user tu   
+	on etc.studentTo_id = tu.user_id left join t_class tc   
+	on etc.class_id = tc.class_id
+	where  1=1
+	<isNotEmpty prepend="and" property="tag">
+         etc.tag = #tag:INTEGER#
+    </isNotEmpty>
+  </select>
+  
+  <!-- 被评价的学生列表内容 -->
+  <select  id="beCommentedStudentList" parameterClass="com.dt.jxhd.domain.evalution_teacher_comment" 
+  	resultClass="com.dt.jxhd.domain.evalution_teacher_comment">
+  	select distinct(studentTo_id),tag,etc.class_id,tu.name studentToname,tc.class_name from 
+	evalution_teacher_comment etc left join t_user tu   
+	on etc.studentTo_id = tu.user_id left join t_class tc   
+	on etc.class_id = tc.class_id
+	where  1=1
+	<isNotEmpty prepend="and" property="tag">
+         etc.tag = #tag:INTEGER#
+    </isNotEmpty>
+  </select>
+  
+  <!-- 老师查看自己被学生评价的数目 -->
+   <select id="beCommentedTeacherSelfAndCountNumber" parameterClass="com.dt.jxhd.domain.evalution_teacher_comment" resultClass="java.lang.Integer">
+	 	select count(*) from 
+		evalution_teacher_comment etc left join t_user tu   
+		on etc.student_id = tu.user_id left join t_class tc   
+		on etc.class_id = tc.class_id left join evalution_comment ec   
+		on etc.comment_id = ec.id  
+		where 1=1
+		<isNotEmpty prepend="and" property="tag">
+	         etc.tag = #tag:INTEGER#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="teacher_id">
+         	etc.teacher_id = #teacher_id:INTEGER#
+    	</isNotEmpty>
+ 	</select>
+ 	
+ 	<!-- 老师查看被学生评价内容列表 -->
+ 	<select id="beCommentedTeacherAndSelfList" parameterClass="com.dt.jxhd.domain.evalution_teacher_comment" resultClass="com.dt.jxhd.domain.evalution_teacher_comment">
+	 	select etc.*,ec.comment,ec.grade from 
+		evalution_teacher_comment etc left join t_user tu   
+		on etc.student_id = tu.user_id left join t_class tc   
+		on etc.class_id = tc.class_id left join evalution_comment ec   
+		on etc.comment_id = ec.id  
+		where 1=1
+		<isNotEmpty prepend="and" property="tag">
+	         etc.tag = #tag:INTEGER#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="teacher_id">
+         	etc.teacher_id = #teacher_id:INTEGER#
+    	</isNotEmpty>
+ 	</select>
+ 	
+ 	<!-- 管理员查看被学生评价的老师内容数目 -->
+ 	<select id="beCommentedTeacherCountNumber" parameterClass="com.dt.jxhd.domain.evalution_teacher_comment" resultClass="java.lang.Integer">
+	 	select count(distinct(teacher_id)) from 
+		evalution_teacher_comment  etc left join t_user tu   
+		on etc.teacher_id = tu.user_id    
+		where 1=1
+		<isNotEmpty prepend="and" property="tag">
+	         etc.tag = #tag:INTEGER#
+	    </isNotEmpty>
+	    
+ 	</select>
+ 	
+ 	<!-- 管理员查看学生评价老师内容列表 -->
+ 	<select id="beCommentedTeacherList" parameterClass="com.dt.jxhd.domain.evalution_teacher_comment" resultClass="com.dt.jxhd.domain.evalution_teacher_comment">
+	 	select distinct(teacher_id),tag,tu.name from 
+		evalution_teacher_comment  etc left join t_user tu   
+		on etc.teacher_id = tu.user_id    
+		where 1=1
+		<isNotEmpty prepend="and" property="tag">
+	         etc.tag = #tag:INTEGER#
+	    </isNotEmpty>
+	    
+ 	</select>
+ 	
+ 	<!-- 查看被评价学生的详细情况 -->
+ 	<select id="lookBeCommentedStudentCentent" parameterClass="com.dt.jxhd.domain.evalution_teacher_comment" resultClass="com.dt.jxhd.domain.evalution_teacher_comment">
+	 	select etc.*,tu2.name studentname,tu3.name,tc.class_name,ec.comment,ec.grade from 
+		evalution_teacher_comment etc 
+		left join t_user tu on etc.studentTo_id = tu.user_id
+		left join t_class tc on etc.class_id = tc.class_id
+		left join evalution_comment ec on etc.comment_id = ec.id
+		left join t_user tu2 on etc.student_id = tu2.user_id 
+		left join t_user tu3 on etc.teacher_id = tu3.user_id where 1=1
+	    <isNotEmpty prepend="and" property="studentTo_id">
+         	etc.studentTo_id = #studentTo_id:INTEGER#
+    	</isNotEmpty>
+    	order by tag 
+ 	</select>
+ 	<!-- 老师查询是否已经点评了该学生 -->
+ 	<select id="selectComment" parameterClass="com.dt.jxhd.domain.evalution_teacher_comment" resultClass="java.lang.Integer">
+	 	select comment_id from 
+		evalution_teacher_comment where 1=1
+	    <isNotEmpty prepend="and" property="studentTo_id">
+         	studentTo_id = #studentTo_id:INTEGER#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="and" property="teacher_id">
+         	teacher_id = #teacher_id:INTEGER#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="and" property="class_id">
+         	class_id = #class_id:INTEGER#
+    	</isNotEmpty>
+    	<isNotEmpty prepend="and" property="tag">
+         	tag = #tag:INTEGER#
+    	</isNotEmpty>
+ 	</select>
+ 	
+ 	 <update id="updateComment">
+	    update evalution_comment
+	    <dynamic prepend="set">
+	      <isNotNull prepend="," property="grade">
+	        grade =  #grade:VARCHAR#
+	      </isNotNull>
+	      <isNotNull prepend="," property="comment">
+	        comment = #comment:VARCHAR#
+	      </isNotNull>
+	    </dynamic>
+     	where id = #id:INTEGER#
+  	</update>
+  	
+  
+   <insert id="insertTeacherComment" parameterClass="com.dt.jxhd.domain.evalution_teacher_comment">
+    insert into evalution_teacher_comment (teacher_id, class_id, comment_id
+    <isNotEmpty  prepend="," property="studentTo_id">
+    	studentTo_id
+    </isNotEmpty>
+    , tag)
+    values (#teacher_id:INTEGER#, #class_id:INTEGER#, #comment_id:INTEGER#
+    <isNotEmpty  prepend="," property="studentTo_id">
+    	#studentTo_id:INTEGER#,1
+    </isNotEmpty>
+    <isNull  prepend="," property="studentTo_id">
+    	0
+    </isNull>
+    )
+  </insert>
+</sqlMap>

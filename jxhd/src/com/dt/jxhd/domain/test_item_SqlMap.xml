@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="test_item" >
+  <resultMap id="abatorgenerated_test_itemResult" class="com.dt.jxhd.domain.test_item" >
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="grade_id" property="gradeId" jdbcType="INTEGER" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="ChoiceA" property="choicea" jdbcType="VARCHAR" />
+    <result column="ChoiceB" property="choiceb" jdbcType="VARCHAR" />
+    <result column="ChoiceC" property="choicec" jdbcType="VARCHAR" />
+    <result column="ChoiceD" property="choiced" jdbcType="VARCHAR" />
+    <result column="ChoiceE" property="choicee" jdbcType="VARCHAR" />
+    <result column="ChoiceF" property="choicef" jdbcType="VARCHAR" />
+    <result column="ChoiceG" property="choiceg" jdbcType="VARCHAR" />
+    <result column="ChoiceNum" property="choicenum" jdbcType="INTEGER" />
+    <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="DOUBLE" />
+    <result column="questionType" property="questiontype" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="abatorgenerated_test_itemResultWithBLOBs" class="com.dt.jxhd.domain.test_item" extends="test_item.abatorgenerated_test_itemResult" >
+    <result column="question" property="question" jdbcType="CLOB" />
+  </resultMap>
+  <select id="items" resultMap="abatorgenerated_test_itemResultWithBLOBs" parameterClass="com.dt.jxhd.domain.test_item" >
+    SELECT TOP $pageSize$ *  
+    from test_item WHERE (item_id NOT IN (SELECT TOP $topNum$ item_id FROM test_item WHERE 1=1   
+    <isNotEmpty prepend="and" property="question">
+         question like '%$question$%'
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="choiceg">
+       questionType != #choiceg:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="questiontype">
+       questionType = #questiontype:VARCHAR#
+      </isNotEmpty>
+      ORDER BY item_id desc))  
+      <isNotEmpty prepend="and" property="question">
+         question like '%$question$%'
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="choiceg">
+       questionType != #choiceg:VARCHAR#
+      </isNotEmpty>
+        <isNotEmpty prepend="and" property="questiontype">
+        questionType = #questiontype:VARCHAR#
+      </isNotEmpty>
+       order by item_id desc
+  </select>
+  <select id="item_selectById" resultMap="abatorgenerated_test_itemResultWithBLOBs" parameterClass="com.dt.jxhd.domain.test_item" >
+    select item_id,grade_id, pic_url, ChoiceA, ChoiceB, ChoiceC, ChoiceD, ChoiceE, ChoiceF, ChoiceG, ChoiceNum,
+      answer, score, questionType,question
+    from test_item where item_id = #itemId:INTEGER#
+  </select>
+  <select id="item_selectByAskId" resultMap="abatorgenerated_test_itemResultWithBLOBs" parameterClass="com.dt.jxhd.domain.test_item" >
+    select i.* from test_item i,ask_log a  where i.item_id=a.item_id  and a.ask_id = #gradeId:INTEGER#
+  </select>
+  <delete id="deleteItem" parameterClass="com.dt.jxhd.domain.test_item" >
+    delete from test_item
+    where item_id = #itemId:INTEGER#
+  </delete>              
+  <insert id="item_insert" parameterClass="com.dt.jxhd.domain.test_item" >
+    insert into test_item ( grade_id,pic_url, ChoiceA, ChoiceB, ChoiceC, ChoiceD, ChoiceE, ChoiceF,
+      ChoiceG, ChoiceNum, answer, score, questionType, question)
+    values ( #gradeId:INTEGER#,#picUrl:VARCHAR#, #choicea:VARCHAR#, #choiceb:VARCHAR#,
+      #choicec:VARCHAR#, #choiced:VARCHAR#, #choicee:VARCHAR#, #choicef:VARCHAR#, #choiceg:VARCHAR#,
+      #choicenum:INTEGER#, #answer:VARCHAR#, #score:DOUBLE#, #questiontype:VARCHAR#, #question:CLOB#)
+  </insert>
+  <update id="item_update" parameterClass="com.dt.jxhd.domain.test_item" >
+    update test_item
+    <dynamic prepend="set" >                          
+    	<isNotNull prepend="," property="gradeId" >
+        grade_id = #gradeId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="picUrl" >
+        pic_url = #picUrl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="choicea" >
+        ChoiceA = #choicea:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="choiceb" >
+        ChoiceB = #choiceb:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="choicec" >
+        ChoiceC = #choicec:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="choiced" >
+        ChoiceD = #choiced:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="choicee" >
+        ChoiceE = #choicee:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="choicef" >
+        ChoiceF = #choicef:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="choiceg" >
+        ChoiceG = #choiceg:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="choicenum" >
+        ChoiceNum = #choicenum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="answer" >
+        answer = #answer:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="score" >
+        score = #score:DOUBLE#
+      </isNotNull>
+      <isNotNull prepend="," property="questiontype" >
+        questionType = #questiontype:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="question" >
+        question = #question:CLOB#
+      </isNotNull>
+    </dynamic>
+    where item_id = #itemId:INTEGER#
+  </update>
+  <select id="getItemCountnum" parameterClass="com.dt.jxhd.domain.test_item" resultClass="java.lang.Integer" >
+    select count(*) from test_item where 1=1 
+    <isNotEmpty prepend="and" property="question">
+         question like '%$question$%'
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="choiceg">
+       questionType != #choiceg:VARCHAR#
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="questiontype">
+        questionType = #questiontype:VARCHAR#
+      </isNotEmpty>
+  </select>
+</sqlMap>

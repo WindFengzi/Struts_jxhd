@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="t_course_log" >
+  <resultMap id="abatorgenerated_t_course_logResult" class="com.dt.jxhd.domain.t_course_log" >
+    <result column="course_id" property="courseId" jdbcType="INTEGER" />
+    <result column="from_time" property="fromTime" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="class_id" property="classId" jdbcType="INTEGER" />
+    <result column="subject_id" property="subjectId" jdbcType="INTEGER" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+   <resultMap id="abatorgenerated_t_course_logResult1" class="com.dt.jxhd.domain.t_course_log" >
+    <result column="course_id" property="courseId" jdbcType="INTEGER" />
+    <result column="from_time" property="fromTime" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="class_id" property="classId" jdbcType="INTEGER" />
+    <result column="subject_id" property="subjectId" jdbcType="INTEGER" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="subject_name" property="subjectName" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="courseLogNew" resultMap="abatorgenerated_t_course_logResult" parameterClass="com.dt.jxhd.domain.t_course_log" >
+   SELECT   TOP (1) course_id, class_id, subject_id, from_time, end_time, user_id
+	FROM      t_course_log where from_time <![CDATA[ <= ]]> getDate()+1  
+	<isNotNull prepend="and" property="userId" >
+        user_id = #userId:INTEGER#
+      </isNotNull>
+	ORDER BY from_time DESC
+  </select>
+   <select id="courseLogs" resultMap="abatorgenerated_t_course_logResult1" parameterClass="com.dt.jxhd.domain.t_course_log" >
+      SELECT TOP $pageSize$ *  
+    from view_course_log WHERE (course_id NOT IN (SELECT TOP $topNum$ course_id FROM view_course_log WHERE 1 =1 
+    <isNotNull prepend="and" property="userId" >
+        user_id = #userId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="fromTime" >
+         from_time <![CDATA[ >= ]]> #fromTime#
+      </isNotNull>
+      <isNotNull prepend="and" property="endTime" >
+      	end_time <![CDATA[ <= ]]> #endTime# 
+      </isNotNull>
+    ORDER BY course_id desc)) and 1 =1  
+   <isNotNull prepend="and" property="userId" >
+        user_id = #userId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="fromTime" >
+         from_time <![CDATA[ >= ]]> #fromTime#
+      </isNotNull>
+      <isNotNull prepend="and" property="endTime" >
+      	end_time <![CDATA[ <= ]]> #endTime# 
+      </isNotNull>
+       order by course_id desc
+  </select>
+  <select id="courseLogById" resultMap="abatorgenerated_t_course_logResult" parameterClass="com.dt.jxhd.domain.t_course_log" >
+    select course_id, from_time, user_id, class_id, subject_id, end_time
+    from t_course_log where course_id = #courseId:INTEGER#
+  </select>
+  <delete id="abatorgenerated_deleteByExample" parameterClass="com.dt.jxhd.domain.t_course_log" >
+    delete from t_course_log
+  </delete>
+  <insert id="courseLog_insert" parameterClass="com.dt.jxhd.domain.t_course_log" >
+    insert into t_course_log (course_id, from_time, user_id, class_id, subject_id, end_time)
+    values (#courseId:INTEGER#, #fromTime:TIMESTAMP#, #userId:INTEGER#, #classId:INTEGER#,
+      #subjectId:INTEGER#, #endTime:TIMESTAMP#)
+  </insert>
+  <update id="abatorgenerated_updateByPrimaryKeySelective" parameterClass="com.dt.jxhd.domain.t_course_log" >
+    update t_course_log
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="classId" >
+        class_id = #classId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="subjectId" >
+        subject_id = #subjectId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="endTime" >
+        end_time = #endTime:TIMESTAMP#
+      </isNotNull>
+    </dynamic>
+    where course_id = #courseId:INTEGER#
+      and from_time = #fromTime:TIMESTAMP#
+      and user_id = #userId:INTEGER#
+  </update>
+  <select id="abatorgenerated_countByExample" parameterClass="com.dt.jxhd.domain.t_course_log" resultClass="java.lang.Integer" >
+    select count(*) from t_course_log
+  </select>
+  <select id="courseLogsNum" parameterClass="com.dt.jxhd.domain.t_course_log" resultClass="java.lang.Integer">
+    select count(*) from view_course_log where 1=1 
+     <isNotNull prepend="and" property="userId" >
+        user_id = #userId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="fromTime" >
+         from_time <![CDATA[ >= ]]> #fromTime#
+      </isNotNull>
+      <isNotNull prepend="and" property="endTime" >
+      	end_time <![CDATA[ <= ]]> #endTime# 
+      </isNotNull>
+  </select>
+</sqlMap>

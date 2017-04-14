@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="subject" >
+  <resultMap id="abatorgenerated_subjectResult" class="com.dt.jxhd.domain.subject" >
+    <result column="subject_id" property="subjectId" jdbcType="INTEGER" />
+    <result column="subject_name" property="subjectName" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="abatorgenerated_selectByPrimaryKey" resultMap="abatorgenerated_subjectResult" parameterClass="com.dt.jxhd.domain.subject" >
+    select subject_id, subject_name
+    from subject
+    where subject_id = #subjectId:INTEGER#
+  </select>
+  <select id="subjects" resultMap="abatorgenerated_subjectResult" parameterClass="com.dt.jxhd.domain.subject" >
+    select subject_id, subject_name
+    from subject
+  </select>
+  <delete id="abatorgenerated_deleteByPrimaryKey" parameterClass="com.dt.jxhd.domain.subject" >
+    delete from subject
+    where subject_id = #subjectId:INTEGER#
+  </delete>
+  <delete id="abatorgenerated_deleteByExample" parameterClass="com.dt.jxhd.domain.subject" >
+    delete from subject
+  </delete>
+  <insert id="abatorgenerated_insert" parameterClass="com.dt.jxhd.domain.subject" >
+    insert into subject (subject_id, subject_name)
+    values (#subjectId:INTEGER#, #subjectName:VARCHAR#)
+  </insert>
+  <update id="abatorgenerated_updateByPrimaryKeySelective" parameterClass="com.dt.jxhd.domain.subject" >
+    update subject
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="subjectName" >
+        subject_name = #subjectName:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where subject_id = #subjectId:INTEGER#
+  </update>
+  <select id="abatorgenerated_countByExample" parameterClass="com.dt.jxhd.domain.subject" resultClass="java.lang.Integer" >
+    select count(*) from subject
+  </select>
+</sqlMap>
